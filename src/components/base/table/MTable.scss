@@ -1,0 +1,126 @@
+.table-container {
+  width: 100%;
+}
+
+.dx-header-row {
+  color: black;
+}
+
+.dx-widget .dx-gridbase-container .dx-checkbox-icon {
+  height: 20px;
+  width: 20px;
+  background: url(https://amisplatform.misacdn.net/apps/mintax/img/uncheck-checkbox.74fd9037.svg)
+    no-repeat;
+  background-size: 20px;
+  border: none;
+}
+
+.dx-widget .dx-gridbase-container .dx-checkbox-icon:before {
+  content: "";
+  background: url(https://amisplatform.misacdn.net/apps/mintax/img/check-checkbox.1abdccd9.svg)
+    no-repeat;
+  width: 20px;
+  height: 20px;
+  background-size: 20px;
+  top: 0;
+  left: 0;
+  margin: 0;
+}
+
+.dx-datagrid-content .dx-datagrid-table .dx-row .dx-command-select {
+  width: 44px;
+  min-width: 44px;
+  max-width: 44px;
+  overflow: hidden;
+  text-overflow: clip;
+}
+
+.dx-datagrid-borders .dx-datagrid-rowsview,
+.dx-datagrid-headers + .dx-datagrid-rowsview,
+.dx-datagrid-rowsview.dx-datagrid-after-headers {
+  border-top: none;
+}
+
+.dx-datagrid-headers {
+  height: 48.5px;
+  border-bottom: none;
+}
+
+.dx-widget
+  .dx-gridbase-container
+  .dx-datagrid-content
+  .dx-datagrid-table
+  .dx-row
+  > td,
+.misa-container-base--table-v3
+  .dx-widget
+  .dx-gridbase-container
+  .dx-datagrid-content
+  .dx-datagrid-table
+  .dx-row
+  > tr
+  > td {
+  vertical-align: inherit;
+  position: relative;
+  white-space: normal !important;
+}
+
+tr.dx-row.dx-header-row {
+  height: 48px;
+}
+
+.dx-datagrid-rowsview
+  .dx-select-checkboxes-hidden
+  > tbody
+  > tr
+  > td
+  > .dx-select-checkbox {
+  display: inline-block;
+}
+
+tr.dx-row.dx-data-row {
+  height: 48px;
+}
+
+.dx-widget
+  .dx-gridbase-container
+  .dx-datagrid-rowsview
+  .dx-selection.dx-row:not(.dx-row-focused)
+  > td {
+  background-color: #f2f8ff;
+}
+
+.dx-widget
+  .dx-gridbase-container
+  .dx-checkbox-indeterminate
+  .dx-checkbox-icon:before {
+  content: "";
+  background: url(https://amisplatform.misacdn.net/apps/mintax/img/iderminate-checkbox.99cbdb74.svg)
+    no-repeat;
+  width: 20px;
+  height: 20px;
+  background-size: 20px;
+  top: 0;
+  left: 0;
+  margin: 0;
+}
+
+.dx-datagrid-rowsview {
+  height: calc(100% - 103px);
+}
+
+.dx-datagrid-rowsview.dx-datagrid-nowrap.dx-scrollable.dx-visibility-change-handler.dx-scrollable-both.dx-scrollable-native.dx-scrollable-native-generic {
+  height: 600px;
+}
+
+.misa-container-base--paging-table {
+  height: 56px;
+  background-color: #f5f6f8;
+  border-top: 1px solid #e6e6e6;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+
+  .container-page-size {
+    width: 90px;
+  }
+}

@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
+import TaxView from "../views/PersonalTax/TaxView.vue";
 
 Vue.use(VueRouter);
 
@@ -19,9 +20,23 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
   },
+  {
+    path: "/tax",
+    name: "tax",
+    component: TaxView,
+  },
+  {
+    path: "/manager",
+    name: "manager",
+    component: () =>
+      import(
+        /* webpackChunkName: "manager" */ "../views/EmployeeManager/EmployeeManager.vue"
+      ),
+  },
 ];
 
 const router = new VueRouter({
+  mode: "history", // "hash
   routes,
 });
 
