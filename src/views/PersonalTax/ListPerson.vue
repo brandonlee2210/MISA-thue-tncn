@@ -1,6 +1,9 @@
 <template>
   <div class="page">
-    <ListPersonTableHeader v-if="checkedIdsLength == 0" />
+    <ListPersonTableHeader
+      v-if="checkedIdsLength == 0"
+      @toggle-draggable-menu="handleToggleDraggableMenu"
+    />
     <SelectedTableHeader
       v-else
       :length="checkedIdsLength"
@@ -16,6 +19,13 @@
       />
     </div>
     <Pagination />
+    <div id="draggable-container" v-if="isDraggableMenuVisible">
+      <DraggableMenu
+        :list="columns"
+        @save="handleChangePin"
+        @default="handleDefaultSetting"
+      />
+    </div>
   </div>
 </template>
 
@@ -25,8 +35,11 @@ import Pagination from "@/components/base/pagination/Pagination.vue";
 import ListPersonTableHeader from "./ListPersonTableHeader.vue";
 import SelectedTableHeader from "./SelectedTableHeader.vue";
 import MISAResource from "@/helpers/resource";
+import DraggableMenu from "@/components/base/draggable/DraggableMenu.vue";
 
 const tableRef = "tableRef";
+
+let defaultColumns = MISAResource.VN.ColumnsTableHeader;
 
 export default {
   data() {
@@ -219,10 +232,18 @@ export default {
         },
       ],
       columns: MISAResource.VN.ColumnsTableHeader,
+      isDraggableMenuVisible: false,
       tableRef,
     };
   },
+  // watch columns change
+  watch: {
+    columns: function (newVal) {
+      console.log(newVal);
+    },
+  },
   computed: {
+    /* Độ dài mảng chứa các dòng được chọn */
     checkedIdsLength() {
       return this.checkedIds.length;
     },
@@ -232,6 +253,7 @@ export default {
     MTable,
     Pagination,
     SelectedTableHeader,
+    DraggableMenu,
   },
 
   methods: {
@@ -250,8 +272,31 @@ export default {
     handleDeselect() {
       this.$refs["tableRef"].$refs.dataGrid.$_instance.clearSelection();
     },
+    /**
+     * Xử lí khi thay đổi vị trí cột
+     * Render lại dữ liệu các cột
+     * Created by: dgbao (17/08/2023)
+     * */
     handleChangePin(data) {
       this.columns = data;
+      this.isDraggableMenuVisible = false;
+    },
+
+    /**
+     * Xử lí khi click vào nút hiển thị menu draggable
+     * Created by: dgbao (17/08/2023)
+     * */
+    handleToggleDraggableMenu() {
+      this.isDraggableMenuVisible = !this.isDraggableMenuVisible;
+    },
+
+    /**
+     * Xử lí khi click vào nút mặc định trong setting
+     * Created by: dgbao (17/08/2023)
+     * */
+    handleDefaultSetting() {
+      this.columns = defaultColumns;
+      this.isDraggableMenuVisible = false;
     },
   },
 };
@@ -267,5 +312,15 @@ export default {
   height: 100%;
   overflow: auto;
   flex: 1;
+}
+
+#draggable-container {
+  width: 340px;
+  height: 470px;
+  position: fixed;
+  top: 170px;
+  right: 40px;
+  z-index: 11;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
 }
 </style>

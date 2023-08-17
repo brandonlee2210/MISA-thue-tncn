@@ -1,5 +1,5 @@
 <template>
-  <button class="button">
+  <button class="button" @click="handleClick">
     <span class="v-btn__content"
       ><i class="ico" :class="`ico-${type}`"></i
     ></span>
@@ -9,7 +9,12 @@
 
 <script>
 export default {
-  props: ["type", "title"],
+  props: ["type", "title", "onClick"],
+  methods: {
+    handleClick() {
+      this.$props.onClick();
+    },
+  },
 };
 </script>
 

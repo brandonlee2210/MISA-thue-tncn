@@ -19,7 +19,7 @@
     <div class="list-person__left">
       <GroupButton />
       <ButtonWithIcon type="filter" />
-      <ButtonWithIcon type="setting" />
+      <ButtonWithIcon type="setting" :onClick="handleClickSetting" />
     </div>
   </div>
 </template>
@@ -37,6 +37,11 @@ export default {
     DxButton,
     ButtonWithIcon,
     GroupButton,
+  },
+  methods: {
+    handleClickSetting() {
+      this.$emit("toggle-draggable-menu");
+    },
   },
 };
 </script>

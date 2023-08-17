@@ -15,9 +15,7 @@ export default {
     ListPerson,
   },
   methods: {
-    handleClick() {
-      console.log("Button clicked!");
-    },
+    handleClick() {},
   },
 };
 </script>

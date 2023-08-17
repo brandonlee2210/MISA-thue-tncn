@@ -15,7 +15,6 @@ export default {
   name: "GroupButton",
   methods: {
     handleOpenAddForm() {
-      console.log("hi");
       this.$router.push({
         name: "employee-details",
       });

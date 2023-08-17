@@ -1,0 +1,189 @@
+.draggable-container {
+  background: white;
+  width: 100%;
+  height: 100%;
+
+  .menu-draggable {
+    height: calc(100% - 64px);
+
+    padding: 16px;
+
+    .filter-title {
+      height: 30px;
+      margin: 0 0 12px;
+      justify-content: space-between;
+
+      .title-text {
+        font-size: 14px;
+        letter-spacing: 0.384px !important;
+        font-weight: 700;
+      }
+    }
+
+    .search {
+      .search-column {
+        width: 100% !important;
+      }
+    }
+
+    .list-container-dragg {
+      overflow: auto;
+      height: calc(100% - 74px);
+      margin-top: 12px;
+      .draggable-custom {
+        position: relative;
+        list-style: none;
+
+        .item-dragg {
+          pointer-events: auto;
+          visibility: visible;
+          background: #fff;
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+
+          .v-input--selection-controls__input {
+            color: inherit;
+            display: inline-flex;
+            flex: 0 0 auto;
+            height: 24px;
+            position: relative;
+            transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+            transition-property: transform;
+            width: 24px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+
+            cursor: pointer;
+
+            .v-input--selection-controls__ripple {
+              outline: none;
+              height: 30px;
+              width: 30px;
+              left: -10px;
+              top: calc(50% - 22px);
+              color: #a7a7a7 !important;
+            }
+          }
+
+          &:hover {
+            background: #f2f2f2;
+          }
+
+          .dragg-text {
+            display: flex;
+            align-items: center;
+            font-family: Roboto, Helvetica, Arial, sans-serif !important;
+            font-size: 14px !important;
+          }
+        }
+      }
+    }
+  }
+
+  .dragg-menu-footer {
+    height: 64px;
+    width: 100%;
+    background: #f5f6f8;
+    justify-content: space-between;
+    padding: 16px;
+
+    .dx-button-has-text .dx-button-content {
+      padding: 0 8px !important;
+    }
+
+    .default:hover {
+      border-color: #007aff !important;
+      background-color: white !important;
+      color: #007aff;
+    }
+
+    .save {
+      background-color: #007aff !important;
+      color: white;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+}
+
+.primary--text {
+  color: #007aff !important;
+  caret-color: #007aff !important;
+  z-index: 10;
+}
+
+.v-icon {
+  align-items: center;
+  display: inline-flex;
+  font-feature-settings: "liga";
+  font-size: 20px;
+  justify-content: center;
+  letter-spacing: normal;
+  line-height: 1;
+  position: relative;
+  text-indent: 0;
+  transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1), visibility 0s;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.v-input--selection-controls__input input[role="checkbox"],
+.v-input--selection-controls__input input[role="radio"],
+.v-input--selection-controls__input input[role="switch"] {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.v-input--selection-controls__ripple:before {
+  border-radius: inherit;
+  bottom: 0;
+  content: "";
+  position: absolute;
+  opacity: 0.2;
+  left: 0;
+  right: 0;
+  top: 0;
+  transform-origin: center center;
+  transform: scale(0.2);
+  transition: inherit;
+}
+
+.mintax-on-check-box:before {
+  content: "";
+  background: url(https://amisplatform.misacdn.net/apps/mintax/img/check-checkbox.1abdccd9.svg)
+    no-repeat;
+  width: 20px;
+  height: 20px;
+  background-size: 20px;
+}
+
+.mintax-off-check-box:before {
+  content: "";
+  background: url(https://amisplatform.misacdn.net/apps/mintax/img/uncheck-checkbox.74fd9037.svg)
+    no-repeat;
+  width: 20px;
+  height: 20px;
+  background-size: 20px;
+}
+
+.ico-dragg-handle {
+  background: url(https://amisplatform.misacdn.net/apps/mintax/img/dragg-handle.c5a812b8.svg)
+    no-repeat 50%;
+  height: 15px;
+  width: 10px;
+}

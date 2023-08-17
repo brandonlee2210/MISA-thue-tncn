@@ -3,7 +3,7 @@
   <div id="table-container">
     <DxDataGrid
       :data-source="dataSource"
-      :allow-column-reordering="true"
+      :allow-column-reordering="false"
       key-expr="ID"
       :column-auto-width="true"
       :allow-column-resizing="true"
@@ -215,6 +215,7 @@ export default {
      * */
     handleChangePin(data) {
       let localColumns;
+      // Nếu cột được click là cột ghim thì bỏ ghim
       if (data.columnIndex == this.pinColumnIndex) {
         localColumns = this.columns.map((item, index) => {
           if (index <= data.columnIndex) {
@@ -224,6 +225,7 @@ export default {
           return item;
         });
       } else {
+        // Nếu cột được click không phải là cột ghim thì set fixed tất cả các cột từ cột ghim trở về trước thành true
         localColumns = this.columns.map((item, index) => {
           if (index + 1 <= data.columnIndex) {
             item.fixed = true;
