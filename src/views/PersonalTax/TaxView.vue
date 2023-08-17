@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="tax-view">
     <ListHeader></ListHeader>
     <ListPerson></ListPerson>
   </div>
@@ -21,3 +21,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.tax-view {
+  height: 100%;
+}
+</style>

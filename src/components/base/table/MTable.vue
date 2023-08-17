@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-unused-vars -->
 <template>
   <div id="table-container">
     <DxDataGrid
@@ -6,31 +7,140 @@
       key-expr="ID"
       :column-auto-width="true"
       :allow-column-resizing="true"
+      column-resizing-mode="widget"
       :show-column-lines="false"
       :showCheckBoxesMode="true"
       :ref="dataGridRef"
+      :hoverStateEnabled="true"
       @selection-changed="getSelectedData"
     >
       <!-- <DxColumn data-field="FullName" :width="'300'" :fixed="true"></DxColumn> -->
       <DxColumn
         :height="88"
-        v-for="(item, index) in resource.VN.ColumnsTableHeader"
-        :data-field="item.dataIndex"
-        :caption="item.title"
-        :width="item.width"
+        v-for="(item, index) in columns"
         :key="index"
+        v-bind="item"
+        header-cell-template="title-header"
       />
+      <template #title-header="{ data }">
+        <div class="header__cell__container">
+          <p style="font-size: 14px" class="">{{ data.column.caption }}</p>
+          <div
+            :class="[
+              'misa-hidden-pin ico-un-pin misa-display-pin pin-location-right',
+              { 'ico-pin': data.columnIndex == pinColumnIndex },
+            ]"
+            @click="handleChangePin(data)"
+          ></div>
+        </div>
+      </template>
+      <DxColumn
+        cell-template="cellTemplate"
+        css-class="ms-table__action-column"
+      />
+
+      <!-- context menu -->
+      <template #cellTemplate="{ data }">
+        <div class="ms-table__action-container">
+          <div class="d-flex align-center action-container dx-template-wrapper">
+            <div class="mr-3">
+              <button
+                type="button"
+                class="action-button v-btn v-btn--has-bg v-btn--rounded theme--light v-size--small b-info b-info"
+                title="Mở trên cửa sổ mới"
+                style="height: 36px; width: 36px"
+              >
+                <span class="v-btn__content"
+                  ><i
+                    aria-hidden="true"
+                    class="v-icon notranslate mi mi-open-new-tab theme--light"
+                  ></i
+                ></span>
+              </button>
+            </div>
+            <button
+              type="button"
+              class="mr-3 action-button v-btn v-btn--has-bg v-btn--rounded theme--light v-size--small b-info b-info"
+              title="Chỉnh sửa"
+              style="height: 36px; width: 36px"
+            >
+              <span class="v-btn__content"
+                ><i
+                  data-v-1090f892=""
+                  aria-hidden="true"
+                  class="v-icon notranslate ico ico-edit-table-row theme--light"
+                ></i
+              ></span></button
+            ><button
+              data-v-1090f892=""
+              type="button"
+              class="mr-3 action-button v-btn v-btn--has-bg v-btn--rounded theme--light v-size--small b-info b-info"
+              title="Lưu"
+              style="height: 36px; width: 36px; display: none"
+            >
+              <span class="v-btn__content"
+                ><i
+                  data-v-1090f892=""
+                  aria-hidden="true"
+                  class="v-icon notranslate mi mi-save-edit theme--light"
+                ></i
+              ></span></button
+            ><button
+              data-v-1090f892=""
+              type="button"
+              class="mr-3 action-button v-btn v-btn--has-bg v-btn--rounded theme--light v-size--small b-info b-info"
+              title="Hủy"
+              style="height: 36px; width: 36px; display: none"
+            >
+              <span class="v-btn__content"
+                ><i
+                  data-v-1090f892=""
+                  aria-hidden="true"
+                  class="v-icon notranslate mi mi-close-red theme--light"
+                ></i
+              ></span></button
+            ><button
+              data-v-1090f892=""
+              type="button"
+              class="mr-3 action-button v-btn v-btn--has-bg v-btn--rounded theme--light v-size--small b-info b-info"
+              title="Xóa"
+              style="height: 36px; width: 36px"
+            >
+              <span class="v-btn__content"
+                ><i
+                  data-v-1090f892=""
+                  aria-hidden="true"
+                  class="v-icon notranslate ico ico-delete-table-row theme--light"
+                ></i
+              ></span></button
+            ><button
+              data-v-1090f892=""
+              type="button"
+              class="mr-3 action-button v-btn v-btn--has-bg v-btn--rounded theme--light v-size--small b-info b-info"
+              title="Xem chi tiết chứng từ"
+              style="height: 36px; width: 36px; display: none"
+            >
+              <span class="v-btn__content"
+                ><i
+                  data-v-1090f892=""
+                  aria-hidden="true"
+                  class="v-icon notranslate ico ico-view theme--light"
+                ></i
+              ></span>
+            </button>
+          </div>
+        </div>
+      </template>
+      <!-- context menu -->
       <!-- <DxColumn data-field="title" /> -->
 
       <DxSelection
         :select-all-mode="allMode"
         :show-check-boxes-mode="checkBoxesMode"
         mode="multiple"
+        :fixed="false"
       />
-
-      <DxScrolling mode="virtual" />
     </DxDataGrid>
-    <DropDown />
   </div>
 </template>
 
@@ -41,9 +151,8 @@ import {
   DxColumn,
   DxSelection,
   DxScrolling,
+  DxTemplate,
 } from "devextreme-vue/data-grid";
-import MISAResource from "@/helpers/resource";
-import DropDown from "@/components/base/dropdown/DropDown.vue";
 
 const dataGridRef = "dataGrid";
 
@@ -54,215 +163,81 @@ export default {
     DxColumn,
     DxSelection,
     DxScrolling,
-    DropDown,
+    DxTemplate,
   },
+  props: ["dataSource", "columns"],
   data() {
     return {
       dataGridRef,
       allMode: "allPages",
       checkBoxesMode: "onClick",
-      resource: MISAResource,
-
-      // generate data source sample
-      dataSource: [
-        {
-          ID: 1,
-          EmployeeCode: "John",
-          Gender: "Nam",
-          FullName: "Heart",
-          Position: "CEO",
-          BirthDate: "1964/03/16",
-          HireDate: "1995/01/15",
-          Title: "Mr.",
-          Address: "351 S Hill St.",
-          City: "Los Angeles",
-          State: "California",
-          Zipcode: 90013,
-          Email: "jheart@dx-email.com",
-          Skype: "jheartDXskype",
-          HomePhone: "(213) 555-9208",
-          DepartmentID: 6,
-          MobilePhone: "(213) 555-9392",
-        },
-        {
-          ID: 2,
-          EmployeeCode: "John",
-          Gender: "Nam",
-          FullName: "Heart",
-          Position: "CEO",
-          BirthDate: "1964/03/16",
-          HireDate: "1995/01/15",
-          Title: "Mr.",
-          Address: "351 S Hill St.",
-          City: "Los Angeles",
-          State: "California",
-          Zipcode: 90013,
-          Email: "jheart@dx-email.com",
-          Skype: "jheartDXskype",
-          HomePhone: "(213) 555-9208",
-          DepartmentID: 6,
-          MobilePhone: "(213) 555-9392",
-        },
-        {
-          ID: 3,
-          EmployeeCode: "John",
-          FullName: "Heart",
-          Position: "CEO",
-          BirthDate: "1964/03/16",
-          HireDate: "1995/01/15",
-          Title: "Mr.",
-          Address: "351 S Hill St.",
-          City: "Los Angeles",
-          State: "California",
-          Zipcode: 90013,
-          Email: "jheart@dx-email.com",
-          Skype: "jheartDXskype",
-          HomePhone: "(213) 555-9208",
-          DepartmentID: 6,
-          MobilePhone: "(213) 555-9392",
-        },
-        {
-          ID: 4,
-          EmployeeCode: "John",
-          FullName: "Dinh gia Bao",
-          Position: "CEO",
-          BirthDate: "1964/03/16",
-          HireDate: "1995/01/15",
-          Title: "Mr.",
-          Address: "351 S Hill St.",
-          City: "Los Angeles",
-          State: "California",
-          Zipcode: 90013,
-          Email: "jheart@dx-email.com",
-          Skype: "jheartDXskype",
-          HomePhone: "(213) 555-9208",
-          DepartmentID: 6,
-          MobilePhone: "(213) 555-9392",
-        },
-        {
-          ID: 5,
-          EmployeeCode: "John",
-          FullName: "Heart",
-          Position: "CEO",
-          BirthDate: "1964/03/16",
-          HireDate: "1995/01/15",
-          Title: "Mr.",
-          Address: "351 S Hill St.",
-          City: "Los Angeles",
-          State: "California",
-          Zipcode: 90013,
-          Email: "jheart@dx-email.com",
-          Skype: "jheartDXskype",
-          HomePhone: "(213) 555-9208",
-          DepartmentID: 6,
-          MobilePhone: "(213) 555-9392",
-        },
-        {
-          ID: 6,
-          EmployeeCode: "John",
-          FullName: "Heart",
-          Position: "CEO",
-          BirthDate: "1964/03/16",
-          HireDate: "1995/01/15",
-          Title: "Mr.",
-          Address: "351 S Hill St.",
-          City: "Los Angeles",
-          State: "California",
-          Zipcode: 90013,
-          Email: "jheart@dx-email.com",
-          Skype: "jheartDXskype",
-          HomePhone: "(213) 555-9208",
-          DepartmentID: 6,
-          MobilePhone: "(213) 555-9392",
-        },
-        {
-          ID: 7,
-          EmployeeCode: "John",
-          FullName: "Heart",
-          Position: "CEO",
-          BirthDate: "1964/03/16",
-          HireDate: "1995/01/15",
-          Title: "Mr.",
-          Address: "351 S Hill St.",
-          City: "Los Angeles",
-          State: "California",
-          Zipcode: 90013,
-          Email: "jheart@dx-email.com",
-          Skype: "jheartDXskype",
-          HomePhone: "(213) 555-9208",
-          DepartmentID: 6,
-          MobilePhone: "(213) 555-9392",
-        },
-        {
-          ID: 8,
-          EmployeeCode: "Nguyen van chien",
-          FullName: "Heart",
-          Position: "CEO",
-          BirthDate: "1964/03/16",
-          HireDate: "1995/01/15",
-          Title: "Mr.",
-          Address: "351 S Hill St.",
-          City: "Los Angeles",
-          State: "California",
-          Zipcode: 90013,
-          Email: "",
-        },
-        {
-          ID: 9,
-          EmployeeCode: "Nguyen van chien",
-          FullName: "Heart",
-          Position: "CEO",
-        },
-        {
-          ID: 10,
-          EmployeeCode: "Nguyen van chien",
-          FullName: "Heart",
-          Position: "CEO",
-        },
-        {
-          ID: 11,
-          EmployeeCode: "Nguyen van chien",
-          FullName: "Heart",
-          Position: "CEO",
-        },
-        {
-          ID: 12,
-          EmployeeCode: "Nguyen van chien",
-          FullName: "Heart",
-          Position: "CEO",
-        },
-        {
-          ID: 13,
-          EmployeeCode: "Nguyen van chien",
-          FullName: "Heart",
-          Position: "CEO",
-        },
-        {
-          ID: 14,
-          EmployeeCode: "Nguyen van chien",
-          FullName: "Heart",
-          Position: "CEO",
-        },
-        {
-          ID: 15,
-          EmployeeCode: "Nguyen van chien",
-          FullName: "Heart",
-          Position: "CEO",
-        },
-      ],
+      localColumns: [],
     };
   },
   computed: {
     dataGrid: function () {
       return this.$refs[dataGridRef].instance;
     },
+    pinColumnIndex: function () {
+      let maxFixedIndex = 0;
+      for (let i = 0; i < this.columns.length; i++) {
+        if (this.columns[i].fixed == true) {
+          maxFixedIndex = i + 1;
+        }
+      }
+
+      return maxFixedIndex;
+    },
   },
   methods: {
+    /**
+     * Hàm thêm mảng các nhân viên được chọn vào trong employee store
+     * @param {Object} e
+     */
     getSelectedData() {
-      console.log(this.dataGrid.getSelectedRowsData());
+      // this.$store.dispatch("employee/setSelectedEmployees", {
+      //   selectedEmployees: this.dataGrid.getSelectedRowsData(),
+      // });
+      this.$emit("onselected", this.dataGrid.getSelectedRowsData());
     },
     selectAll() {
       getSelectedData();
+    },
+    handleButtonClick(rowData) {
+      // Handle the button click event for the specific row
+      console.log("Edit button clicked for row:", rowData);
+    },
+
+    /**
+     * Xử lí sự kiện khi click vào nút ghim cột
+     * @param data - dữ liệu cột
+     * Created by: dgbao (17/08/2023)
+     * */
+    handleChangePin(data) {
+      let localColumns;
+      if (data.columnIndex == this.pinColumnIndex) {
+        localColumns = this.columns.map((item, index) => {
+          if (index <= data.columnIndex) {
+            item.fixed = false;
+          }
+
+          return item;
+        });
+      } else {
+        localColumns = this.columns.map((item, index) => {
+          if (index + 1 <= data.columnIndex) {
+            item.fixed = true;
+          } else {
+            item.fixed = false;
+          }
+
+          return item;
+        });
+      }
+      this.$emit("change-pin", localColumns);
+    },
+    test() {
+      console.log(this.$props.dataSource);
     },
   },
   // ...
@@ -271,6 +246,10 @@ export default {
 
 <style lang="scss">
 @import url(./MTable.scss);
+
+#table-container {
+  height: 100%;
+}
 
 .dx-datagrid .dx-row > td {
   border-top: 1px solid #e4e4e4;

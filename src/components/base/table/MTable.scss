@@ -6,6 +6,10 @@
   color: black;
 }
 
+.dx-datagrid.dx-gridbase-container {
+  height: calc(100vh - 282px);
+}
+
 .dx-widget .dx-gridbase-container .dx-checkbox-icon {
   height: 20px;
   width: 20px;
@@ -13,6 +17,10 @@
     no-repeat;
   background-size: 20px;
   border: none;
+}
+
+td.dx-command-select.dx-cell-focus-disabled.dx-editor-cell.dx-editor-inline-block {
+  padding-left: 0 !important;
 }
 
 .dx-widget .dx-gridbase-container .dx-checkbox-icon:before {
@@ -69,6 +77,16 @@ tr.dx-row.dx-header-row {
   height: 48px;
 }
 
+.dx-datagrid .dx-row > td,
+.dx-datagrid .dx-row > tr > td {
+  padding-left: 16px;
+  /* padding: 7px; */
+}
+
+tr.dx-row.dx-header-row > td {
+  padding-left: 16px !important;
+}
+
 .dx-datagrid-rowsview
   .dx-select-checkboxes-hidden
   > tbody
@@ -106,11 +124,7 @@ tr.dx-row.dx-data-row {
 }
 
 .dx-datagrid-rowsview {
-  height: calc(100% - 103px);
-}
-
-.dx-datagrid-rowsview.dx-datagrid-nowrap.dx-scrollable.dx-visibility-change-handler.dx-scrollable-both.dx-scrollable-native.dx-scrollable-native-generic {
-  height: 600px;
+  height: calc(100vh - 103px);
 }
 
 .misa-container-base--paging-table {
@@ -123,4 +137,150 @@ tr.dx-row.dx-data-row {
   .container-page-size {
     width: 90px;
   }
+}
+
+.hover-button {
+  position: absolute;
+  display: block;
+  right: 0;
+}
+
+/* Context menu */
+.ms-table__action-column {
+  padding: 0 !important;
+  position: sticky !important;
+  right: 0;
+  width: 0 !important;
+  max-width: 0 !important;
+  background: none !important;
+  z-index: 9 !important;
+  border: none !important;
+  margin: 0 !important;
+  overflow: unset !important;
+
+  display: flex;
+}
+
+.ms-table__action-container {
+  display: none;
+  position: absolute;
+  top: 4px;
+  left: -150px;
+  z-index: 10 !important;
+  gap: 10px;
+}
+
+.dx-row.dx-data-row:hover .ms-table__action-container {
+  display: flex !important;
+}
+
+.dx-row.dx-state-hover .ms-table__action-container {
+  display: flex !important;
+}
+
+/* Context menu */
+
+.v-btn:not(.v-btn--round).v-size--small {
+  min-width: unset;
+  padding: 0 10px;
+}
+
+.b-info {
+  color: #212121 !important;
+  background-color: #fff !important;
+  border: 1px solid #e6e6e6;
+}
+
+.v-btn .v-btn__content {
+  line-height: 20px;
+}
+
+.mi-open-new-tab {
+  width: 20px !important;
+  height: 20px !important;
+  background: url(https://amisplatform.misacdn.net/apps/mintax/img/icon.4ca9813a.svg) -180px
+    0 no-repeat;
+}
+
+.ico-edit-table-row {
+  background: url(https://amisplatform.misacdn.net/apps/mintax/img/edit-table-row.088eee2b.svg)
+    no-repeat 50%;
+  height: 16px;
+  width: 16px;
+}
+
+.ico-delete-table-row {
+  background: url(https://amisplatform.misacdn.net/apps/mintax/img/delete-table-row.d1b38148.svg)
+    no-repeat 50%;
+  height: 16px;
+  width: 16px;
+}
+
+.ico-un-pin {
+  background: url(https://amisplatform.misacdn.net/apps/mintax/img/ico-un-pin.aaa1dd1a.svg)
+    no-repeat 50%;
+  height: 20px;
+  width: 20px;
+  display: none;
+}
+
+.ico-pin {
+  background: url(https://amisplatform.misacdn.net/apps/mintax/img/ico-pin.4a614566.svg)
+    no-repeat 50%;
+  height: 20px;
+  width: 20px;
+  display: block;
+}
+
+.pin-location-right {
+  position: absolute;
+  right: 0;
+}
+
+.v-btn:before {
+  background-color: currentColor;
+  border-radius: inherit;
+  bottom: 0;
+  color: inherit;
+  content: "";
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: opacity 0.1s cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+.v-btn--rounded {
+  border-radius: 28px !important;
+}
+
+.dx-datagrid-headers .dx-datagrid-table .dx-row > td:not(:first-child) {
+  position: relative;
+
+  &::after {
+    content: "";
+    height: 80%;
+    position: absolute;
+    top: 10%;
+    right: 0;
+    border-right: 1px solid #e4e4e4;
+    display: none;
+  }
+
+  &:hover {
+    .ico-un-pin {
+      display: block;
+    }
+  }
+
+  &:hover::after {
+    display: block;
+  }
+}
+
+.header__cell__container {
+  display: flex;
+  justify-content: space-between;
 }

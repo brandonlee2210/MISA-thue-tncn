@@ -1,12 +1,17 @@
 <template>
   <div class="page__header">
     <div class="left-header">
-      <div class="title">{{ resource.VN.Others.PageEmployeeTitle }}</div>
+      <div class="title">Thêm người nộp thuế</div>
     </div>
     <div class="right-header">
       <DxButton class="dx-button" :height="36" :onClick="hanleOnClick">
-        <div class="icon icon-manage-license" style="margin-right: 6px"></div>
-        Quản lý lao động sử dụng dịch vụ</DxButton
+        Huỷ</DxButton
+      >
+      <DxButton class="dx-button" :height="36" :onClick="hanleOnClick">
+        Lưu & Thêm mới</DxButton
+      >
+      <DxButton class="dx-button save" :height="36" :onClick="hanleOnClick">
+        Lưu</DxButton
       >
     </div>
   </div>
@@ -25,6 +30,12 @@ export default {
     return {
       resource: MISAResource,
     };
+  },
+  props: {
+    title: {
+      type: String,
+      default: "",
+    },
   },
   methods: {
     hanleOnClick() {
@@ -58,6 +69,12 @@ export default {
   padding-right: 6px;
 
   border-width: 1px;
+
+  &.save {
+    background-color: var(--primary-color);
+    border: none;
+    color: white;
+  }
 }
 
 .title {

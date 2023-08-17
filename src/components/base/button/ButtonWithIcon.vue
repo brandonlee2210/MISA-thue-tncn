@@ -3,19 +3,19 @@
     <span class="v-btn__content"
       ><i class="ico" :class="`ico-${type}`"></i
     ></span>
+    <div v-if="title" class="title">{{ title }}</div>
   </button>
 </template>
 
 <script>
 export default {
-  props: ["type"],
+  props: ["type", "title"],
 };
 </script>
 
 <style lang="scss" scoped>
 .button {
   height: 36px;
-  width: 40px;
   padding: 0 16px;
 
   display: flex;
@@ -29,6 +29,11 @@ export default {
 
   &:hover {
     border-color: var(--primary-color);
+    color: var(--primary-color);
+  }
+
+  .title {
+    font-weight: 500;
   }
 
   .v-btn__content {
@@ -80,6 +85,20 @@ export default {
       background-position: -120px -80px;
       width: 16px !important;
       height: 16px !important;
+    }
+
+    .ico-add {
+      width: 14px !important;
+      height: 14px !important;
+      background: url(https://amisplatform.misacdn.net/apps/mintax/img/icon.4ca9813a.svg) -63px -3px
+        no-repeat;
+    }
+
+    .ico-delete {
+      background: url(https://amisplatform.misacdn.net/apps/mintax/img/delete-table-row.d1b38148.svg)
+        no-repeat 50%;
+      height: 16px;
+      width: 16px;
     }
   }
 }

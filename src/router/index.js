@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import TaxView from "../views/PersonalTax/TaxView.vue";
+import EmployeeDetailsForm from "../views/PersonalTaxForm/EmployeeDetailsForm.vue";
 
 Vue.use(VueRouter);
 
@@ -32,6 +33,11 @@ const routes = [
       import(
         /* webpackChunkName: "manager" */ "../views/EmployeeManager/EmployeeManager.vue"
       ),
+  },
+  {
+    path: "/employee-details",
+    name: "employee-details",
+    component: EmployeeDetailsForm,
   },
 ];
 

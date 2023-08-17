@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="pagination-container">
     <div
       class="row ma-0 py-0 px-4 d-flex align-center misa-container-base--paging-table"
     >
@@ -74,5 +74,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import url(./DropDown.scss);
+@import url(./Pagination.scss);
 </style>

@@ -2,7 +2,7 @@
   <div class="group-container">
     <div class="group__left">
       <div class="icon-add"></div>
-      <div>Thêm mới</div>
+      <div @click="handleOpenAddForm">Thêm mới</div>
     </div>
     <div class="iconx">
       <div class="icon-expand"></div>
@@ -10,7 +10,19 @@
   </div>
 </template>
 
-<script></script>
+<script>
+export default {
+  name: "GroupButton",
+  methods: {
+    handleOpenAddForm() {
+      console.log("hi");
+      this.$router.push({
+        name: "employee-details",
+      });
+    },
+  },
+};
+</script>
 
 <style lang="scss" scoped>
 .group-container {

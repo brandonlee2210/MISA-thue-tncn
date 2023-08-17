@@ -5,10 +5,10 @@
         v-for="menuItem in resource.VN.Sidebar"
         :to="menuItem.link"
         class="menu-item"
-        v-bind:key="menuItem.title"
+        v-bind:key="menuItem.caption"
       >
         <div class="menu-item__icon icon" :class="menuItem.icon"></div>
-        <div class="menu-item__text">{{ menuItem.title }}</div>
+        <div class="menu-item__text">{{ menuItem.caption }}</div>
       </router-link>
     </div>
   </div>

@@ -18,7 +18,7 @@
         ></DxButton>
       </div>
     </div>
-    <div class="row__general d-flex w-100">
+    <div class="container__manage-license row__general d-flex w-100">
       <BlockContent
         :number="1071"
         :title="resource.VN.BlockContent.Title.TotalEmployee"
@@ -38,6 +38,20 @@
         mainColor="rgb(255, 110, 110)"
       />
     </div>
+    <div class="p-relative" style="height: 44px; top: 0px">
+      <div data-v-3fce265a="" class="button__expand">
+        <div data-v-3fce265a="">
+          <i
+            aria-hidden="true"
+            class="v-icon notranslate ico ico-g-expand theme--light"
+            style=""
+          ></i>
+        </div>
+        <!---->
+      </div>
+      <div data-v-3fce265a="" class="line"></div>
+    </div>
+    <ListEmployee />
   </div>
 </template>
 
@@ -45,6 +59,7 @@
 import MISAResource from "@/helpers/resource";
 import BlockContent from "./BlockContent.vue";
 import { DxButton } from "devextreme-vue";
+import ListEmployee from "./ListEmployee.vue";
 
 export default {
   name: "EmployeeManager",
@@ -56,6 +71,7 @@ export default {
   components: {
     BlockContent,
     DxButton,
+    ListEmployee,
   },
   methods: {
     handleBackButton() {
@@ -66,6 +82,6 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import url(./EmployeeManager.scss);
 </style>
