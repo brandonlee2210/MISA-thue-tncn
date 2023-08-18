@@ -307,11 +307,12 @@ export default {
   height: calc(100% - 64px);
   display: flex;
   flex-direction: column;
-}
-.table__container {
-  height: 100%;
-  overflow: auto;
-  flex: 1;
+
+  .table__container {
+    height: calc(100% - 60px - 96px);
+    overflow: auto;
+    flex: 1;
+  }
 }
 
 #draggable-container {

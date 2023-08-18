@@ -75,4 +75,8 @@ export default {
 
 <style lang="scss" scoped>
 @import url(./Pagination.scss);
+
+.pagination-container {
+  height: 56px;
+}
 </style>

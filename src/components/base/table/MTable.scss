@@ -6,7 +6,15 @@
   color: black;
 }
 
-.dx-datagrid.dx-gridbase-container {
+.employee-page .dx-datagrid.dx-gridbase-container {
+  height: calc(100vh - 302px);
+}
+
+.employee-page.narrow .dx-datagrid.dx-gridbase-container {
+  height: calc(100vh - 432px);
+}
+
+.page .dx-datagrid.dx-gridbase-container {
   height: calc(100vh - 282px);
 }
 

@@ -18,7 +18,10 @@
         ></DxButton>
       </div>
     </div>
-    <div class="container__manage-license row__general d-flex w-100">
+    <div
+      class="container__manage-license row__general d-flex w-100"
+      v-if="isBlockContentVisible"
+    >
       <BlockContent
         :number="1071"
         :title="resource.VN.BlockContent.Title.TotalEmployee"
@@ -38,20 +41,28 @@
         mainColor="rgb(255, 110, 110)"
       />
     </div>
-    <div class="p-relative" style="height: 44px; top: 0px">
-      <div data-v-3fce265a="" class="button__expand">
-        <div data-v-3fce265a="">
+    <div
+      class="p-relative"
+      :style="`height: 44px; top: ${isBlockContentVisible ? '0px' : '-14px'}`"
+    >
+      <div
+        class="button__expand"
+        @click="isBlockContentVisible = !isBlockContentVisible"
+      >
+        <div>
           <i
             aria-hidden="true"
             class="v-icon notranslate ico ico-g-expand theme--light"
-            style=""
+            :style="`${
+              isBlockContentVisible ? '' : 'transform: rotate(-180deg)'
+            }`"
           ></i>
         </div>
         <!---->
       </div>
-      <div data-v-3fce265a="" class="line"></div>
+      <div class="line"></div>
     </div>
-    <ListEmployee />
+    <ListEmployee :isBlockContentVisible="isBlockContentVisible" />
   </div>
 </template>
 
@@ -65,6 +76,7 @@ export default {
   name: "EmployeeManager",
   data() {
     return {
+      isBlockContentVisible: true,
       resource: MISAResource,
     };
   },

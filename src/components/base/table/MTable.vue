@@ -188,6 +188,10 @@ export default {
 
       return maxFixedIndex;
     },
+    /* Độ dài mảng chứa các dòng được chọn */
+    checkedIdsLength() {
+      return this.checkedIds.length;
+    },
   },
   methods: {
     /**

@@ -21,7 +21,7 @@ export default {
 <style lang="scss" scoped>
 .button {
   height: 36px;
-  padding: 0 16px;
+  padding: 0 12px 0 8px;
 
   display: flex;
   align-items: center;
@@ -97,6 +97,13 @@ export default {
       height: 14px !important;
       background: url(https://amisplatform.misacdn.net/apps/mintax/img/icon.4ca9813a.svg) -63px -3px
         no-repeat;
+    }
+
+    .ico-add--green {
+      width: 20px !important;
+      height: 20px !important;
+      background: url(https://amisplatform.misacdn.net/apps/mintax/img/Icon_New.62467ce4.svg) -220px
+        0 no-repeat;
     }
 
     .ico-delete {
