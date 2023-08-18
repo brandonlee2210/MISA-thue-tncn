@@ -1,0 +1,76 @@
+.icon {
+  background-image: url(../assets/sprite-image.svg);
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+/* Header icon */
+.menu-toggle {
+  background-position: -99px -191px;
+  width: 18px;
+  height: 18px;
+}
+
+.header-notification {
+  background-position: -74px -166px;
+  width: 20px !important;
+  height: 21px !important;
+}
+
+.header-help {
+  width: 20px !important;
+  height: 20px !important;
+  background-position: -234px -50px;
+}
+
+.header-circle {
+  background: url(https://amisplatform.misacdn.net/apps/mintax/img/menu-arrow-circle.8997c689.svg) no-repeat 50%;
+  height: 24px;
+  width: 24px;
+}
+
+.icon-dropdown {
+  background: url(https://amisplatform.misacdn.net/apps/mintax/img/Gray.247f7b7e.png);
+  background-position: -120px -80px;
+  width: 16px !important;
+  height: 16px !important;
+}
+
+.icon-add {
+  background-image: url(https://amisplatform.misacdn.net/apps/mintax/img/white-plus.73f5fecd.svg);
+  background-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+.icon-expand {
+  background: url(https://amisplatform.misacdn.net/apps/mintax/img/White.6306a9ad.png);
+  background-position: -120px -80px;
+  width: 16px !important;
+  height: 16px !important;
+}
+
+/* Header icon */
+/* Sidebar icon */
+.icon-sidebar-persontax {
+  background: url(https://amisplatform.misacdn.net/apps/mintax/img/ico-white-person-file.7bf5d36e.svg) no-repeat 50%;
+  height: 24px;
+  width: 24px;
+}
+
+.icon-sidebar-report {
+  background: url(https://amisplatform.misacdn.net/apps/mintax/img/ico24-tax-report-gray.2e1981f3.svg) no-repeat 50%;
+  height: 24px;
+  width: 24px;
+}
+
+/* Sidebar icon */
+/* List header icon */
+.icon-manage-license {
+  background: url(https://amisplatform.misacdn.net/apps/mintax/img/Icon_New.62467ce4.svg);
+  background-position: -264px -60px;
+  width: 24px !important;
+  height: 24px !important;
+}
+
+/* List header icon *//*# sourceMappingURL=icon-position.css.map */

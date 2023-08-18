@@ -1,7 +1,12 @@
 <template>
   <div class="tax-view">
-    <ListHeader></ListHeader>
-    <ListPerson></ListPerson>
+    <template v-if="$route.path === '/tax/add'">
+      <router-view></router-view>
+    </template>
+    <template v-else>
+      <ListHeader></ListHeader>
+      <ListPerson></ListPerson>
+    </template>
   </div>
 </template>
 

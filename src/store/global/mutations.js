@@ -1,12 +1,12 @@
-const MESSAGES_UPDATED = (state, messages) => {
-  state.messages = messages;
+const SHOW_FORM_POPUP = (state) => {
+  state.popupVisible = true;
 };
 
-const SET_SELECTED_EMPLOYEES = (state, employees) => {
-  state.checkedEmployees = employees;
+const HIDE_FORM_POPUP = (state) => {
+  state.popupVisible = false;
 };
 
 export default {
-  MESSAGES_UPDATED,
-  SET_SELECTED_EMPLOYEES,
+  SHOW_FORM_POPUP,
+  HIDE_FORM_POPUP,
 };

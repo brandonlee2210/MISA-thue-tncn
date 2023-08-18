@@ -1,7 +1,6 @@
 @import url(./variables.scss);
 @import url(./icon-position.scss);
 @import url(./variables.scss);
-
 * {
   box-sizing: border-box;
   margin: 0;
@@ -10,10 +9,8 @@
 
 body {
   font-family: Roboto, Helvetica, Arial, sans-serif !important;
-
   font-size: 14px;
   color: #454545;
-
   background: rgb(237, 235, 235);
 }
 
@@ -150,7 +147,7 @@ input::-webkit-inner-spin-button {
   margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
 
-input[type="number"] {
+input[type=number] {
   -moz-appearance: textfield; /* Firefox */
 }
 
@@ -169,4 +166,4 @@ input[type="number"] {
 
 .mr-3 {
   margin-right: 12px !important;
-}
+}/*# sourceMappingURL=style.css.map */

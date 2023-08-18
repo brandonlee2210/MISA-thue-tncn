@@ -1,8 +1,8 @@
 <template>
   <div class="group-container">
-    <div class="group__left">
+    <div class="group__left" @click="handleOpenAddForm">
       <div class="icon-add"></div>
-      <div @click="handleOpenAddForm">Thêm mới</div>
+      <div>Thêm mới</div>
     </div>
     <div class="iconx">
       <div class="icon-expand"></div>
@@ -15,9 +15,9 @@ export default {
   name: "GroupButton",
   methods: {
     handleOpenAddForm() {
-      this.$router.push({
-        name: "employee-details",
-      });
+      if (this.$route.path !== "/tax/add") {
+        this.$router.push("/tax/add");
+      }
     },
   },
 };

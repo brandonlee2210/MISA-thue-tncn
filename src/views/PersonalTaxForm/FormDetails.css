@@ -1,0 +1,58 @@
+.dx-form-group-with-caption .dx-form-group.dx-form-group-with-caption {
+  padding-left: 0;
+}
+.dx-form-group-with-caption .dx-form-group.dx-form-group-with-caption .dx-form-group-content {
+  border-top: none;
+}
+
+.dx-form-group-with-caption > .dx-form-group-content {
+  padding-top: 19px;
+  margin-top: 6px;
+  border-top: none;
+  padding-bottom: 20px;
+}
+
+.form-body-container .dx-form-group-with-caption.dx-form-group .dx-form-group-caption {
+  font-weight: 700 !important;
+  font-size: 16px !important;
+  color: #000 !important;
+  line-height: 21px !important;
+  cursor: default;
+  letter-spacing: unset !important;
+}
+.form-body-container .dx-form-group-with-caption.dx-form-group .dx-form-group-content .dx-form-group-caption {
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  color: #000 !important;
+  line-height: 21px !important;
+  cursor: default;
+  letter-spacing: unset !important;
+}
+.form-body-container .dx-form-group-with-caption.dx-form-group .dx-form-group-content .dx-collection {
+  row-gap: 12px;
+}
+.form-body-container .dx-form-group-with-caption.dx-form-group .dx-form-group-content .dx-collection .dx-item-content.dx-box-item-content {
+  gap: 80px;
+}
+.form-body-container .dx-form-group-with-caption.dx-form-group .dx-form-group-content .dx-collection .dx-item-content.dx-box-item-content .dx-field-item {
+  justify-content: space-between;
+  gap: 20px;
+}
+.form-body-container .dx-form-group-with-caption.dx-form-group .dx-form-group-content .dx-collection .dx-item-content.dx-box-item-content .dx-field-item .dx-field-item-content .dx-field-item-content-location-right {
+  width: 40%;
+}
+
+.dx-state-readonly {
+  border: none;
+}
+.dx-state-readonly.dx-state-hover {
+  border: none;
+}
+.dx-state-readonly.dx-texteditor.dx-editor-outlined {
+  border: none;
+}
+.dx-state-readonly .dx-texteditor-input {
+  background-color: #f2f2f2 !important; /* Change the background color */
+  color: #999999; /* Change the text color */
+  cursor: not-allowed; /* Change the cursor style */
+}/*# sourceMappingURL=FormDetails.css.map */

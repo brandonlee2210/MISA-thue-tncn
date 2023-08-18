@@ -25,6 +25,12 @@ const routes = [
     path: "/tax",
     name: "tax",
     component: TaxView,
+    children: [
+      {
+        path: "add",
+        component: EmployeeDetailsForm,
+      },
+    ],
   },
   {
     path: "/manager",

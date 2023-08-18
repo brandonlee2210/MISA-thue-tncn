@@ -1,20 +1,12 @@
-import { fetchMessages } from "@/api";
-
-const getMessages = (context) => {
-  fetchMessages
-    .then((response) => {
-      context.commit("MESSAGES_UPDATED", response);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+const opepFormPopup = ({ commit }) => {
+  commit("SHOW_FORM_POPUP");
 };
 
-const setSelectedEmployees = (context, employees) => {
-  console.log("addCheckedEmployees", employees);
-  context.commit("SET_SELECTED_EMPLOYEES", employees);
+const closeFormPopup = ({ commit }) => {
+  commit("HIDE_FORM_POPUP");
 };
+
 export default {
-  getMessages,
-  setSelectedEmployees,
+  opepFormPopup,
+  closeFormPopup,
 };

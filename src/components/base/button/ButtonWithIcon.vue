@@ -1,5 +1,9 @@
 <template>
-  <button class="button" @click="handleClick">
+  <button
+    class="button"
+    :class="{ 'b-blue': type == 'add--blue' }"
+    @click="handleClick"
+  >
     <span class="v-btn__content"
       ><i class="ico" :class="`ico-${type}`"></i
     ></span>
@@ -31,6 +35,11 @@ export default {
   background: white;
   border-radius: 4px;
   cursor: pointer;
+
+  &.b-blue {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+  }
 
   &:hover {
     border-color: var(--primary-color);
@@ -104,6 +113,16 @@ export default {
       height: 20px !important;
       background: url(https://amisplatform.misacdn.net/apps/mintax/img/Icon_New.62467ce4.svg) -220px
         0 no-repeat;
+    }
+
+    .ico-add--blue {
+      width: 12px;
+      height: 12px;
+      -webkit-mask-image: url(https://amisplatform.misacdn.net/apps/mintax/img/black-plus.5ffb97cd.svg);
+      mask-image: url(https://amisplatform.misacdn.net/apps/mintax/img/black-plus.5ffb97cd.svg);
+      -webkit-mask-size: contain;
+      mask-size: contain;
+      background-color: #007aff;
     }
 
     .ico-delete {

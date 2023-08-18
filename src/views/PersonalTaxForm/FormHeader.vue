@@ -4,7 +4,7 @@
       <div class="title">Thêm người nộp thuế</div>
     </div>
     <div class="right-header">
-      <DxButton class="dx-button" :height="36" :onClick="hanleOnClick">
+      <DxButton class="dx-button" :height="36" :onClick="hanleCancelClick">
         Huỷ</DxButton
       >
       <DxButton class="dx-button" :height="36" :onClick="hanleOnClick">
@@ -38,9 +38,9 @@ export default {
     },
   },
   methods: {
-    hanleOnClick() {
+    hanleCancelClick() {
       this.$router.push({
-        name: "manager",
+        name: "tax",
       });
     },
   },
@@ -48,6 +48,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.page__header {
+  min-height: 64px;
+}
 .dx-button:hover {
   background-color: white;
   border-color: var(--primary-color);

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="form-container">
     <FormHeader />
     <FormDetails />
   </div>
@@ -16,3 +16,15 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.form-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.form-body-container {
+  overflow: auto;
+}
+</style>
