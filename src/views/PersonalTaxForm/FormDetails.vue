@@ -493,7 +493,10 @@ export default {
 
       // Lặp qua từng component MyTextBox và validate
       this.$children.forEach((child) => {
-        if (child.$options.name === "MyTextBox") {
+        if (
+          child.$options.name === "MTextBox" ||
+          child.$options.name === "MSelectBox"
+        ) {
           child.validate(); // Call the validate method of MyTextBox component
 
           if (!child.isValid) {

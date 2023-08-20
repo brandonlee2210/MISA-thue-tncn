@@ -29,7 +29,7 @@ import { DxTextBox } from "devextreme-vue";
 const textBoxRef = "texBoxRef";
 
 export default {
-  name: "MyTextBox",
+  name: "MTextBox",
   components: {
     DxTextBox,
   },

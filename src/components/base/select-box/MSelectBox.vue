@@ -25,7 +25,7 @@
 import { DxSelectBox } from "devextreme-vue";
 
 export default {
-  name: "MyDropdown",
+  name: "MSelectBox",
   components: {
     DxSelectBox,
   },
@@ -53,6 +53,10 @@ export default {
       type: String,
       default: "id",
     },
+    validationRules: {
+      type: Array,
+      default: () => [],
+    },
     isReadOnly: {
       type: Boolean,
       default: false,
@@ -65,14 +69,52 @@ export default {
   data() {
     return {
       selectedItem: this.value,
-      isValid: true,
+      validationResult: {
+        isValid: true,
+        message: "",
+      },
     };
   },
+  computed: {
+    validationError() {
+      return this.validationResult.message;
+    },
+    isValid() {
+      return this.validationResult.isValid;
+    },
+  },
   methods: {
+    /**
+     * Xử lí sự kiện khi giá trị của dropdown thay đổi
+     * @param {*} e
+     * CreatedBy: dgbao (18/08/2023)
+     */
+
     handleValueChanged(e) {
-      console.log(e.value);
       this.selectedItem = e.value;
       this.$emit("input", e.value);
+    },
+    validate() {
+      // Nếu có required và value = "" thì báo lỗi
+      if (this.isRequired && this.selectedItem === "") {
+        this.validationResult.isValid = false;
+        this.validationResult.message =
+          this.customEmptyErrMsg || `${this.label} không được để trống`;
+      } else {
+        // Kiểm tra qua tất cả các validation rule truyền từ component cha xuống
+        for (const rule of this.validationRules) {
+          const ruleResult = rule(this.value);
+          if (!ruleResult.isValid) {
+            this.validationResult.isValid = false;
+            this.validationResult.message = ruleResult.message;
+            // Nếu có 1 lỗi thì thoát khỏi vòng lặp
+            return;
+          }
+        }
+        // Nếu không có lỗi thì trả về kết quả là true
+        this.validationResult.isValid = true;
+        this.validationResult.message = "";
+      }
     },
   },
 };
