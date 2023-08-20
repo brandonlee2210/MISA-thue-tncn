@@ -6,11 +6,15 @@
     <div class="item__input">
       <DxDateBox
         :value="value"
+        :acceptCustomValue="false"
+        maxLength="10"
         :placeholder="placeholder"
         :isValid="isValid"
         :displayFormat="'dd/MM/yyyy'"
         :show-clear-button="true"
         :validationError="validationError"
+        invalidDateMessage=""
+        dateOutOfRangeMessage=""
         :mask="dateMask"
         :mask-rules="dateMaskRules"
         @valueChanged="handleInput"
@@ -25,7 +29,7 @@
 <script>
 import { DxDateBox } from "devextreme-vue";
 export default {
-  name: "MyDateBox",
+  name: "MDateBox",
   components: {
     DxDateBox,
   },
@@ -68,21 +72,43 @@ export default {
     },
   },
   methods: {
+    /**
+     * Xử lý sự kiện nhập vào input
+     * @param {Event} event
+     * Created by: dgbao (19/08/2023)
+     */
     handleInput(event) {
       const newValue = event.value;
       this.value = newValue;
+      console.log("newValue", new Date(newValue));
 
       this.validate();
       this.$emit("input", newValue);
     },
+    /**
+     * Validate dữ liệu
+     * Created by: dgbao (19/08/2023)
+     */
     validate() {
       if (this.isRequired && !this.value) {
+        // Kiểm tra trống
         this.validationResult.isValid = false;
         this.validationResult.message = `${this.label} không được để trống`;
+      } else if (!this.isValidDate(this.value)) {
+        // Kiểm tra đúng định dạng
+        this.validationResult.isValid = false;
+        this.validationResult.message = `${this.label} không được lớn hơn hiện tại`;
       } else {
         this.validationResult.isValid = true;
         this.validationResult.message = "";
       }
+    },
+    isValidDate(value) {
+      // kiểm tra có nho hơn ngày hiện tại hay không
+      if (value < new Date()) {
+        return true;
+      }
+      return false;
     },
   },
 };
@@ -100,11 +126,14 @@ export default {
   display: flex;
   margin-bottom: 16px;
   justify-content: space-between;
+  align-items: unset !important;
 
   .item__label {
     width: 200px;
     margin-right: 16px;
     margin-top: 10px;
+    height: 36px;
+    padding-top: 10px;
   }
 
   .item__input {

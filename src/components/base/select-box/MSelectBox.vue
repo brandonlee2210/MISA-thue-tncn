@@ -5,6 +5,7 @@
     </div>
     <div class="item__input">
       <dx-select-box
+        @focusOut="validate"
         :items="items"
         :displayExpr="displayExpr"
         :valueExpr="valueExpr"
@@ -94,9 +95,13 @@ export default {
       this.selectedItem = e.value;
       this.$emit("input", e.value);
     },
+    /**
+     * Validate dữ liệu
+     * Created by: dgbao (19/08/2023)
+     */
     validate() {
       // Nếu có required và value = "" thì báo lỗi
-      if (this.isRequired && this.selectedItem === "") {
+      if (this.isRequired && !this.selectedItem) {
         this.validationResult.isValid = false;
         this.validationResult.message =
           this.customEmptyErrMsg || `${this.label} không được để trống`;

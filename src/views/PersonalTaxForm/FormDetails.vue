@@ -93,6 +93,7 @@
         v-model="employee.Email"
         placeholder="Nhập email"
         label="Email"
+        :validationRules="[validateEmail]"
       />
       <MSelectBox
         :items="contractTypes"
@@ -347,7 +348,7 @@ export default {
         HireDate: null,
         ReceiveDate: null,
         ResignationDate: null,
-        PositionCode: null,
+        PositionCode: "",
         WorkStatus: 1,
       },
       formRefKey,
@@ -495,7 +496,8 @@ export default {
       this.$children.forEach((child) => {
         if (
           child.$options.name === "MTextBox" ||
-          child.$options.name === "MSelectBox"
+          child.$options.name === "MSelectBox" ||
+          child.$options.name === "MDateBox"
         ) {
           child.validate(); // Call the validate method of MyTextBox component
 
@@ -532,6 +534,26 @@ export default {
         return {
           isValid: false,
           message: `Số CMND/CCCD không đúng định dạng`,
+        };
+      }
+    },
+    /**
+     * Kiểm tra định dạng email
+     * @param {String} value
+     * Created by: dgbao (19/08/2023)
+     */
+    validateEmail(value) {
+      let regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+      if (regex.test(value)) {
+        return {
+          isValid: true,
+          message: "",
+        };
+      } else {
+        return {
+          isValid: false,
+          message: `Email không đúng định dạng`,
         };
       }
     },
