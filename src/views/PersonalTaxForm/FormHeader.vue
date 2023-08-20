@@ -7,10 +7,10 @@
       <DxButton class="dx-button" :height="36" :onClick="hanleCancelClick">
         Huỷ</DxButton
       >
-      <DxButton class="dx-button" :height="36" :onClick="hanleOnClick">
+      <DxButton class="dx-button" :height="36" :onClick="() => {}">
         Lưu & Thêm mới</DxButton
       >
-      <DxButton class="dx-button save" :height="36" :onClick="hanleOnClick">
+      <DxButton class="dx-button save" :height="36" :onClick="onSave">
         Lưu</DxButton
       >
     </div>
@@ -32,16 +32,26 @@ export default {
     };
   },
   props: {
+    // Tiêu đề form
     title: {
       type: String,
       default: "",
     },
   },
   methods: {
+    /**
+     * Xử lý sự kiện huỷ
+     */
     hanleCancelClick() {
       this.$router.push({
         name: "tax",
       });
+    },
+    /**
+     * Xử lý sự kiện lưu
+     */
+    onSave() {
+      this.$emit("save");
     },
   },
 };

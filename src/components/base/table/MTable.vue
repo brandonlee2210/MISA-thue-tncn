@@ -14,10 +14,9 @@
       :hoverStateEnabled="true"
       @selection-changed="getSelectedData"
     >
-      <!-- <DxColumn data-field="FullName" :width="'300'" :fixed="true"></DxColumn> -->
       <DxColumn
         :height="88"
-        v-for="(item, index) in columns"
+        v-for="(item, index) in localColumns"
         :key="index"
         v-bind="item"
         header-cell-template="title-header"
@@ -171,13 +170,14 @@ export default {
       dataGridRef,
       allMode: "allPages",
       checkBoxesMode: "onClick",
-      localColumns: [],
     };
   },
   computed: {
+    // Lấy ra instance của dxDataGrid
     dataGrid: function () {
       return this.$refs[dataGridRef].instance;
     },
+    // Lấy ra index của cột ghim
     pinColumnIndex: function () {
       let maxFixedIndex = 0;
       for (let i = 0; i < this.columns.length; i++) {
@@ -188,28 +188,21 @@ export default {
 
       return maxFixedIndex;
     },
-    /* Độ dài mảng chứa các dòng được chọn */
-    checkedIdsLength() {
-      return this.checkedIds.length;
+    // Lấy ra danh sách các cột được check
+    localColumns: {
+      get() {
+        return this.columns.filter((item) => item.checked);
+      },
     },
   },
   methods: {
     /**
-     * Hàm thêm mảng các nhân viên được chọn vào trong employee store
-     * @param {Object} e
+     * Hàm lấy dữ liệu các dòng được chọn và emit kèm theo danh sách chứa các ids của các dòng được chọn
+     * Created by: dgbao (17/08/2023)
      */
     getSelectedData() {
-      // this.$store.dispatch("employee/setSelectedEmployees", {
-      //   selectedEmployees: this.dataGrid.getSelectedRowsData(),
-      // });
-      this.$emit("onselected", this.dataGrid.getSelectedRowsData());
-    },
-    selectAll() {
-      getSelectedData();
-    },
-    handleButtonClick(rowData) {
-      // Handle the button click event for the specific row
-      console.log("Edit button clicked for row:", rowData);
+      let checkIds = this.dataGrid.getSelectedRowsData().map((item) => item.ID);
+      this.$emit("onselected", checkIds);
     },
 
     /**
@@ -240,6 +233,8 @@ export default {
           return item;
         });
       }
+
+      // Gửi lên list mới
       this.$emit("change-pin", localColumns);
     },
     test() {

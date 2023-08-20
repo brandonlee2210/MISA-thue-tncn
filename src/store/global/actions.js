@@ -1,4 +1,4 @@
-const opepFormPopup = ({ commit }) => {
+const openFormPopup = ({ commit }) => {
   commit("SHOW_FORM_POPUP");
 };
 
@@ -7,6 +7,6 @@ const closeFormPopup = ({ commit }) => {
 };
 
 export default {
-  opepFormPopup,
+  openFormPopup,
   closeFormPopup,
 };

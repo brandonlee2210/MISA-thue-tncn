@@ -15,8 +15,9 @@
 export default {
   props: ["type", "title", "onClick"],
   methods: {
-    handleClick() {
-      this.$props.onClick();
+    handleClick(event) {
+      event.preventDefault();
+      this.onClick();
     },
   },
 };

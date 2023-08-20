@@ -55,4 +55,58 @@
   background-color: #f2f2f2 !important; /* Change the background color */
   color: #999999; /* Change the text color */
   cursor: not-allowed; /* Change the cursor style */
+}
+
+.dx-overlay-wrapper.dx-popup-wrapper.dx-overlay-shader {
+  background-color: rgba(33, 33, 33, 0.423);
+}
+.dx-overlay-wrapper.dx-popup-wrapper.dx-overlay-shader .dx-overlay-content.dx-popup-normal.dx-resizable {
+  height: unset !important;
+}
+.dx-overlay-wrapper.dx-popup-wrapper.dx-overlay-shader .dx-popup-content.dx-popup-content-scrollable {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+.dx-overlay-wrapper.dx-popup-wrapper.dx-overlay-shader .dx-popup-content.dx-popup-content-scrollable .dx-form-group-caption {
+  font-weight: 450;
+  color: #212121;
+  font-size: 16px !important;
+  line-height: 24px !important;
+  cursor: default;
+  letter-spacing: unset !important;
+}
+
+.dx-popup-title.dx-has-close-button {
+  border: none;
+  padding: 24px;
+}
+.dx-popup-title.dx-has-close-button .dx-toolbar-item-content {
+  font-weight: 700 !important;
+  font-size: 20px !important;
+  color: #212121 !important;
+}
+
+.dx-popup-bottom.dx-toolbar {
+  flex: 1;
+  background: #f5f6f8;
+}
+
+.form-body-container {
+  height: 100%;
+  width: 100%;
+  background-color: #fff;
+  padding: 24px;
+}
+.form-body-container .form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  -moz-column-gap: 80px;
+       column-gap: 80px;
+}
+.form-body-container .form .row.ma-0.pa-0 {
+  grid-column: 1/span 2;
+  margin-top: 20px !important;
+  margin-bottom: 12px !important;
 }/*# sourceMappingURL=FormDetails.css.map */

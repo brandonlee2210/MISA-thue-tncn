@@ -1,476 +1,541 @@
+<!-- eslint-disable vue/no-unused-components -->
 <template>
   <div class="form-body-container">
-    <DxForm :items="items" :col-count="1" :show-colon-after-label="false">
-    </DxForm>
     <div
       class="row mt-11 pb-6 d-flex pl-3 align-center pr-3"
       style="justify-content: space-between"
     >
-      <span class="text-lg-h3">THÔNG TIN GIA ĐÌNH</span>
-      <ButtonWithIcon type="add--blue" title="Thêm" :onClick="() => {}" />
+      <span class="text-lg-h3" @click="saveForm">THÔNG TIN CHUNG</span>
     </div>
+    <form class="form">
+      <div class="row ma-0 pa-0">
+        <span class="text-lg-subheader">Thông tin cá nhân</span>
+      </div>
+      <MSelectBox
+        :items="employeeTypes"
+        v-model="employee.EmployeeTypeId"
+        label="Loại đối tượng"
+      />
+      <MTextBox
+        v-model="employee.TaxCode"
+        placeholder="Nhập mã số thuế"
+        label="Mã số thuế"
+        ref="taxCodeRef"
+      />
+      <MTextBox
+        v-model="employee.PersonalTaxCode"
+        placeholder="Nhập mã người nộp thuế"
+        label="Mã người nộp thuế"
+        :isRequired="true"
+      />
+      <MSelectBox
+        :items="identityTypes"
+        v-model="employee.IdentityTypeId"
+        label="Loại giấy tờ"
+      />
+      <MTextBox
+        v-model="employee.FullName"
+        placeholder="Nhập họ tên"
+        label="Họ tên"
+        :isRequired="true"
+      />
+      <MTextBox
+        v-model="employee.IdentityNumber"
+        placeholder="Nhập số CMND/CCCD/Hộ chiếu"
+        label="Số CMND"
+        :isRequired="isTaxCodeEmpty"
+        customEmptyErrMsg="Không nhập mã số thuế thì số CMND/CCCD/Hộ chiếu không được bỏ trống
+        "
+        :validationRules="[validateNumberInput]"
+        maxlength="12"
+      />
+      <MDateBox
+        v-model="employee.DateOfBirth"
+        placeholder="__/__/____"
+        label="Ngày sinh"
+      />
+      <MDateBox
+        v-model="employee.IdentityDate"
+        placeholder="__/__/____"
+        label="Ngày cấp"
+        :isRequired="isTaxCodeEmpty"
+        customEmptyErrMsg="Không nhập mã số thuế thì ngày cấp không được bỏ trống"
+      />
+      <MRadioButton
+        :options="[
+          { value: 0, text: 'Nam' },
+          { value: 1, text: 'Nữ' },
+        ]"
+        v-model="employee.Gender"
+        label="Giới tính"
+      />
+      <MSelectBox
+        :items="provincesList"
+        v-model="employee.IdentityPlace"
+        valueExpr="ProvinceID"
+        displayExpr="LocationName"
+        label="Nơi cấp"
+        :isRequired="isTaxCodeEmpty"
+        customEmptyErrMsg="Không nhập mã số thuế thì nơi cấp không được bỏ trống"
+      />
+      <MTextBox
+        v-model="employee.PhoneNumber"
+        placeholder="Nhập số điện thoại"
+        label="Số điện thoại"
+      />
+      <MSelectBox
+        :items="countryList"
+        v-model="employee.NationalCode"
+        label="Quốc tịch"
+      />
+
+      <MTextBox
+        v-model="employee.Email"
+        placeholder="Nhập email"
+        label="Email"
+      />
+      <MSelectBox
+        :items="contractTypes"
+        v-model="employee.ContractTypeId"
+        label="Loại hợp đồng"
+      />
+      <div class="row ma-0 pa-0">
+        <span class="text-lg-subheader">Hộ khẩu thường trú</span>
+      </div>
+      <MSelectBox
+        :items="countryList"
+        v-model="employee.NativeCountryCode"
+        label="Quốc gia"
+      />
+      <MSelectBox
+        :items="locationsList"
+        v-model="employee.NativeWardCode"
+        :valueExpr="'LocationID'"
+        :displayExpr="'LocationName'"
+        label="Xã phường"
+      />
+      <MSelectBox
+        :items="provincesList"
+        v-model="employee.NativeProvinceCode"
+        valueExpr="ProvinceID"
+        displayExpr="LocationName"
+        label="Tỉnh/thành phố"
+      />
+      <MTextBox
+        v-model="employee.NativeAddress"
+        placeholder="Nhập số nhà, đường/phố, thôn/xóm"
+        label="Số nhà, đường/phố, thôn/xóm"
+      />
+      <MSelectBox
+        :items="districtsList"
+        v-model="employee.NativeDistrictCode"
+        valueExpr="DistrictID"
+        displayExpr="LocationName"
+        label="Quận/huyện"
+      />
+      <MTextBox
+        v-model="nativeAutoAddress"
+        label="Địa chỉ"
+        :isReadOnly="true"
+      />
+      <div class="row ma-0 pa-0">
+        <span class="text-lg-subheader">Chỗ ở hiện nay</span>
+      </div>
+      <MCheckbox v-model="IsSameAddress" label="Giống hộ khẩu thường trú" />
+      <MSelectBox
+        :items="countryList"
+        v-model="employee.CurrentCountryCode"
+        label="Quốc gia"
+        :isReadOnly="IsSameAddress"
+      />
+      <MSelectBox
+        :items="currentLocationsList"
+        :isReadOnly="IsSameAddress"
+        v-model="employee.CurrentWardCode"
+        :valueExpr="'LocationID'"
+        :displayExpr="'LocationName'"
+        label="Xã phường"
+      />
+      <MSelectBox
+        :items="provincesList"
+        :isReadOnly="IsSameAddress"
+        v-model="employee.CurrentProvinceCode"
+        valueExpr="ProvinceID"
+        displayExpr="LocationName"
+        label="Tỉnh/thành phố"
+      />
+      <MTextBox
+        v-model="employee.CurrentAddress"
+        placeholder="Nhập số nhà, đường/phố, thôn/xóm"
+        :isReadOnly="IsSameAddress"
+        label="Số nhà, đường/phố, thôn/xóm"
+      />
+      <MSelectBox
+        :items="currentDistrictsList"
+        :isReadOnly="IsSameAddress"
+        v-model="employee.CurrentDistrictCode"
+        valueExpr="DistrictID"
+        displayExpr="LocationName"
+        label="Quận/huyện"
+      />
+      <MTextBox
+        v-model="currentAutoAddress"
+        label="Địa chỉ"
+        :isReadOnly="true"
+      />
+      <span class="text-lg-h3">THÔNG TIN CÔNG VIỆC</span>
+      <MTextBox
+        v-model="employee.DepartmentName"
+        label="Bộ phận/phòng ban"
+        :isReadOnly="true"
+        :isRequired="true"
+      />
+      <MDateBox
+        v-model="employee.ProbationDate"
+        placeholder="__/__/____"
+        label="Ngày học việc"
+      />
+      <MSelectBox
+        :items="positionsList"
+        v-model="employee.PositionCode"
+        label="Vị trí công việc"
+        :isRequired="true"
+      />
+      <MDateBox
+        v-model="employee.HireDate"
+        placeholder="__/__/____"
+        label="Ngày thử việc"
+      />
+      <MTextBox label="Chức danh" :isReadOnly="true" />
+      <MDateBox
+        v-model="employee.ReceiveDate"
+        placeholder="__/__/____"
+        label="Ngày chính thức"
+      />
+      <MSelectBox
+        :items="workStatusesList"
+        v-model="employee.WorkStatus"
+        label="Trạng thái làm việc"
+      />
+      <MDateBox
+        v-model="employee.ResignationDate"
+        placeholder="__/__/____"
+        label="Ngày nghỉ việc"
+      />
+      <div
+        class="row mt-11 pb-6 d-flex pl-3 align-center pr-3 text-lg-h3"
+        style="justify-content: space-between"
+      >
+        <span class="text-lg-h3">THÔNG TIN GIA ĐÌNH</span>
+        <ButtonWithIcon
+          type="add--blue"
+          title="Thêm"
+          :onClick="openFormPopup"
+        />
+      </div>
+    </form>
+    <section
+      class="misa-empty-data misa-background-footer-dialog text-lg-body-2 mt-4 d-flex justify-center align-center"
+    >
+      <span>Chưa có thông tin gia đình</span>
+    </section>
+    <DxPopup
+      :show-title="true"
+      :title="popupTitle"
+      :width="1146"
+      :drag-enabled="false"
+      position="center"
+      :visible="popupVisible"
+      @hidden="closeFormPopup"
+      :toolbar-items="toolbarItems"
+    >
+      <dx-form :formData="popupValues" :items="popupItems"></dx-form>
+    </DxPopup>
   </div>
 </template>
 
 <script>
-import { DxForm, DxRadioGroup } from "devextreme-vue/form";
+import { DxForm } from "devextreme-vue/form";
+import { DxPopup } from "devextreme-vue/popup";
 import ButtonWithIcon from "@/components/base/button/ButtonWithIcon.vue";
+import { mapState, mapActions } from "vuex";
+import {
+  employeeTypes,
+  workStatusesList,
+  identityTypes,
+  contractTypes,
+  countryList,
+  locationsList,
+  provincesList,
+  districtsList,
+  positionsList,
+  items,
+  popupItems,
+} from "./data.js";
+import MTextBox from "@/components/base/input/MTextBox.vue";
+import MSelectBox from "@/components/base/select-box/MSelectBox.vue";
+import MDateBox from "@/components/base/input/MDateBox.vue";
+import MRadioButton from "@/components/base/radio/MRadioButton.vue";
+import MCheckbox from "@/components/base/input/MCheckbox.vue";
 
-const employee = {
-  EmployeeType: ["Nhân viên", "Vãng lai"],
-  name: "John Heart",
-  position: "CEO",
-  hireDate: "",
-  officeNumber: 901,
-  phone: "+1(213) 555-9392",
-  skype: "jheart_DX_skype",
-  email: "jheart@dx-email.com",
-};
-
-const items = [
-  {
-    itemType: "group",
-    caption: "THÔNG TIN CHUNG",
-    items: [
-      {
-        itemType: "group",
-        caption: "Thông tin cá nhân",
-        colCount: 2,
-        items: [
-          {
-            dataField: "Loại đối tượng",
-            editorOptions: {
-              placeholder: "Chọn đối tượng",
-            },
-            editorType: "dxSelectBox",
-            label: {
-              text: "Loại đối tượng",
-            },
-          },
-          {
-            dataField: "Password",
-            editorOptions: {
-              placeholder: "Mã số thuế",
-            },
-            editorType: "dxTextBox",
-            label: {
-              text: "Mã số thuế",
-            },
-          },
-          {
-            label: {
-              text: "Mã người nộp thuế",
-            },
-            dataField: "Password",
-            editorOptions: {
-              placeholder: "Nhập mã người nộp thuế",
-            },
-            editorType: "dxTextBox",
-            validationRules: [
-              {
-                type: "required",
-                message: "Mã người nộp thuế không được bỏ trống",
-              },
-            ],
-          },
-          {
-            dataField: "Loại giấy tờ",
-            editorType: "dxSelectBox",
-            label: {
-              text: "Loại giấy tờ",
-            },
-          },
-          {
-            label: {
-              text: "Họ tên",
-            },
-            editorOptions: {
-              placeholder: "Họ tên",
-            },
-            editorType: "dxTextBox",
-            validationRules: [
-              {
-                type: "required",
-                message: "Họ tên không được bỏ trống",
-              },
-            ],
-          },
-          {
-            label: {
-              text: "Số CMND",
-            },
-            editorOptions: {
-              placeholder: "Nhập số CMND/CCCD/Hộ chiếu",
-            },
-
-            editorType: "dxTextBox",
-            validationRules: [],
-          },
-          {
-            label: {
-              text: "Ngày sinh",
-            },
-            editorOptions: {
-              placeholder: "__/__/____",
-            },
-            editorType: "dxDateBox",
-            validationRules: [],
-          },
-          {
-            label: {
-              text: "Ngày cấp",
-            },
-            editorOptions: {
-              placeholder: "__/__/____",
-            },
-            editorType: "dxDateBox",
-            validationRules: [],
-          },
-          {
-            dataField: "Gender",
-            editorType: "dxRadioGroup",
-            editorOptions: {
-              items: [
-                { value: 0, text: "Nam" },
-                { value: 1, text: "Nữ" },
-              ],
-              layout: "horizontal", // Optional: Specify the layout of the radio buttons (horizontal or vertical)
-              defaultValue: 0,
-            },
-            label: {
-              text: "Giới tính",
-            },
-          },
-          {
-            label: {
-              text: "Nơi cấp",
-            },
-            editorOptions: {
-              placeholder: "Chọn/nhập nơi cấp",
-            },
-            editorType: "dxSelectBox",
-
-            validationRules: [],
-          },
-          {
-            label: {
-              text: "Số điện thoại",
-            },
-            editorOptions: {
-              placeholder: "Nhập số điện thoại",
-            },
-            editorType: "dxTextBox",
-            validationRules: [],
-          },
-          {
-            label: {
-              text: "Quốc tịch",
-            },
-
-            editorType: "dxSelectBox",
-            validationRules: [],
-          },
-          {
-            label: {
-              text: "Email",
-            },
-            editorOptions: {
-              placeholder: "Nhập email",
-            },
-            editorType: "dxTextBox",
-            validationRules: [
-              {
-                type: "required",
-                message: "Email không được bỏ trống",
-              },
-              // ko đúng định dạng email
-              {
-                type: "pattern",
-                pattern: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,
-                message: "Email không đúng định dạng",
-              },
-            ],
-          },
-          {
-            label: {
-              text: "Loại hợp đồng",
-            },
-
-            editorType: "dxSelectBox",
-            validationRules: [],
-          },
-        ],
-      },
-      {
-        itemType: "group",
-        caption: "Hộ khẩu thường trú",
-        colCount: 2,
-        items: [
-          {
-            dataField: "Password",
-            editorOptions: {
-              placeholder: "Việt Nam",
-            },
-            editorType: "dxSelectBox",
-            label: {
-              text: "Quốc gia",
-            },
-          },
-          {
-            dataField: "Password",
-            editorOptions: {
-              placeholder: "Chọn/nhập xã/phường",
-            },
-            editorType: "dxSelectBox",
-            label: {
-              text: "Xã/phường",
-            },
-          },
-          {
-            dataField: "Password",
-            editorOptions: {
-              placeholder: "Chọn/nhập tỉnh/thành phố",
-            },
-            editorType: "dxSelectBox",
-            label: {
-              text: "Tỉnh/thành phố",
-            },
-          },
-          {
-            dataField: "Password",
-            editorOptions: {
-              placeholder: "Nhập số nhà, đường/phố, thôn/xóm",
-            },
-            editorType: "dxSelectBox",
-            label: {
-              text: "Số nhà, đường/phố, thôn/xóm",
-            },
-          },
-          {
-            dataField: "Password",
-            editorOptions: {
-              placeholder: "Chọn/nhập quận, huyện",
-            },
-            editorType: "dxSelectBox",
-            label: {
-              text: "Quận/huyện",
-            },
-          },
-          {
-            dataField: "Password",
-            editorOptions: {
-              readOnly: true,
-            },
-            editorType: "dxTextBox",
-            label: {
-              text: "Địa chỉ",
-            },
-          },
-        ],
-      },
-      {
-        itemType: "group",
-        caption: "Chỗ ở hiện nay",
-        colCount: 2,
-        items: [
-          {
-            colSpan: 2,
-            editorType: "dxCheckBox",
-            value: true,
-            label: {
-              text: "Giống hộ khẩu thường trú",
-            },
-          },
-          {
-            dataField: "Password",
-            editorOptions: {
-              placeholder: "Việt Nam",
-            },
-            editorType: "dxSelectBox",
-            label: {
-              text: "Quốc gia",
-            },
-          },
-          {
-            dataField: "Password",
-            editorOptions: {
-              placeholder: "Chọn/nhập xã/phường",
-            },
-            editorType: "dxSelectBox",
-            label: {
-              text: "Xã/phường",
-            },
-          },
-          {
-            dataField: "Password",
-            editorOptions: {
-              placeholder: "Chọn/nhập tỉnh/thành phố",
-            },
-            editorType: "dxSelectBox",
-            label: {
-              text: "Tỉnh/thành phố",
-            },
-          },
-          {
-            dataField: "Password",
-            editorOptions: {
-              placeholder: "Nhập số nhà, đường/phố, thôn/xóm",
-            },
-            editorType: "dxSelectBox",
-            label: {
-              text: "Số nhà, đường/phố, thôn/xóm",
-            },
-          },
-          {
-            dataField: "Password",
-            editorOptions: {
-              placeholder: "Chọn/nhập quận, huyện",
-            },
-            editorType: "dxSelectBox",
-            label: {
-              text: "Quận/huyện",
-            },
-          },
-          {
-            dataField: "Password",
-            editorOptions: {
-              readOnly: true,
-            },
-            editorType: "dxTextBox",
-            label: {
-              text: "Địa chỉ",
-            },
-          },
-        ],
-      },
-    ],
-  },
-  {
-    itemType: "group",
-    caption: "THÔNG TIN CÔNG VIỆC",
-    colCount: 2,
-    items: [
-      {
-        dataField: "Bộ phận/phòng ban",
-        editorOptions: {
-          placeholder: "Chọn đối tượng",
-        },
-        editorType: "dxSelectBox",
-        label: {
-          text: "Bộ phận/phòng ban",
-        },
-      },
-      {
-        label: {
-          text: "Ngày học việc",
-        },
-        editorOptions: {
-          placeholder: "__/__/____",
-        },
-        editorType: "dxDateBox",
-        validationRules: [],
-      },
-      {
-        label: {
-          text: "Vị trí công việc",
-        },
-        editorOptions: {
-          placeholder: "Chọn/nhập vị trí công việc",
-        },
-        editorType: "dxSelectBox",
-        validationRules: [],
-      },
-      {
-        label: {
-          text: "Ngày thử việc",
-        },
-        editorOptions: {
-          placeholder: "__/__/____",
-        },
-        editorType: "dxDateBox",
-        validationRules: [],
-      },
-      {
-        label: {
-          text: "Chức danh",
-        },
-        editorOptions: {
-          readOnly: true,
-        },
-        editorType: "dxTextBox",
-        validationRules: [],
-      },
-      {
-        label: {
-          text: "Ngày chính thức",
-        },
-        editorOptions: {
-          placeholder: "__/__/____",
-        },
-        editorType: "dxDateBox",
-        validationRules: [],
-      },
-      {
-        label: {
-          text: "Trạng thái làm việc",
-        },
-        editorOptions: {
-          placeholder: "Chọn/nhập vị trí công việc",
-        },
-        editorType: "dxSelectBox",
-        validationRules: [],
-      },
-      {
-        label: {
-          text: "Ngày nghỉ việc",
-        },
-        editorOptions: {
-          placeholder: "__/__/____",
-        },
-        editorType: "dxDateBox",
-        validationRules: [],
-      },
-    ],
-  },
-
-  // {
-  //   itemType: "button",
-  //   horizontalAlignment: "left",
-  //   buttonOptions: {
-  //     text: "Register",
-  //     type: "success",
-  //     useSubmitBehavior: true,
-  //   },
-  // },
-];
+const formRefKey = "formRef";
 
 export default {
   components: {
     DxForm,
-    // eslint-disable-next-line vue/no-unused-components
-    DxRadioGroup,
+    DxPopup,
     ButtonWithIcon,
+    MTextBox,
+    MSelectBox,
+    MDateBox,
+    MRadioButton,
+    MCheckbox,
+  },
+  watch: {
+    /* Theo dõi khi tỉnh và huyện thay đổi thì lọc lại theo đúng ID */
+    "employee.NativeProvinceCode": function (newProvinceCode) {
+      this.districtsList = districtsList.filter(
+        (location) => location.ProvinceID === newProvinceCode
+      );
+    },
+    "employee.NativeDistrictCode": function (newDistrictCode) {
+      this.locationsList = locationsList.filter(
+        (location) => location.DistrictID === newDistrictCode
+      );
+    },
+    "employee.CurrentProvinceCode": function (newProvinceCode) {
+      this.currentDistrictsList = districtsList.filter(
+        (location) => location.ProvinceID === newProvinceCode
+      );
+    },
+    "employee.CurrentDistrictCode": function (newDistrictCode) {
+      this.currentLocationsList = locationsList.filter(
+        (location) => location.DistrictID === newDistrictCode
+      );
+    },
   },
   data() {
     return {
-      employee,
-      items,
-      positionEditorOptions: {
-        items: employee.EmployeeType,
-        searchEnabled: true,
-        value: employee.EmployeeType[0],
+      // Thông tin nhân viên
+      employee: {
+        EmployeeTypeId: 1,
+        IdentityTypeId: 1,
+        DateOfBirth: "",
+        TaxCode: "",
+        PersonalTaxCode: "",
+        FullName: "John Heart",
+        IdentityDate: "",
+        IdentityNumber: "",
+        IdentityPlace: "",
+        PhoneNumber: "",
+        Gender: 0,
+        NationalCode: 1,
+        NativeCountryCode: 1,
+        NativeProvinceCode: null,
+        NativeDistrictCode: null,
+        NativeWardCode: null,
+        NativeAddress: null,
+        CurrentCountryCode: 1,
+        CurrentCountryName: "Việt Nam",
+        CurrentProvinceCode: null,
+        CurrentDistrictCode: null,
+        CurrentWardCode: null,
+        CurrentAddress: null,
+        Email: null,
+        DepartmentName: "CÔNG TY CỔ PHẦN TEST QTT",
+        ProbationDate: null,
+        HireDate: null,
+        ReceiveDate: null,
+        ResignationDate: null,
+        PositionCode: null,
+        WorkStatus: 1,
       },
+      formRefKey,
+      // Data source cho các select box
+      employeeTypes,
+      workStatusesList,
+      positionsList,
+      identityTypes,
+      contractTypes,
+      countryList,
+      provincesList,
+      districtsList: null,
+      currentDistrictsList: null,
+      currentLocationsList: null,
+      locationsList: null,
+      // Data source cho các select box
+      taxCodeRef: null,
+
+      items,
+      // positionEditorOptions: {
+      //   items: employee.EmployeeType,
+      //   searchEnabled: true,
+      //  v-model: employee.EmployeeType[0],
+      // },
+      formComponents: [],
+      IsSameAddress: false,
+      popupValues: {},
+      popupItems,
+      buttonOptions: {
+        text: "Refresh",
+        onClick: function () {
+          /* ... */
+        },
+      },
+      toolbarItems: [
+        {
+          widget: "dxToolbar",
+          location: "after",
+          toolbar: "bottom",
+          options: {
+            items: [
+              {
+                widget: "dxButton",
+                options: {
+                  text: "Huỷ",
+                  onClick: this.closeFormPopup,
+                },
+                stylingMode: "contained",
+                elementAttr: {
+                  style: "font-weight: 600",
+                },
+              },
+              {
+                widget: "dxButton",
+
+                options: {
+                  cssClass: "save",
+                  text: "Đồng ý",
+                  onClick: this.closeFormPopup,
+                  stylingMode: "contained",
+                  elementAttr: {
+                    style:
+                      "background-color: #007aff; color: white; font-weight: 500",
+                  },
+                },
+              },
+            ],
+          },
+        },
+      ],
     };
+  },
+  computed: {
+    ...mapState("global", ["popupVisible"]),
+    popupTitle() {
+      return "Thêm thành viên gia đình";
+    },
+    form() {
+      return this.$refs[formRefKey].instance;
+    },
+    // Địa chỉ autocomplete dựa trên thông tin người dùng chọn
+    nativeAutoAddress() {
+      let provinceName = this.provincesList.find(
+        (province) => province.ProvinceID === this.employee.NativeProvinceCode
+      )?.LocationName;
+
+      let districtName = this.districtsList?.find(
+        (district) => district.DistrictID === this.employee.NativeDistrictCode
+      )?.LocationName;
+
+      let wardName = this.locationsList?.find(
+        (ward) => ward.LocationID === this.employee.NativeWardCode
+      )?.LocationName;
+
+      return `${
+        this.employee.NativeAddress ? this.employee.NativeAddress + ", " : ""
+      }${wardName ? wardName + ", " : ""}${
+        districtName ? districtName + ", " : ""
+      }${provinceName ? provinceName + ", " : ""}${
+        this.employee.CurrentCountryName
+      }`;
+    },
+    // Địa chỉ hiện tại autocomplete dựa trên thông tin người dùng chọn
+    currentAutoAddress() {
+      let provinceName = this.provincesList.find(
+        (province) => province.ProvinceID === this.employee.CurrentProvinceCode
+      )?.LocationName;
+
+      let districtName = this.districtsList?.find(
+        (district) => district.DistrictID === this.employee.CurrentDistrictCode
+      )?.LocationName;
+
+      let wardName = this.locationsList?.find(
+        (ward) => ward.LocationID === this.employee.CurrentWardCode
+      )?.LocationName;
+
+      return `${
+        this.employee.CurrentAddress ? this.employee.CurrentAddress + ", " : ""
+      }${wardName ? wardName + ", " : ""}${
+        districtName ? districtName + ", " : ""
+      }${provinceName ? provinceName + ", " : ""}${
+        this.employee.CurrentCountryName
+      }`;
+    },
+    isTaxCodeEmpty() {
+      return this.employee.TaxCode === "";
+    },
+  },
+  methods: {
+    ...mapActions("global", ["openFormPopup", "closeFormPopup"]),
+    onPopupContentReady() {
+      console.log("Popup content is ready");
+    },
+    onPopupHidden() {
+      console.log("Popup is hidden");
+    },
+    /**
+     * Thực hiện validate tất cả các component con
+     * Created by: dgbao (19/08/2023)
+     */
+    saveForm() {
+      let isValid = true;
+
+      // Lặp qua từng component MyTextBox và validate
+      this.$children.forEach((child) => {
+        if (child.$options.name === "MyTextBox") {
+          child.validate(); // Call the validate method of MyTextBox component
+
+          if (!child.isValid) {
+            isValid = false;
+          }
+        }
+      });
+
+      if (isValid) {
+        console.log("Form is valid, saving data...");
+        console.log(this.employee);
+      } else {
+        console.log("Form is invalid");
+      }
+    },
+    // Danh sách các validation rule
+
+    /**
+     * Kiểm tra value chỉ được chứa các số
+     * @param {String} value
+     * Created by: dgbao (19/08/2023)
+     */
+    validateNumberInput(value) {
+      let regex = /^[0-9]*$/;
+      console.log(this);
+
+      if (regex.test(value)) {
+        return {
+          isValid: true,
+          message: "",
+        };
+      } else {
+        return {
+          isValid: false,
+          message: `Số CMND/CCCD không đúng định dạng`,
+        };
+      }
+    },
   },
 };
 </script>
 
-<style lang="scss">
-@import url(./FormDetails.scss);
-.form-body-container {
-  height: 100%;
-  width: 100%;
-  background-color: #fff;
-  padding: 24px;
-}
+<style lang="scss" scoped>
+@import url(../../assets/style/view/PersonalTaxForm/FormDetails.scss);
 </style>

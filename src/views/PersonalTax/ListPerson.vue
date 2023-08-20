@@ -264,6 +264,7 @@ export default {
      * */
     handleCheckedIds(ids) {
       this.checkedIds = ids;
+      console.log(this.checkedIds);
     },
     /**
      * Xử lí xoá tất cả các selection

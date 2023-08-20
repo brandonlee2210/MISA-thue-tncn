@@ -39,7 +39,7 @@
         >
           <li
             class="item-dragg px-2 py-2 justify-between align-center display-flex"
-            v-for="(element, idx) in localColumns"
+            v-for="element in localColumns"
             :class="{ item: !element.fixed }"
             :key="element.caption"
           >
@@ -81,12 +81,9 @@
                 ]"
               ></i>
               <i
-                data-v-01da9748=""
                 aria-hidden="true"
                 class="handle v-icon notranslate icon icon-draggable ml-2 ico ico-dragg-handle theme--light"
               ></i>
-
-              <i class="fa fa-times close" @click="removeAt(idx)"></i>
             </div>
           </li>
         </draggable>
@@ -114,7 +111,6 @@
 </template>
 
 <script>
-// let id = 3;
 import draggable from "vuedraggable";
 import { DxTextBox, DxButton } from "devextreme-vue";
 
@@ -137,7 +133,6 @@ export default {
   watch: {
     list: {
       handler: function (val) {
-        console.log(val);
         this.localColumns = JSON.parse(JSON.stringify(val));
       },
       deep: true,
