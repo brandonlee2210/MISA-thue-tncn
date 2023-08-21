@@ -21,7 +21,6 @@ export default {
   props: {
     value: {
       type: Boolean,
-      required: true,
     },
     label: {
       type: String,
@@ -40,9 +39,19 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .checkbox-group {
   grid-column: 1 / span 2;
   justify-content: unset;
+}
+
+.checkbox-group {
+  .item__label {
+    width: 192px;
+  }
+  .item__input {
+    width: 35%;
+    padding-top: 6px;
+  }
 }
 </style>

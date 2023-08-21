@@ -35,6 +35,10 @@ body {
   align-items: center;
 }
 
+.justify-center {
+  justify-content: center !important;
+}
+
 .justify-between {
   justify-content: space-between !important;
 }
@@ -169,4 +173,12 @@ input[type="number"] {
 
 .mr-3 {
   margin-right: 12px !important;
+}
+
+.text-lg-body-2 {
+  font-size: 14px !important;
+  color: #212121 !important;
+  line-height: 20px !important;
+  cursor: default;
+  letter-spacing: unset !important;
 }

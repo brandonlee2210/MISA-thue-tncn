@@ -1,5 +1,5 @@
 <template>
-  <div class="form-group-item-container">
+  <div class="form-group-item-container radio">
     <div class="item__label">{{ label }}</div>
     <div class="item__input">
       <dx-radio-group
@@ -35,7 +35,6 @@ export default {
     },
     value: {
       type: [String, Number],
-      required: true,
     },
     label: {
       type: String,
@@ -51,12 +50,13 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.form-group-item-container {
+<style lang="scss" scoped>
+.form-group-item-container.radio {
   align-items: center;
 
   .item__label {
     margin-top: 0 !important;
+    padding-top: 8px;
   }
 }
 </style>

@@ -9,6 +9,29 @@ export const employeeTypes = [
   },
 ];
 
+export const relationshipsTypes = [
+  {
+    id: 1,
+    text: "Bố",
+  },
+  {
+    id: 2,
+    text: "Mẹ",
+  },
+  {
+    id: 3,
+    text: "Vợ",
+  },
+  {
+    id: 4,
+    text: "Chồng",
+  },
+  {
+    id: 5,
+    text: "Con",
+  },
+];
+
 export const workStatusesList = [
   {
     id: 1,

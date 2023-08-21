@@ -14,7 +14,7 @@
         :ref="textBoxRef"
         @change="validate"
         @focusOut="validate"
-        :maxLength="maxLength"
+        :max-length="maxLength"
         :readOnly="isReadOnly"
       />
 
@@ -141,7 +141,7 @@ export default {
     width: 200px;
     margin-right: 16px;
     margin-top: 10px;
-    padding-top: 10px;
+
     height: 36px;
   }
 

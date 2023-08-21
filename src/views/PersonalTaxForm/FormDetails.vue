@@ -23,14 +23,14 @@
         ref="taxCodeRef"
       />
       <MTextBox
-        v-model="employee.PersonalTaxCode"
+        v-model="employee.EmployeeCode"
         placeholder="Nhập mã người nộp thuế"
         label="Mã người nộp thuế"
         :isRequired="true"
       />
       <MSelectBox
         :items="identityTypes"
-        v-model="employee.IdentityTypeId"
+        v-model="employee.IdentifyKindOfPaperID"
         label="Loại giấy tờ"
       />
       <MTextBox
@@ -71,7 +71,7 @@
       />
       <MSelectBox
         :items="provincesList"
-        v-model="employee.IdentityPlace"
+        v-model="employee.IdentityPlaceID"
         valueExpr="ProvinceID"
         displayExpr="LocationName"
         label="Nơi cấp"
@@ -85,7 +85,7 @@
       />
       <MSelectBox
         :items="countryList"
-        v-model="employee.NationalCode"
+        v-model="employee.NationalityID"
         label="Quốc tịch"
       />
 
@@ -250,13 +250,12 @@
       @hidden="closeFormPopup"
       :toolbar-items="toolbarItems"
     >
-      <dx-form :formData="popupValues" :items="popupItems"></dx-form>
+      <PopUp />
     </DxPopup>
   </div>
 </template>
 
 <script>
-import { DxForm } from "devextreme-vue/form";
 import { DxPopup } from "devextreme-vue/popup";
 import ButtonWithIcon from "@/components/base/button/ButtonWithIcon.vue";
 import { mapState, mapActions } from "vuex";
@@ -271,19 +270,18 @@ import {
   districtsList,
   positionsList,
   items,
-  popupItems,
 } from "./data.js";
 import MTextBox from "@/components/base/input/MTextBox.vue";
 import MSelectBox from "@/components/base/select-box/MSelectBox.vue";
 import MDateBox from "@/components/base/input/MDateBox.vue";
 import MRadioButton from "@/components/base/radio/MRadioButton.vue";
 import MCheckbox from "@/components/base/input/MCheckbox.vue";
+import PopUp from "./PopUp.vue";
 
 const formRefKey = "formRef";
 
 export default {
   components: {
-    DxForm,
     DxPopup,
     ButtonWithIcon,
     MTextBox,
@@ -291,8 +289,29 @@ export default {
     MDateBox,
     MRadioButton,
     MCheckbox,
+    PopUp,
   },
   watch: {
+    // Thực hiện lưu trữ thêm dữ liệu với những trường trong table
+    "employee.Gender": function (newGender) {
+      this.employee.GenderName = newGender === 0 ? "Nam" : "Nữ";
+    },
+    "employee.EmployeeTypeId": function (newEmployeeTypeId) {
+      this.employee.EmployeeTypeName = employeeTypes.find(
+        (employeeType) => employeeType.id === newEmployeeTypeId
+      ).text;
+    },
+    "employee.ContractTypeId": function (newContractTypeId) {
+      this.employee.ConstractTypeName = contractTypes.find(
+        (contractType) => contractType.id === newContractTypeId
+      ).text;
+    },
+    "employee.PositionCode": function (newPositionCode) {
+      console.log(this.employee);
+      this.employee.PositionName = positionsList.find(
+        (position) => position.id === newPositionCode
+      ).text;
+    },
     /* Theo dõi khi tỉnh và huyện thay đổi thì lọc lại theo đúng ID */
     "employee.NativeProvinceCode": function (newProvinceCode) {
       this.districtsList = districtsList.filter(
@@ -320,17 +339,22 @@ export default {
       // Thông tin nhân viên
       employee: {
         EmployeeTypeId: 1,
-        IdentityTypeId: 1,
+        EmployeeTypeName: "",
+        IdentifyKindOfPaperID: 1,
         DateOfBirth: "",
         TaxCode: "",
-        PersonalTaxCode: "",
+        EmployeeCode: "",
         FullName: "John Heart",
-        IdentityDate: "",
+        IdentityDate:
+          "Tue Aug 10 2023 00:00:00 GMT+0700 (Western Indonesia Time",
         IdentityNumber: "",
-        IdentityPlace: "",
+        IdentityPlaceID: "",
         PhoneNumber: "",
         Gender: 0,
-        NationalCode: 1,
+        GenderName: "",
+        ContractTypeId: 1,
+        ConstractTypeName: "",
+        NationalityID: 1,
         NativeCountryCode: 1,
         NativeProvinceCode: null,
         NativeDistrictCode: null,
@@ -349,6 +373,7 @@ export default {
         ReceiveDate: null,
         ResignationDate: null,
         PositionCode: "",
+        PositionName: "",
         WorkStatus: 1,
       },
       formRefKey,
@@ -361,9 +386,10 @@ export default {
       countryList,
       provincesList,
       districtsList: null,
+      locationsList: null,
       currentDistrictsList: null,
       currentLocationsList: null,
-      locationsList: null,
+
       // Data source cho các select box
       taxCodeRef: null,
 
@@ -376,13 +402,6 @@ export default {
       formComponents: [],
       IsSameAddress: false,
       popupValues: {},
-      popupItems,
-      buttonOptions: {
-        text: "Refresh",
-        onClick: function () {
-          /* ... */
-        },
-      },
       toolbarItems: [
         {
           widget: "dxToolbar",

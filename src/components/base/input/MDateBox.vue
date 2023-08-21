@@ -35,7 +35,6 @@ export default {
   },
   data() {
     return {
-      value: null,
       validationResult: {
         isValid: true,
         message: "",
@@ -47,6 +46,10 @@ export default {
     };
   },
   props: {
+    value: {
+      type: Date,
+      default: null,
+    },
     isRequired: {
       type: Boolean,
       default: false,
@@ -79,7 +82,6 @@ export default {
      */
     handleInput(event) {
       const newValue = event.value;
-      this.value = newValue;
       console.log("newValue", new Date(newValue));
 
       this.validate();
@@ -133,7 +135,6 @@ export default {
     margin-right: 16px;
     margin-top: 10px;
     height: 36px;
-    padding-top: 10px;
   }
 
   .item__input {
