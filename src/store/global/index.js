@@ -4,6 +4,9 @@ import mutations from "./mutations";
 
 const state = {
   popupVisible: false,
+  isToastMessageVisible: true,
+  toastMessageProps: "",
+  isSideBarToggled: false,
 };
 
 export default {

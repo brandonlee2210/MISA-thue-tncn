@@ -68,10 +68,11 @@
     />
     <MSelectBox
       :items="provincesList"
-      v-model="relative.FamilyPermanentAddressProvinceID"
+      v-model="relative.ProvinceID"
       valueExpr="ProvinceID"
       displayExpr="LocationName"
       label="Tỉnh/thành phố"
+      placeholder="Chọn/nhập tỉnh/thành phố"
     />
 
     <MTextBox
@@ -80,37 +81,18 @@
       label="Quyển số"
     />
     <MSelectBox
-      :items="permanentDistrictsList"
-      v-model="relative.FamilyPermanentAddressDistrictID"
+      :items="districtsList"
+      v-model="relative.DistrictID"
       valueExpr="DistrictID"
       displayExpr="LocationName"
       label="Quận/huyện"
+      placeholder="Chọn/nhập quận/huyện"
     />
+
     <MDateBox
       v-model="relative.BirthCertificationIssueDate"
       placeholder="__/__/____"
       label="Ngày cấp giấy khai sinh"
-    />
-    <MSelectBox
-      :items="permanentLocationsList"
-      v-model="relative.FamilyPermanentAddressWardID"
-      :valueExpr="'LocationID'"
-      :displayExpr="'LocationName'"
-      label="Xã phường"
-    />
-    <MSelectBox
-      :items="countryList"
-      v-model="relative.CountryID"
-      label="Quốc gia"
-    />
-    <div class="row mt-4 pl-3 header-dialog">HỘ KHẨU THƯỜNG TRÚ</div>
-    <MSelectBox
-      :items="provincesList"
-      v-model="relative.ProvinceID"
-      valueExpr="ProvinceID"
-      displayExpr="LocationName"
-      label="Tỉnh/thành phố"
-      placeholder="Chọn/nhập tỉnh/thành phố"
     />
     <MSelectBox
       :items="locationsList"
@@ -120,13 +102,35 @@
       label="Xã phường"
       placeholder="Chọn/nhập xã/phường"
     />
+
     <MSelectBox
-      :items="districtsList"
-      v-model="relative.DistrictID"
+      :items="countryList"
+      v-model="relative.CountryID"
+      label="Quốc gia"
+    />
+    <div class="row mt-4 pl-3 header-dialog">HỘ KHẨU THƯỜNG TRÚ</div>
+    <MSelectBox
+      :items="provincesList"
+      v-model="relative.FamilyPermanentAddressProvinceID"
+      valueExpr="ProvinceID"
+      displayExpr="LocationName"
+      label="Tỉnh/thành phố"
+    />
+
+    <MSelectBox
+      :items="permanentLocationsList"
+      v-model="relative.FamilyPermanentAddressWardID"
+      :valueExpr="'LocationID'"
+      :displayExpr="'LocationName'"
+      label="Xã phường"
+    />
+
+    <MSelectBox
+      :items="permanentDistrictsList"
+      v-model="relative.FamilyPermanentAddressDistrictID"
       valueExpr="DistrictID"
       displayExpr="LocationName"
       label="Quận/huyện"
-      placeholder="Chọn/nhập quận/huyện"
     />
     <MTextBox
       v-model="relative.StreatHouseNumber"
@@ -254,13 +258,12 @@ export default {
         RelationshipName: "Con gái",
         IdentifyKindOfPaperID: 1,
         IdentifyKindOfPaperName: "CMND",
-        IdentifyPaperNumber: "",
         Gender: 1,
         GenderName: "Nam",
         IdentityNumber: null,
         IdentityDate: null,
         IdentityPlaceID: null,
-        IdentityNumberIssuedPlaceName: null,
+        IdentityPlaceName: null,
         DependentNumber: "",
         NumberBook: "",
         BirthCertificationIssueDate: null,
@@ -312,15 +315,42 @@ export default {
   },
   methods: {
     /**
+     * Thực hiện validate tất cả các component con
+     * Created by: dgbao (19/08/2023)
+     */
+    validate() {
+      let isValid = true;
+
+      // Lặp qua từng component MyTextBox và validate
+      this.$children.forEach((child) => {
+        if (
+          child.$options.name === "MTextBox" ||
+          child.$options.name === "MSelectBox" ||
+          child.$options.name === "MDateBox"
+        ) {
+          child.validate(); // Call the validate method of MyTextBox component
+
+          if (!child.isValid) {
+            isValid = false;
+          }
+        }
+      });
+
+      if (isValid) {
+        console.log("Form is valid, saving data...");
+      } else {
+        console.log("Form is invalid");
+      }
+    },
+    /**
      * Kiểm tra value chỉ được chứa các số
      * @param {String} value
      * Created by: dgbao (19/08/2023)
      */
     validateNumberInput(value) {
       let regex = /^[0-9]*$/;
-      console.log(this);
 
-      if (regex.test(value)) {
+      if (regex.test(value) || value === "" || value === null) {
         return {
           isValid: true,
           message: "",
@@ -332,6 +362,14 @@ export default {
         };
       }
     },
+    /**
+     * Lấy ra dữ liệu các thành viên trong gia đình
+     * Created by: dgbao (19/08/2023)
+     */
+    getMemberData() {
+      return this.relative;
+    },
+    handleAddFamilyMember() {},
   },
 };
 </script>

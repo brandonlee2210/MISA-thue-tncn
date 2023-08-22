@@ -19,8 +19,7 @@ export default {
   },
   props: {
     value: {
-      type: String,
-      required: true,
+      type: [String, Number],
     },
     label: {
       type: String,

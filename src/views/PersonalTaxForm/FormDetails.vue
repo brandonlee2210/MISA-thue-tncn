@@ -5,7 +5,7 @@
       class="row mt-11 pb-6 d-flex pl-3 align-center pr-3"
       style="justify-content: space-between"
     >
-      <span class="text-lg-h3" @click="saveForm">THÔNG TIN CHUNG</span>
+      <span class="text-lg-h3">THÔNG TIN CHUNG</span>
     </div>
     <form class="form">
       <div class="row ma-0 pa-0">
@@ -13,7 +13,7 @@
       </div>
       <MSelectBox
         :items="employeeTypes"
-        v-model="employee.EmployeeTypeId"
+        v-model="employee.EmployeeTypeID"
         label="Loại đối tượng"
       />
       <MTextBox
@@ -240,6 +240,7 @@
     >
       <span>Chưa có thông tin gia đình</span>
     </section>
+    <div class="ma-0 pa-0 mt-4"></div>
     <DxPopup
       :show-title="true"
       :title="popupTitle"
@@ -250,7 +251,7 @@
       @hidden="closeFormPopup"
       :toolbar-items="toolbarItems"
     >
-      <PopUp />
+      <PopUp ref="popupRef" />
     </DxPopup>
   </div>
 </template>
@@ -296,9 +297,9 @@ export default {
     "employee.Gender": function (newGender) {
       this.employee.GenderName = newGender === 0 ? "Nam" : "Nữ";
     },
-    "employee.EmployeeTypeId": function (newEmployeeTypeId) {
+    "employee.EmployeeTypeID": function (newEmployeeTypeID) {
       this.employee.EmployeeTypeName = employeeTypes.find(
-        (employeeType) => employeeType.id === newEmployeeTypeId
+        (employeeType) => employeeType.id === newEmployeeTypeID
       ).text;
     },
     "employee.ContractTypeId": function (newContractTypeId) {
@@ -338,7 +339,7 @@ export default {
     return {
       // Thông tin nhân viên
       employee: {
-        EmployeeTypeId: 1,
+        EmployeeTypeID: 1,
         EmployeeTypeName: "",
         IdentifyKindOfPaperID: 1,
         DateOfBirth: "",
@@ -375,7 +376,9 @@ export default {
         PositionCode: "",
         PositionName: "",
         WorkStatus: 1,
+        UnofficialStaffRelationships: [],
       },
+      popupRef: null,
       formRefKey,
       // Data source cho các select box
       employeeTypes,
@@ -426,7 +429,7 @@ export default {
                 options: {
                   cssClass: "save",
                   text: "Đồng ý",
-                  onClick: this.closeFormPopup,
+                  onClick: this.handleAddFamilyMember,
                   stylingMode: "contained",
                   elementAttr: {
                     style:
@@ -533,8 +536,20 @@ export default {
         console.log("Form is invalid");
       }
     },
-    // Danh sách các validation rule
+    /**
+     * Thêm thành viên gia đình
+     * Created by: dgbao (19/08/2023)
+     */
+    handleAddFamilyMember() {
+      let popup = this.$refs.popupRef;
+      popup.validate();
 
+      let memberData = popup.getMemberData();
+
+      this.employee.UnofficialStaffRelationships.push(memberData);
+      console.log(this.employee);
+    },
+    // Danh sách các validation rul
     /**
      * Kiểm tra value chỉ được chứa các số
      * @param {String} value

@@ -95,5 +95,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import url(./EmployeeManager.scss);
+@import url(../../assets/style/view/EmployeeManager/EmployeeManager.scss);
 </style>

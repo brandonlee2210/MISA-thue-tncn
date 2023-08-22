@@ -1,5 +1,7 @@
 <template>
   <div class="container">
+    <MToastMessage :title="'hello'" :type="'success'" />
+
     <TheHeader />
     <div class="content-container">
       <TheSidebar />
@@ -12,6 +14,8 @@
 import TheHeader from "@/components/layout/TheHeader.vue";
 import TheSidebar from "@/components/layout/TheSidebar.vue";
 import ThePage from "@/components/layout/ThePage.vue";
+import MToastMessage from "@/components/base/toast-message/MToastMessage.vue";
+import MDialog from "./components/base/dialog/MDialog.vue";
 
 export default {
   name: "HomeView",
@@ -19,6 +23,10 @@ export default {
     TheHeader,
     TheSidebar,
     ThePage,
+    MToastMessage,
+
+    // eslint-disable-next-line vue/no-unused-components
+    MDialog,
   },
 };
 </script>

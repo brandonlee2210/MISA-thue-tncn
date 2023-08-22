@@ -1,0 +1,55 @@
+.page {
+  background: white;
+  width: 100%;
+}
+
+.page__header {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: var(--main-background-color);
+  font-weight: 900;
+}
+
+.left-header {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.left-header .icon {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.left-header .title {
+  font-weight: 700;
+  font-size: 24px;
+  color: #1f1f20;
+}
+
+.right-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.right-header .more {
+  background: white;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
+}
+
+.right-header .more img {
+  width: 16px;
+}/*# sourceMappingURL=ThePage.css.map */

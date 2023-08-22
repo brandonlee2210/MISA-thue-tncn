@@ -189,5 +189,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import url(./DraggableMenu.scss);
+@import url(../../../assets/style/base/draggable/DraggableMenu.scss);
 </style>

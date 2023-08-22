@@ -47,7 +47,7 @@ export default {
   },
   props: {
     value: {
-      type: Date,
+      type: String,
       default: null,
     },
     isRequired: {
@@ -107,6 +107,7 @@ export default {
     },
     isValidDate(value) {
       // kiểm tra có nho hơn ngày hiện tại hay không
+      value = new Date(value);
       if (value < new Date()) {
         return true;
       }

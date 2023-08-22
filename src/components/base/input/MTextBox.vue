@@ -62,7 +62,7 @@ export default {
     },
     // Giá trị của input
     value: {
-      type: String,
+      type: [String, Number, null],
       default: "",
     },
     isReadOnly: {

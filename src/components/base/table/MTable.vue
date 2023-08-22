@@ -4,7 +4,7 @@
     <DxDataGrid
       :data-source="dataSource"
       :allow-column-reordering="false"
-      key-expr="ID"
+      key-expr="EmployeeID"
       :column-auto-width="true"
       :allow-column-resizing="true"
       column-resizing-mode="widget"
@@ -246,7 +246,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import url(./MTable.scss);
+@import url(../../../assets/style/base/table/MTable.scss);
 
 #table-container {
   height: 100%;

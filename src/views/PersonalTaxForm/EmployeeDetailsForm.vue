@@ -24,7 +24,7 @@ export default {
      * Xử lý sự kiện lưu
      */
     handleSave() {
-      console.log(this.$refs[formDetailsRef].$refs.formComponents);
+      this.$refs[formDetailsRef].saveForm();
     },
   },
 };
