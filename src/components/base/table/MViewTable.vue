@@ -13,7 +13,6 @@
       :ref="dataGridRef"
       :hoverStateEnabled="true"
       @selection-changed="getSelectedData"
-      :onCellDblClick="openFormView"
     >
       <DxColumn
         :height="88"
@@ -257,14 +256,8 @@ export default {
       // Gửi lên list mới
       this.$emit("change-pin", localColumns);
     },
-    /**
-     * Mở form view chi tiết nhân viên
-     * @param {*} event
-     * Created by: dgbao (17/08/2023)
-     */
-    openFormView(event) {
-      let key = event.key;
-      this.$router.push(`/tax/view`);
+    test() {
+      console.log(this.$props.dataSource);
     },
   },
   // ...

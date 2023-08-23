@@ -51,8 +51,9 @@
                 <i
                   aria-hidden="true"
                   :class="[
-                    'v-icon notranslate mintax mintax-on-check-box  theme--light primary--text',
+                    'v-icon notranslate mintax theme--light primary--text',
                     { 'mintax-off-check-box': !element.checked },
+                    { 'mintax-on-check-box': element.checked },
                   ]"
                 ></i
                 ><input
@@ -96,7 +97,7 @@
         type="button"
         text="Mặc định"
         class="default"
-        style="height: 36px; width: 80px"
+        style="height: 36px"
         @click="handleDefaultSetting"
       />
       <DxButton
@@ -156,6 +157,7 @@ export default {
      * Created by: dgbao (17/08/2023)
      * */
     handleChangeInput(element) {
+      console.log(element);
       element.checked = !element.checked;
     },
     /**

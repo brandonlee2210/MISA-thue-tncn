@@ -1,0 +1,199 @@
+.container-filter {
+  width: 330px;
+  height: calc(100vh - 56px);
+  background: #fff;
+  position: fixed;
+  right: 0;
+  top: 56px;
+  z-index: 1000;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.06);
+
+  .header-filter {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding: 16px 16px 0 16px !important;
+
+    .title {
+      font-size: 17.5px !important;
+      font-weight: 500;
+      letter-spacing: 0.0125em !important;
+      line-height: 2rem;
+      font-family: Roboto, sans-serif !important;
+    }
+  }
+
+  .content-filter {
+    height: calc(100% - 130px);
+    padding: 0 16px 0 16px !important;
+    gap: 12px;
+    display: flex;
+    flex-direction: column;
+
+    .row-content {
+      .row-fitler {
+        height: 42px !important;
+      }
+
+      .v-input--selection-controls__input:hover
+        .v-input--selection-controls__ripple:before {
+        background: currentColor;
+        transform: scale(1.2);
+        transition: none;
+      }
+
+      .v-input--selection-controls__ripple:before {
+        border-radius: inherit;
+        bottom: 0;
+        content: "";
+        position: absolute;
+        opacity: 0.2;
+        left: 0;
+        right: 0;
+        top: 0;
+        transform-origin: center center;
+        transform: scale(0.2);
+        transition: inherit;
+      }
+    }
+
+    .row-content.active {
+      background-color: #f5f6f8;
+      border-radius: 4px;
+
+      .form-group-item-container {
+        padding-bottom: 6px;
+        margin-bottom: 6px;
+        .item__label {
+          display: none;
+        }
+
+        .item__input {
+          flex-direction: row;
+
+          .dx-widget.dx-collection {
+            flex-wrap: nowrap;
+            white-space: nowrap;
+          }
+        }
+      }
+
+      /* background: url(https://amisplatform.misacdn.net/apps/mintax/img/check-checkbox.1abdccd9.svg) */
+    }
+  }
+  .footer-filter {
+    padding: 16px;
+    border-top: 1px solid #e0e2eb;
+
+    .misa-contain-action {
+      justify-content: flex-end;
+      gap: 8px;
+    }
+  }
+}
+
+.mi-close,
+.mi-delete {
+  cursor: pointer;
+  width: 24px !important;
+  height: 24px !important;
+  -webkit-mask-image: url(https://amisplatform.misacdn.net/apps/mintax/img/icon.4ca9813a.svg);
+  -moz-mask-image: url(https://amisplatform.misacdn.net/apps/mintax/img/icon.4ca9813a.svg);
+  -ms-mask-image: url(https://amisplatform.misacdn.net/apps/mintax/img/icon.4ca9813a.svg);
+  -o-mask-image: url(https://amisplatform.misacdn.net/apps/mintax/img/icon.4ca9813a.svg);
+  mask-image: url(https://amisplatform.misacdn.net/apps/mintax/img/icon.4ca9813a.svg);
+  -webkit-mask-repeat: no-repeat;
+  -moz-mask-repeat: no-repeat;
+  -ms-mask-repeat: no-repeat;
+  -o-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  background-color: #8f94ab !important;
+}
+
+.mi-close {
+  mask-position: -232px -24px;
+}
+
+:after,
+:before {
+  text-decoration: inherit;
+  vertical-align: inherit;
+}
+
+.v-input--selection-controls__ripple {
+  outline: none;
+  height: 30px;
+  width: 30px;
+  left: -10px;
+  top: calc(50% - 22px);
+  color: #a7a7a7 !important;
+
+  border-radius: 50%;
+  cursor: pointer;
+  height: 30px;
+  position: absolute;
+  transition: inherit;
+  width: 30px;
+  left: -12px;
+  top: calc(50% - 22px);
+  margin: 7px;
+}
+
+.v-input--selection-controls__input {
+  color: inherit;
+  display: inline-flex;
+  flex: 0 0 auto;
+  height: 24px;
+  position: relative;
+  transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+  transition-property: transform;
+  width: 24px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.mintax-on-check-box:before {
+  content: "";
+  background: url(https://amisplatform.misacdn.net/apps/mintax/img/check-checkbox.1abdccd9.svg)
+    no-repeat;
+  background-image: url(https://amisplatform.misacdn.net/apps/mintax/img/check-checkbox.1abdccd9.svg);
+  background-position-x: initial;
+  background-position-y: initial;
+  background-size: initial;
+  background-repeat: no-repeat;
+  background-attachment: initial;
+  background-origin: initial;
+  background-clip: initial;
+  background-color: initial;
+  width: 20px;
+  height: 20px;
+  background-size: 20px;
+}
+
+.dx-button {
+  font-weight: 500;
+  font-size: 14px !important;
+  letter-spacing: normal;
+  text-indent: 0;
+  height: 36px;
+  min-width: 80px;
+  text-transform: none !important;
+
+  display: flex;
+  padding-left: 6px;
+  padding-right: 6px;
+
+  border-width: 1px;
+
+  &.save {
+    background-color: var(--primary-color);
+    border: none;
+    color: white;
+  }
+
+  &.save.disabled {
+    opacity: 0.5;
+  }
+}

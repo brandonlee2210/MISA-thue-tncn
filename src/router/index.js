@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import TaxView from "../views/PersonalTax/TaxView.vue";
 import EmployeeDetailsForm from "../views/PersonalTaxForm/EmployeeDetailsForm.vue";
+import EmployeeInformation from "@/views/PersonalTaxForm/EmployeeInformation.vue";
 
 Vue.use(VueRouter);
 
@@ -21,6 +22,10 @@ const routes = [
       {
         path: "add",
         component: EmployeeDetailsForm,
+      },
+      {
+        path: "view",
+        component: EmployeeInformation,
       },
     ],
   },

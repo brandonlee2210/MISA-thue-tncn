@@ -1,7 +1,10 @@
 <template>
-  <div class="form-group-item-container">
-    <div class="item__label">
-      {{ label }}<span v-if="isRequired" class="text-lg-error">*</span>
+  <div class="form-group-item-container" :class="{ view: formMode == 'view' }">
+    <div class="item__label" :class="{ view: formMode == 'view' }">
+      {{ label
+      }}<span v-if="isRequired && formMode !== 'view'" class="text-lg-error"
+        >*</span
+      >
     </div>
     <div class="item__input">
       <DxTextBox
@@ -16,15 +19,23 @@
         @focusOut="validate"
         :max-length="maxLength"
         :readOnly="isReadOnly"
+        v-if="formMode == 'add'"
       />
 
-      <div v-if="!isValid" class="error-message">{{ validationError }}</div>
+      <div v-if="formMode == 'view'" class="misa-info-binding">
+        <span class="text-lg-body-1">{{ value || "-" }}</span>
+      </div>
+
+      <div v-if="!isValid && formMode != 'view'" class="error-message">
+        {{ validationError }}
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { DxTextBox } from "devextreme-vue";
+import { mapState } from "vuex";
 
 const textBoxRef = "texBoxRef";
 
@@ -89,6 +100,7 @@ export default {
     hasErrors() {
       return !this.isValid && this.validationError !== "";
     },
+    ...mapState("employee", ["formMode"]),
   },
   methods: {
     /**
@@ -143,6 +155,12 @@ export default {
     margin-top: 10px;
 
     height: 36px;
+
+    &.view {
+      margin-top: 0px !important;
+      display: flex;
+      align-items: center;
+    }
   }
 
   .item__input {
@@ -163,6 +181,26 @@ export default {
     line-height: 19px !important;
     cursor: default;
     letter-spacing: unset !important;
+  }
+
+  .misa-info-binding {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border-bottom: 1px solid #e9ebee;
+
+    font-weight: 500 !important;
+    font-size: 14px !important;
+    color: #454545 !important;
+    line-height: 21px !important;
+    cursor: default;
+    letter-spacing: unset !important;
+
+    .text-lg-body-1 {
+      height: 21px;
+      width: 100%;
+    }
   }
 
   .dx-state-focused {

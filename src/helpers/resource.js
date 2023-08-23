@@ -146,6 +146,7 @@ const MISAResource = {
       {
         checked: true,
         caption: "Trạng thái làm việc",
+        visible: false,
         dataField: "WorkStatus",
         width: "200",
       },

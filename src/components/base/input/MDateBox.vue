@@ -28,6 +28,7 @@
 
 <script>
 import { DxDateBox } from "devextreme-vue";
+import { locale } from "devextreme/localization";
 export default {
   name: "MDateBox",
   components: {
@@ -113,6 +114,9 @@ export default {
       }
       return false;
     },
+  },
+  created() {
+    locale("vi");
   },
 };
 </script>

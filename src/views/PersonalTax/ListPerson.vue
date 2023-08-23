@@ -10,6 +10,7 @@
       v-on:deselect="handleDeselect"
     />
     <div class="table__container">
+      <m-loading />
       <MTable
         v-on:onselected="handleCheckedIds"
         ref="tableRef"
@@ -18,7 +19,7 @@
         :columns="columns"
       />
     </div>
-    <Pagination />
+    <Pagination :totalEmployee="totalEmployee" />
     <div id="draggable-container" v-if="isDraggableMenuVisible">
       <DraggableMenu
         :list="columns"
@@ -26,6 +27,7 @@
         @default="handleDefaultSetting"
       />
     </div>
+    <MFilter />
   </div>
 </template>
 
@@ -36,6 +38,7 @@ import ListPersonTableHeader from "./ListPersonTableHeader.vue";
 import SelectedTableHeader from "./SelectedTableHeader.vue";
 import MISAResource from "@/helpers/resource";
 import DraggableMenu from "@/components/base/draggable/DraggableMenu.vue";
+import MFilter from "@/components/filter/MFilter.vue";
 
 const tableRef = "tableRef";
 
@@ -86,7 +89,7 @@ export default {
           HireDate: "2008-06-21T21:46:33",
           ReceiveDate: "1990-07-01T02:41:05",
           ResignationDate: "1994-11-16T20:14:21",
-          WorkStatus: 378603,
+          WorkStatus: 1,
         },
         {
           EmployeeID: "0478d025-9222-401d-9b07-3f17028eb7f7",
@@ -128,7 +131,7 @@ export default {
           HireDate: "2002-10-03T10:10:54",
           ReceiveDate: "2007-09-26T03:43:52",
           ResignationDate: "1993-08-24T00:24:07",
-          WorkStatus: 533525,
+          WorkStatus: 1,
         },
         {
           EmployeeID: "09092994-150d-4857-ad05-6baa586028c2",
@@ -170,7 +173,7 @@ export default {
           HireDate: "1982-09-26T12:08:32",
           ReceiveDate: "2009-06-09T21:50:50",
           ResignationDate: "1982-08-31T15:10:40",
-          WorkStatus: 669761,
+          WorkStatus: 1,
         },
         {
           EmployeeID: "1069641a-5fae-4345-b6c9-3ff2f01b2cda",
@@ -212,7 +215,7 @@ export default {
           HireDate: "1993-10-27T23:53:40",
           ReceiveDate: "2019-10-16T06:18:08",
           ResignationDate: "2006-09-06T23:23:16",
-          WorkStatus: 9533,
+          WorkStatus: 1,
         },
         {
           EmployeeID: "1113c1c5-40ca-42ae-9f4d-e154623a7315",
@@ -254,7 +257,7 @@ export default {
           HireDate: "1980-08-12T02:12:52",
           ReceiveDate: "2002-03-04T20:04:12",
           ResignationDate: "1999-07-08T18:51:33",
-          WorkStatus: 300045,
+          WorkStatus: 1,
         },
         {
           EmployeeID: "15c46947-805d-432a-94eb-3c102bbf2f60",
@@ -296,7 +299,7 @@ export default {
           HireDate: "1981-12-06T05:52:01",
           ReceiveDate: "1998-10-31T22:54:18",
           ResignationDate: "1981-04-08T05:14:02",
-          WorkStatus: 572304,
+          WorkStatus: 1,
         },
         {
           EmployeeID: "1673a3e7-288e-4ba6-8e50-2a9f083f9180",
@@ -338,7 +341,7 @@ export default {
           HireDate: "1992-10-21T22:58:18",
           ReceiveDate: "1990-11-09T17:18:15",
           ResignationDate: "1981-03-28T04:53:44",
-          WorkStatus: 349154,
+          WorkStatus: 1,
         },
         {
           EmployeeID: "2046deb0-804b-447e-a511-1413d517788f",
@@ -380,7 +383,7 @@ export default {
           HireDate: "1986-10-09T14:29:27",
           ReceiveDate: "1988-02-19T07:58:26",
           ResignationDate: "1989-01-27T11:03:04",
-          WorkStatus: 361773,
+          WorkStatus: 1,
         },
         {
           EmployeeID: "2063df58-2e75-4eb1-814e-4de5c2565f0a",
@@ -422,7 +425,7 @@ export default {
           HireDate: "1982-08-26T03:52:17",
           ReceiveDate: "1992-12-07T03:50:38",
           ResignationDate: "2008-03-11T16:47:15",
-          WorkStatus: 676599,
+          WorkStatus: 1,
         },
         {
           EmployeeID: "20730b43-e87a-438b-962a-aa94d485a95e",
@@ -464,7 +467,7 @@ export default {
           HireDate: "1982-08-06T22:09:53",
           ReceiveDate: "2000-08-20T23:02:47",
           ResignationDate: "2001-12-11T18:26:58",
-          WorkStatus: 367210,
+          WorkStatus: 1,
         },
         {
           EmployeeID: "280393b4-5cea-4b97-a21e-07b36b0b94c0",
@@ -506,7 +509,7 @@ export default {
           HireDate: "2018-10-09T15:14:28",
           ReceiveDate: "2017-04-25T17:51:23",
           ResignationDate: "1983-12-24T11:06:12",
-          WorkStatus: 677099,
+          WorkStatus: 1,
         },
       ],
       columns: MISAResource.VN.ColumnsTableHeader,
@@ -525,6 +528,9 @@ export default {
     checkedIdsLength() {
       return this.checkedIds.length;
     },
+    totalEmployee() {
+      return this.dataSource.length;
+    },
   },
   components: {
     ListPersonTableHeader,
@@ -532,6 +538,7 @@ export default {
     Pagination,
     SelectedTableHeader,
     DraggableMenu,
+    MFilter,
   },
 
   methods: {
@@ -542,7 +549,6 @@ export default {
      * */
     handleCheckedIds(ids) {
       this.checkedIds = ids;
-      console.log(this.checkedIds);
     },
     /**
      * Xử lí xoá tất cả các selection
@@ -592,6 +598,7 @@ export default {
   flex-direction: column;
 
   .table__container {
+    position: relative;
     height: calc(100% - 60px - 96px);
     overflow: auto;
     flex: 1;

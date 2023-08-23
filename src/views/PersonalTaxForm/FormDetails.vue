@@ -5,7 +5,7 @@
       class="row mt-11 pb-6 d-flex pl-3 align-center pr-3"
       style="justify-content: space-between"
     >
-      <span class="text-lg-h3">THÔNG TIN CHUNG</span>
+      <span class="text-lg-h3" id="general">THÔNG TIN CHUNG</span>
     </div>
     <form class="form">
       <div class="row ma-0 pa-0">
@@ -184,7 +184,7 @@
         label="Địa chỉ"
         :isReadOnly="true"
       />
-      <span class="text-lg-h3">THÔNG TIN CÔNG VIỆC</span>
+      <span class="text-lg-h3" id="job">THÔNG TIN CÔNG VIỆC</span>
       <MTextBox
         v-model="employee.DepartmentName"
         label="Bộ phận/phòng ban"
@@ -227,7 +227,7 @@
         class="row mt-11 pb-6 d-flex pl-3 align-center pr-3 text-lg-h3"
         style="justify-content: space-between"
       >
-        <span class="text-lg-h3">THÔNG TIN GIA ĐÌNH</span>
+        <span class="text-lg-h3" id="family">THÔNG TIN GIA ĐÌNH</span>
         <ButtonWithIcon
           type="add--blue"
           title="Thêm"

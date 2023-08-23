@@ -5,6 +5,7 @@ import mutations from "./mutations";
 const state = {
   employees: [],
   checkedEmployees: [],
+  formMode: "view",
 };
 
 export default {

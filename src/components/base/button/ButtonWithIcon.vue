@@ -26,7 +26,7 @@ export default {
 <style lang="scss" scoped>
 .button {
   height: 36px;
-  padding: 0 12px 0 8px;
+  padding: 0 12px 0 12px;
 
   display: flex;
   align-items: center;

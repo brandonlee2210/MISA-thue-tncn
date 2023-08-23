@@ -18,7 +18,7 @@
     </div>
     <div class="list-person__left">
       <GroupButton />
-      <ButtonWithIcon type="filter" />
+      <ButtonWithIcon type="filter" :onClick="showFilter" />
       <ButtonWithIcon type="setting" :onClick="handleClickSetting" />
     </div>
   </div>
@@ -30,6 +30,8 @@ import DxDropDownBox from "devextreme-vue/drop-down-box";
 import ButtonWithIcon from "@/components/base/button/ButtonWithIcon.vue";
 import GroupButton from "@/components/base/button/GroupButton.vue";
 
+import { mapActions } from "vuex";
+
 export default {
   components: {
     DxTextBox,
@@ -39,6 +41,11 @@ export default {
     GroupButton,
   },
   methods: {
+    ...mapActions("global", ["showFilter", "hideFilter"]),
+    /**
+     * Hiển thị menu setting bảng
+     * CreatedBy: dgbao (23/08/2023)
+     */
     handleClickSetting() {
       this.$emit("toggle-draggable-menu");
     },

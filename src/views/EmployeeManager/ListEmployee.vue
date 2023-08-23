@@ -19,7 +19,7 @@
         :columns="columns"
       />
     </div>
-    <Pagination />
+    <Pagination :totalEmployee="20" />
     <div id="draggable-container" v-if="isDraggableMenuVisible">
       <DraggableMenu
         :list="columns"
@@ -300,6 +300,9 @@ export default {
     checkedIdsLength() {
       return this.checkedIds.length;
     },
+    totalEmployee() {
+      return this.dataSource.length;
+    },
   },
   methods: {
     /**
@@ -357,6 +360,7 @@ export default {
   margin-bottom: 24px;
 
   .table__container {
+    position: relative;
     overflow: auto;
     height: 606px;
 

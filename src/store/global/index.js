@@ -7,6 +7,8 @@ const state = {
   isToastMessageVisible: true,
   toastMessageProps: "",
   isSideBarToggled: false,
+  isFilterVisible: false,
+  isLoading: false,
 };
 
 export default {

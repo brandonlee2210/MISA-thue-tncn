@@ -1,0 +1,42 @@
+.misa-container-employee-details {
+  height: 100%;
+  .employee-tempory-detail-content {
+    display: flex;
+    padding: 24px 0;
+    height: calc(100% - 60px);
+    background-color: #fff;
+    border-radius: 4px;
+    .misa-tab-section {
+      border-right: 1px solid #e6e6e6 !important;
+    }
+
+    .misa-tab-active {
+      color: #007aff !important;
+      font-weight: 700 !important;
+      background-color: #d8ebff;
+    }
+
+    .misa-tab-infor {
+      color: #212121;
+      width: 100%;
+      padding: 16px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #eff1fb;
+      }
+    }
+  }
+}
+
+.col-2 {
+  flex: 0 0 16.6666666667%;
+  max-width: 16.6666666667%;
+  width: 100%;
+  padding: 12px;
+}
+
+.form-group-item-container.view {
+  height: 30px !important;
+}

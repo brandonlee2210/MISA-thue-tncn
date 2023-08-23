@@ -1,30 +1,52 @@
 <template>
   <div class="page__header">
     <div class="left-header">
-      <div class="title">Thêm người nộp thuế</div>
+      <div class="title">{{ title }}</div>
     </div>
     <div class="right-header">
       <DxButton class="dx-button" :height="36" :onClick="hanleCancelClick">
         Huỷ</DxButton
       >
-      <DxButton class="dx-button" :height="36" :onClick="() => {}">
+      <DxButton
+        class="dx-button"
+        :height="36"
+        :onClick="() => {}"
+        v-if="formMode == 'add'"
+      >
         Lưu & Thêm mới</DxButton
       >
-      <DxButton class="dx-button save" :height="36" :onClick="onSave">
-        Lưu</DxButton
+      <DxButton
+        class="dx-button save"
+        :height="36"
+        :onClick="onSave"
+        v-if="formMode == 'add'"
       >
+        Lưu
+      </DxButton>
+      <DxButton
+        class="dx-button save"
+        :height="36"
+        :onClick="onSave"
+        v-if="formMode == 'edit'"
+      >
+        Chỉnh sửa
+      </DxButton>
     </div>
   </div>
 </template>
 
 <script>
 import MISAResource from "@/helpers/resource";
+import { mapState } from "vuex";
 import { DxButton } from "devextreme-vue";
 
 export default {
   name: "ListHeader",
   components: {
     DxButton,
+  },
+  computed: {
+    ...mapState("employee", ["formMode"]),
   },
   data() {
     return {

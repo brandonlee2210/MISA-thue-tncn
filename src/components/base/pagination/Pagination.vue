@@ -6,7 +6,7 @@
       <div class="ma-0 pa-0 col col-6">
         <span class="text-lg-body-2">
           Tổng số:
-          <span class="text-lg-subheader">64</span> bản ghi </span
+          <span class="text-lg-subheader">{{ totalEmployee }}</span> bản ghi </span
         ><!----><!---->
       </div>
       <div class="ma-0 pa-0 d-flex align-center justify-end col col-6">
@@ -17,11 +17,23 @@
           >
             <!---->
             <div data-v-3519a28f="" class="ma-0 pa-0 col col-12">
-              <!-- <v-select :options="['Canada', 'United States']"></v-select> -->
-              <DxSelectBox
-                :data-source="['15', '25', '50', '100']"
-                placeholder="15"
-              ></DxSelectBox>
+              <dx-select-box
+                :items="items"
+                :displayExpr="'text'"
+                :valueExpr="'id'"
+                :value="selectedItem"
+                :placeholder="placeholder"
+                :searchEnabled="true"
+                :searchExpr="['text']"
+                :noDataText="'Không có dữ liệu'"
+                :readOnly="isReadOnly"
+                @valueChanged="
+                  (e) => {
+                    selectedItem = e.value;
+                    $emit('change', e.value);
+                  }
+                "
+              ></dx-select-box>
             </div>
           </div>
         </div>
@@ -31,20 +43,20 @@
         </span>
         <button
           type="button"
-          class="ml-2 v-btn prev v-btn--disabled v-btn--has-bg theme--light v-size--default b-transparent"
+          class="ml-2 v-btn prev v-btn--disabled v-btn--has-bg v-size--default b-transparent"
           style="height: 36px"
         >
           <span class="v-btn__content"
-            ><i class="v-icon notranslate ico ico-prev-page theme--light"></i
+            ><i class="v-icon notranslate ico ico-prev-page"></i
           ></span>
         </button>
         <button
           type="button"
-          class="v-btn next v-btn--has-bg theme--light v-size--default b-transparent b-transparent"
+          class="v-btn next v-btn--has-bg v-size--default b-transparent b-transparent"
           style="height: 36px"
         >
           <span class="v-btn__content"
-            ><i class="v-icon notranslate ico ico-next-page theme--light"></i
+            ><i class="v-icon notranslate ico ico-next-page"></i
           ></span>
         </button>
       </div>
@@ -60,14 +72,33 @@ export default {
   components: {
     DxSelectBox,
   },
+  props: ["totalEmployee"],
   data() {
-    return {};
-  },
-  props: {
-    options: {
-      type: Array,
-      default: () => [],
-    },
+    return {
+      selectedItem: 1,
+      items: [
+        {
+          id: 1,
+          text: "5",
+        },
+        {
+          id: 2,
+          text: "15",
+        },
+        {
+          id: 3,
+          text: "25",
+        },
+        {
+          id: 4,
+          text: "50",
+        },
+        {
+          id: 5,
+          text: "100",
+        },
+      ],
+    };
   },
   methods: {},
 };

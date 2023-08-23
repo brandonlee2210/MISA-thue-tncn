@@ -1,6 +1,6 @@
 <template>
   <div class="form-container">
-    <FormHeader @save="handleSave" />
+    <FormHeader @save="handleSave" :title="'Thêm người nộp thuế'" />
     <FormDetails ref="formDetailsRef" />
   </div>
 </template>

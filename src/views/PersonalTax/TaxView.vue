@@ -1,6 +1,6 @@
 <template>
   <div class="tax-view">
-    <template v-if="$route.path === '/tax/add'">
+    <template v-if="$route.path === '/tax/add' || $route.path === '/tax/view'">
       <router-view></router-view>
     </template>
     <template v-else>

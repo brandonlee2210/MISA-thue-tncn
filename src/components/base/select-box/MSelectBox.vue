@@ -1,7 +1,10 @@
 <template>
-  <div class="form-group-item-container">
+  <div class="form-group-item-container" :class="{ view: formMode == 'view' }">
     <div class="item__label">
-      {{ label }}<span v-if="isRequired" class="text-lg-error">*</span>
+      {{ label
+      }}<span v-if="isRequired && formMode != 'view'" class="text-lg-error"
+        >*</span
+      >
     </div>
     <div class="item__input">
       <dx-select-box
@@ -16,14 +19,22 @@
         :noDataText="'Không có dữ liệu'"
         :readOnly="isReadOnly"
         @valueChanged="handleValueChanged"
+        v-if="formMode != 'view'"
       ></dx-select-box>
-      <div v-if="!isValid" class="error-message">{{ validationError }}</div>
+      <div v-if="!isValid && formMode != 'view'" class="error-message">
+        {{ validationError }}
+      </div>
+      <div v-if="formMode == 'view'" class="misa-info-binding">
+        <span class="text-lg-body-1">{{ selectedLabel || "-" }}</span>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { DxSelectBox } from "devextreme-vue";
+
+import { mapState } from "vuex";
 
 export default {
   name: "MSelectBox",
@@ -77,11 +88,18 @@ export default {
     };
   },
   computed: {
+    ...mapState("employee", ["formMode"]),
     validationError() {
       return this.validationResult.message;
     },
     isValid() {
       return this.validationResult.isValid;
+    },
+    selectedLabel() {
+      const selectedItem = this.items.find(
+        (item) => item[this.valueExpr] === this.value
+      );
+      return selectedItem ? selectedItem[this.displayExpr] : "";
     },
   },
   methods: {
@@ -134,6 +152,14 @@ export default {
     margin-right: 16px;
   }
 
+  &.view {
+    .item__label {
+      margin-top: 0px;
+      display: flex;
+      align-items: center;
+    }
+  }
+
   .item__input {
     width: 70%;
   }
@@ -143,6 +169,26 @@ export default {
 
   .error-message {
     color: red;
+  }
+}
+
+.misa-info-binding {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border-bottom: 1px solid #e9ebee;
+
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  color: #454545 !important;
+  line-height: 21px !important;
+  cursor: default;
+  letter-spacing: unset !important;
+
+  .text-lg-body-1 {
+    height: 21px;
+    width: 100%;
   }
 }
 </style>
