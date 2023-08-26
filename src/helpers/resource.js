@@ -96,7 +96,7 @@ const MISAResource = {
       {
         caption: "Vị trí/Chức vụ",
         checked: true,
-        dataField: "PositionName",
+        dataField: "JobPositionName",
         width: "200",
       },
       {

@@ -25,7 +25,7 @@
       />
 
       <template #workStatusCellTemplate="{ data }">
-        <slot :name="data.column.dataField">
+        <slot :name="data.column.dataField" :value="data.value">
           {{ data.value }}
         </slot>
       </template>
@@ -49,7 +49,7 @@
         css-class="ms-table__action-column"
       />
       <template #cellTemplate="{ data }">
-        <div class="ms-table__action-container">
+        <div class="ms-table__action-container" v-if="isContextMenuVisible">
           <div class="d-flex align-center action-container dx-template-wrapper">
             <div class="mr-3">
               <button
@@ -143,7 +143,7 @@ export default {
     DxScrolling,
     DxTemplate,
   },
-  props: ["dataSource", "columns", "canSelect"],
+  props: ["dataSource", "columns", "canSelect", "isContextMenuVisible"],
   data() {
     return {
       dataGridRef,

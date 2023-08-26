@@ -1,4 +1,5 @@
 import BaseService from "./BaseService.js";
+import store from "@/store/index.js";
 
 class EmployeeServiceClass extends BaseService {
   constructor() {
@@ -20,10 +21,10 @@ class EmployeeServiceClass extends BaseService {
    */
   async filter() {
     const res = await this.baseAxios.post(
-      this.endpoint("/filter?pageSize=20&pageNumber=1"),
-      {
-        filterKeyword: "",
-      }
+      this.endpoint(
+        `/filter?pageSize=${store.state.employee.pageSize}&pageNumber=${store.state.employee.pageNumber}&filterKeyword=${store.state.employee.filterKeyword}`
+      ),
+      store.state.employee.filterData
     );
 
     return res;

@@ -1,8 +1,8 @@
 <template>
   <div class="misa-container-base--chip dx-template-wrapper">
-    <span :class="`v-chip theme--light v-size--default chip-${type}`"
+    <span :class="`v-chip theme--light v-size--default chip-${color}`"
       ><span class="v-chip__content"
-        ><span data-v-45dd2764="">Đang làm việc</span></span
+        ><span>{{ newLabel }}</span></span
       ></span
     >
   </div>
@@ -16,9 +16,31 @@ export default {
       type: String,
       default: "",
     },
-    type: {
+    column: {
       type: String,
-      default: "success",
+      default: "",
+    },
+  },
+  computed: {
+    newLabel() {
+      switch (this.column) {
+        case "WorkStatus":
+          return this.label == 1 ? "Đang làm việc" : "Đã nghỉ việc";
+        case "UsageStatus":
+          return this.label == 1 ? "Đang sử dụng" : "Không sử dụng";
+        default:
+          return this.label;
+      }
+    },
+    color() {
+      switch (this.column) {
+        case "WorkStatus":
+          return this.label == 1 ? "success" : "default";
+        case "UsageStatus":
+          return this.label == 1 ? "success" : "error";
+        default:
+          return "#00af2f";
+      }
     },
   },
   data() {
@@ -32,15 +54,19 @@ export default {
 .chip-success {
   border-radius: 4px;
   background-color: #e5fce9 !important;
+  display: flex;
+  justify-content: center;
 }
 
 .v-chip {
+  width: 120px;
   border-color: rgba(0, 0, 0, 0.12);
   color: rgba(0, 0, 0, 0.87);
 }
 
 .v-chip {
   align-items: center;
+  justify-content: center;
   cursor: default;
   display: inline-flex;
   line-height: 20px;
@@ -72,6 +98,15 @@ export default {
 
 .chip-success span {
   color: #00af2f !important;
+}
+
+.chip-default span {
+  color: #8f8c8c !important;
+}
+
+.chip-default {
+  border-radius: 4px;
+  background-color: #e4e4e4 !important;
 }
 
 .chip-error {

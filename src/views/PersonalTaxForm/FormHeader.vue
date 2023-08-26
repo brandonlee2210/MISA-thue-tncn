@@ -65,6 +65,7 @@ export default {
      * Xử lý sự kiện huỷ
      */
     hanleCancelClick() {
+      console.log(this.$router);
       this.$router.push({
         name: "tax",
       });

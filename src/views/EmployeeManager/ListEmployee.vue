@@ -11,11 +11,13 @@
       v-on:select-all="handleSelectAll"
     />
     <div class="table__container">
+      <m-loading v-if="isLoading" />
       <MTable
+        v-else
         v-on:onselected="handleCheckedIds"
         ref="tableRef"
         @change-pin="handleChangePin"
-        :dataSource="dataSource"
+        :dataSource="employees"
         :columns="columns"
       />
     </div>
@@ -37,6 +39,8 @@ import DraggableMenu from "@/components/base/draggable/DraggableMenu.vue";
 import ListEmployeeTableHeader from "./ListEmployeeTableHeader.vue";
 import EmployeeSelectedTableHeader from "./EmployeeSelectedTableHeader.vue";
 
+import { mapState, mapActions } from "vuex";
+
 const tableRef = "tableRef";
 
 let defaultColumns = MISAResource.VN.ColumnsTableHeader;
@@ -54,192 +58,7 @@ export default {
   data() {
     return {
       checkedIds: [],
-      dataSource: [
-        {
-          ID: 1,
-          EmployeeCode: "John",
-          Gender: "Nam",
-          FullName: "Heart",
-          Position: "CEO",
-          BirthDate: "1964/03/16",
-          HireDate: "1995/01/15",
-          Title: "Mr.",
-          Address: "351 S Hill St.",
-          City: "Los Angeles",
-          State: "California",
-          Zipcode: 90013,
-          Email: "jheart@dx-email.com",
-          Skype: "jheartDXskype",
-          HomePhone: "(213) 555-9208",
-          DepartmentID: 6,
-          MobilePhone: "(213) 555-9392",
-        },
-        {
-          ID: 2,
-          EmployeeCode: "John",
-          Gender: "Nam",
-          FullName: "Heart",
-          Position: "CEO",
-          BirthDate: "1964/03/16",
-          HireDate: "1995/01/15",
-          Title: "Mr.",
-          Address: "351 S Hill St.",
-          City: "Los Angeles",
-          State: "California",
-          Zipcode: 90013,
-          Email: "jheart@dx-email.com",
-          Skype: "jheartDXskype",
-          HomePhone: "(213) 555-9208",
-          DepartmentID: 6,
-          MobilePhone: "(213) 555-9392",
-        },
-        {
-          ID: 3,
-          EmployeeCode: "John",
-          FullName: "Heart",
-          Position: "CEO",
-          BirthDate: "1964/03/16",
-          HireDate: "1995/01/15",
-          Title: "Mr.",
-          Address: "351 S Hill St.",
-          City: "Los Angeles",
-          State: "California",
-          Zipcode: 90013,
-          Email: "jheart@dx-email.com",
-          Skype: "jheartDXskype",
-          HomePhone: "(213) 555-9208",
-          DepartmentID: 6,
-          MobilePhone: "(213) 555-9392",
-        },
-        {
-          ID: 4,
-          EmployeeCode: "John",
-          FullName: "Dinh gia Bao",
-          Position: "CEO",
-          BirthDate: "1964/03/16",
-          HireDate: "1995/01/15",
-          Title: "Mr.",
-          Address: "351 S Hill St.",
-          City: "Los Angeles",
-          State: "California",
-          Zipcode: 90013,
-          Email: "jheart@dx-email.com",
-          Skype: "jheartDXskype",
-          HomePhone: "(213) 555-9208",
-          DepartmentID: 6,
-          MobilePhone: "(213) 555-9392",
-        },
-        {
-          ID: 5,
-          EmployeeCode: "John",
-          FullName: "Heart",
-          Position: "CEO",
-          BirthDate: "1964/03/16",
-          HireDate: "1995/01/15",
-          Title: "Mr.",
-          Address: "351 S Hill St.",
-          City: "Los Angeles",
-          State: "California",
-          Zipcode: 90013,
-          Email: "jheart@dx-email.com",
-          Skype: "jheartDXskype",
-          HomePhone: "(213) 555-9208",
-          DepartmentID: 6,
-          MobilePhone: "(213) 555-9392",
-        },
-        {
-          ID: 6,
-          EmployeeCode: "John",
-          FullName: "Heart",
-          Position: "CEO",
-          BirthDate: "1964/03/16",
-          HireDate: "1995/01/15",
-          Title: "Mr.",
-          Address: "351 S Hill St.",
-          City: "Los Angeles",
-          State: "California",
-          Zipcode: 90013,
-          Email: "jheart@dx-email.com",
-          Skype: "jheartDXskype",
-          HomePhone: "(213) 555-9208",
-          DepartmentID: 6,
-          MobilePhone: "(213) 555-9392",
-        },
-        {
-          ID: 7,
-          EmployeeCode: "John",
-          FullName: "Heart",
-          Position: "CEO",
-          BirthDate: "1964/03/16",
-          HireDate: "1995/01/15",
-          Title: "Mr.",
-          Address: "351 S Hill St.",
-          City: "Los Angeles",
-          State: "California",
-          Zipcode: 90013,
-          Email: "jheart@dx-email.com",
-          Skype: "jheartDXskype",
-          HomePhone: "(213) 555-9208",
-          DepartmentID: 6,
-          MobilePhone: "(213) 555-9392",
-        },
-        {
-          ID: 8,
-          EmployeeCode: "Nguyen van chien",
-          FullName: "Heart",
-          Position: "CEO",
-          BirthDate: "1964/03/16",
-          HireDate: "1995/01/15",
-          Title: "Mr.",
-          Address: "351 S Hill St.",
-          City: "Los Angeles",
-          State: "California",
-          Zipcode: 90013,
-          Email: "",
-        },
-        {
-          ID: 9,
-          EmployeeCode: "Nguyen van chien",
-          FullName: "Heart",
-          Position: "CEO",
-        },
-        {
-          ID: 10,
-          EmployeeCode: "Nguyen van chien",
-          FullName: "Heart",
-          Position: "CEO",
-        },
-        {
-          ID: 11,
-          EmployeeCode: "Nguyen van chien",
-          FullName: "Heart",
-          Position: "CEO",
-        },
-        {
-          ID: 12,
-          EmployeeCode: "Nguyen van chien",
-          FullName: "Heart",
-          Position: "CEO",
-        },
-        {
-          ID: 13,
-          EmployeeCode: "Nguyen van chien",
-          FullName: "Heart",
-          Position: "CEO",
-        },
-        {
-          ID: 14,
-          EmployeeCode: "Nguyen van chien",
-          FullName: "Heart",
-          Position: "CEO",
-        },
-        {
-          ID: 15,
-          EmployeeCode: "Nguyen van chien",
-          FullName: "Heart",
-          Position: "CEO",
-        },
-      ],
+
       columns: [
         {
           id: 1,
@@ -259,22 +78,22 @@ export default {
           width: "211",
         },
         {
-          caption: "Vị trí công việc",
-          checked: true,
-          dataField: "PositionName",
-          width: "200",
-        },
-        {
           caption: "Bộ phận/Phòng ban",
           dataField: "DepartmentName",
           width: "260",
           checked: true,
         },
+        {
+          caption: "Vị trí công việc",
+          checked: true,
+          dataField: "PositionName",
+          width: "200",
+        },
 
         {
           checked: true,
           caption: "Loại đối tượng",
-          dataField: "EmployeeType",
+          dataField: "EmployeeTypeName",
           width: "200",
         },
 
@@ -296,6 +115,8 @@ export default {
     };
   },
   computed: {
+    ...mapState("employee", ["employees"]),
+    ...mapState("global", ["isLoading"]),
     /* Độ dài mảng chứa các dòng được chọn */
     checkedIdsLength() {
       return this.checkedIds.length;
@@ -305,6 +126,8 @@ export default {
     },
   },
   methods: {
+    ...mapActions("employee", ["getListEmployees"]),
+    ...mapActions("global", ["showLoading", "hideLoading"]),
     /**
      * Xử lí khi thêm id vào mảng
      * @param {*} ids - Danh sách id được check
@@ -349,6 +172,14 @@ export default {
       this.columns = defaultColumns;
       this.isDraggableMenuVisible = false;
     },
+  },
+  created() {
+    const getEmployeesData = async () => {
+      this.showLoading();
+      await this.getListEmployees();
+      this.hideLoading();
+    };
+    getEmployeesData();
   },
 };
 </script>

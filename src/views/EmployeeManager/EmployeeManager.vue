@@ -27,6 +27,7 @@
         :title="resource.VN.BlockContent.Title.TotalEmployee"
         :subtitle="resource.VN.BlockContent.Subtitle.TotalEmployee"
         mainColor="rgb(67, 136, 255)"
+        :onClick="getSummary"
       />
       <BlockContent
         :number="1010"
@@ -72,6 +73,8 @@ import BlockContent from "./BlockContent.vue";
 import { DxButton } from "devextreme-vue";
 import ListEmployee from "./ListEmployee.vue";
 
+import { getTotalEmployeeSummary } from "@/helpers/api";
+
 export default {
   name: "EmployeeManager",
   data() {
@@ -86,9 +89,18 @@ export default {
     ListEmployee,
   },
   methods: {
+    /**
+     * Lùi lại trang
+     */
     handleBackButton() {
-      // back
-      this.$router.go(-1);
+      this.$router.push("tax");
+    },
+    /**
+     * Lấy tổng số nhân viên
+     */
+    getSummary() {
+      console.log("getSummary");
+      getTotalEmployeeSummary();
     },
   },
 };

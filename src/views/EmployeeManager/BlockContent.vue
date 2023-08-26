@@ -15,7 +15,7 @@
 <script>
 export default {
   name: "BlockContent",
-  props: ["number", "title", "subtitle", "mainColor"],
+  props: ["number", "title", "subtitle", "mainColor", "onClick"],
 };
 </script>
 

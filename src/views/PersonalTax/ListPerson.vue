@@ -20,9 +20,10 @@
         :dataSource="employees"
         :columns="columns"
         :canSelect="true"
+        :isContextMenuVisible="true"
       >
-        <template #WorkStatus>
-          <MChip />
+        <template #WorkStatus="{ value }">
+          <MChip :label="value" :column="'WorkStatus'" />
         </template>
       </MTable>
     </div>
@@ -87,6 +88,7 @@ export default {
     SelectedTableHeader,
     DraggableMenu,
     MFilter,
+    // eslint-disable-next-line vue/no-unused-components
     MChip,
   },
 
@@ -148,6 +150,13 @@ export default {
     };
 
     getListPerson();
+  },
+  mounted() {
+    // const childComponent = this.$refs.tableRef.$refs.dataGrid.$_instance;
+    // const childScope = childComponent;
+
+    // Access child component's scope
+    console.log(this.$refs);
   },
 };
 </script>
