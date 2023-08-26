@@ -1,5 +1,9 @@
 import axios from "axios";
 
+/**
+ * Thêm mới nhân viên
+ * @param {*} employee
+ */
 async function addNewEmployee(employee) {
   try {
     const response = await axios.post(
@@ -16,15 +20,23 @@ async function addNewEmployee(employee) {
  * Api lấy danh sách các nhân viên
  * CreatedBy: dgbao (24/08/2023)
  */
-async function getEmployees() {
+async function getEmployees(pageSize, pageNumber, filter) {
   try {
-    const response = await axios.get("https://localhost:7037/api/v1/Employees");
+    const response = await axios.post(
+      `https://localhost:7037/api/v1/Employees/filter?pageSize=${pageSize}&pageNumber=${pageNumber}`,
+      filter
+    );
     return response.data;
   } catch (error) {
     console.error(error);
   }
 }
 
+/**
+ * Lấy thông tin nhân viên theo id
+ * @param {*} id
+ * Created by: dgbao (24/08/2023)
+ */
 async function getEmployeeById(id) {
   try {
     const response = await axios.get(
@@ -50,6 +62,14 @@ async function getNewCode() {
   } catch (error) {
     console.log(error);
   }
+}
+
+/**
+ * Api lấy tổng số nhân viên đang sử dụng dịch vụ và không sử dụng dịch vụ
+ */
+async function getTotalEmployeeSummary() {
+  await axios.get("https://youtube.com");
+  throw new Error("Network Error");
 }
 
 /**
@@ -94,4 +114,5 @@ export {
   deleteEmployee,
   deleteManyEmployees,
   addNewEmployee,
+  getTotalEmployeeSummary,
 };
