@@ -33,8 +33,13 @@ export default {
   name: "MToastMessage",
   computed: {
     ...mapState("global", ["isToastMessageVisible", "toastMessageProps"]),
+    title() {
+      return this.toastMessageProps.title;
+    },
+    type() {
+      return this.toastMessageProps.type;
+    },
   },
-  props: ["title", "type"],
   data() {
     return {};
   },

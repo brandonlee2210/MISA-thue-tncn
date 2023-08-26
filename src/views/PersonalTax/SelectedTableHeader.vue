@@ -13,22 +13,43 @@
     <ButtonWithIcon type="add" title="Lập tờ khai" />
     <ButtonWithIcon type="add" title="Lập thủ tục" class="ml-2" />
     <DxButton icon="export" text="Xuất khẩu" class="ml-2"></DxButton>
-    <ButtonWithIcon type="delete" title="Xoá" class="ml-2" />
+    <ButtonWithIcon
+      type="delete"
+      title="Xoá"
+      class="ml-2"
+      :onClick="handleDeleteMany"
+    />
   </div>
 </template>
 
 <script>
 import { DxButton } from "devextreme-vue";
-// import DxDropDownBox from "devextreme-vue/drop-down-box";
 import ButtonWithIcon from "@/components/base/button/ButtonWithIcon.vue";
-// import GroupButton from "@/components/base/button/GroupButton.vue";
+
+import { mapActions } from "vuex";
 
 export default {
   components: {
     ButtonWithIcon,
     DxButton,
   },
-  props: ["length"],
+  watch: {
+    checkedIds: function () {},
+    length: function () {},
+  },
+  props: ["length", "checkedIds"],
+  methods: {
+    ...mapActions("global", ["showNotification"]),
+    handleDeleteMany() {
+      this.showNotification({
+        title: "Xoá người nộp thuế",
+        rawHtml: `Bạn có chắc chắn muốn xóa <strong>(${this.length})</strong>  người nộp thuế
+            vào thùng rác?`,
+        type: "delete-many",
+        listIds: this.checkedIds,
+      });
+    },
+  },
 };
 </script>
 

@@ -4,10 +4,21 @@ import mutations from "./mutations";
 
 const state = {
   popupVisible: false,
-  isToastMessageVisible: true,
-  toastMessageProps: "",
+  isToastMessageVisible: false,
+  toastMessageProps: {
+    title: "",
+    type: "",
+  },
   isSideBarToggled: false,
   isFilterVisible: false,
+  isNotificationVisible: false,
+  notificationProps: {
+    title: "",
+    message: "",
+    type: "",
+    rawHtml: "",
+    idToDelete: "",
+  },
   isLoading: false,
 };
 

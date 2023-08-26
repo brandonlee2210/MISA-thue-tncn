@@ -47,7 +47,7 @@
         customEmptyErrMsg="Không nhập mã số thuế thì số CMND/CCCD/Hộ chiếu không được bỏ trống
         "
         :validationRules="[validateNumberInput]"
-        maxlength="12"
+        :maxLength="12"
       />
       <MDateBox
         v-model="employee.DateOfBirth"
@@ -238,7 +238,20 @@
     <section
       class="misa-empty-data misa-background-footer-dialog text-lg-body-2 mt-4 d-flex justify-center align-center"
     >
-      <span>Chưa có thông tin gia đình</span>
+      <span v-if="employee.ListRelatives.length == 0" class="no-info"
+        >Chưa có thông tin gia đình</span
+      >
+      <MViewTable
+        :columns="familiMemberTableHeader"
+        :dataSource="employee.ListRelatives"
+        v-else
+      >
+        <template #IsDependent>
+          <div class="text-center dx-template-wrapper">
+            <div class="mi-check" style="margin: 0px auto"></div>
+          </div>
+        </template>
+      </MViewTable>
     </section>
     <div class="ma-0 pa-0 mt-4"></div>
     <DxPopup
@@ -260,7 +273,10 @@
 import { DxPopup } from "devextreme-vue/popup";
 import ButtonWithIcon from "@/components/base/button/ButtonWithIcon.vue";
 import { mapState, mapActions } from "vuex";
+import { getNewCode, getEmployeeById, addNewEmployee } from "@/helpers/api";
+
 import {
+  familiMemberTableHeader,
   employeeTypes,
   workStatusesList,
   identityTypes,
@@ -278,6 +294,7 @@ import MDateBox from "@/components/base/input/MDateBox.vue";
 import MRadioButton from "@/components/base/radio/MRadioButton.vue";
 import MCheckbox from "@/components/base/input/MCheckbox.vue";
 import PopUp from "./PopUp.vue";
+import MViewTable from "@/components/base/table/MViewTable.vue";
 
 const formRefKey = "formRef";
 
@@ -291,6 +308,7 @@ export default {
     MRadioButton,
     MCheckbox,
     PopUp,
+    MViewTable,
   },
   watch: {
     // Thực hiện lưu trữ thêm dữ liệu với những trường trong table
@@ -342,17 +360,16 @@ export default {
         EmployeeTypeID: 1,
         EmployeeTypeName: "",
         IdentifyKindOfPaperID: 1,
-        DateOfBirth: "",
+        DateOfBirth: null,
         TaxCode: "",
         EmployeeCode: "",
-        FullName: "John Heart",
-        IdentityDate:
-          "Tue Aug 10 2023 00:00:00 GMT+0700 (Western Indonesia Time",
+        FullName: "",
+        IdentityDate: null,
         IdentityNumber: "",
-        IdentityPlaceID: "",
+        IdentityPlaceID: 1,
         PhoneNumber: "",
         Gender: 0,
-        GenderName: "",
+        GenderName: "Nam",
         ContractTypeId: 1,
         ConstractTypeName: "",
         NationalityID: 1,
@@ -376,7 +393,187 @@ export default {
         PositionCode: "",
         PositionName: "",
         WorkStatus: 1,
-        UnofficialStaffRelationships: [],
+        ListRelatives: [
+          {
+            RelativeID: 32962,
+            EmployeeID: 328292,
+            FullName: "qưe",
+            Birthday: null,
+            NationalityID: "VN",
+            NationalityName: "Việt Nam",
+            TaxCode: null,
+            RelationshipID: 72344,
+            RelationshipName: "Con gái",
+            IdentifyKindOfPaperID: 1,
+            IdentifyKindOfPaperName: "CMND",
+            IdentifyPaperNumber: null,
+            GenderID: 1,
+            GenderName: "Nam",
+            IdentifyNumber: null,
+            IdentifyNumberIssuedDate: null,
+            IdentifyNumberIssuedPlaceID: null,
+            IdentifyNumberIssuedPlaceName: null,
+            DependentNumber: null,
+            NumberBook: null,
+            BirthCertificationIssueDate: null,
+            CountryID: "VN",
+            CountryName: "Việt Nam",
+            ProvinceID: null,
+            ProvinceName: null,
+            DistrictID: null,
+            DistrictName: null,
+            WardID: null,
+            WardName: null,
+            IsDependent: "",
+            DeductionStartDate: null,
+            DeductionEndDate: null,
+            Description: null,
+            FamilyPermanentAddressProvinceID: null,
+            FamilyPermanentAddressProvinceName: null,
+            FamilyPermanentAddressDistrictID: null,
+            FamilyPermanentAddressDistrictName: null,
+            FamilyPermanentAddressWardName: null,
+            FamilyPermanentAddressWardID: null,
+            FamilyPermanentAddressStreetHouseNumber: null,
+            FamilyCurrentProvinceID: null,
+            FamilyCurrentProvinceName: null,
+            FamilyCurrentDistrictID: null,
+            FamilyCurrentDistrictName: null,
+            FamilyCurrentWardID: null,
+            FamilyCurrentWardName: null,
+            FamilyCurrentStreetHouseNumber: null,
+            OrganizationID: "00000000-0000-0000-0000-000000000000",
+            TenantID: "dcbf4fee-6ffa-426a-9a7c-387907adfbdd",
+            CreatedDate: "2023-08-23T14:40:27.269+07:00",
+            CreatedBy: "NV0000023",
+            ModifiedDate: "2023-08-24T17:01:17.776+07:00",
+            ModifiedBy: null,
+            EditVersion: "2023-08-23T14:40:27.272+07:00",
+            State: 0,
+            OldData: null,
+            PassWarningCode: null,
+          },
+          {
+            RelativeID: 32962,
+            EmployeeID: 328294,
+            UserID: "00000000-0000-0000-0000-000000000000",
+            FullName: "qưe",
+            Birthday: null,
+            NationalityID: "VN",
+            NationalityName: "Việt Nam",
+            TaxCode: null,
+            RelationshipID: 72344,
+            RelationshipName: "Con gái",
+            IdentifyKindOfPaperID: 1,
+            IdentifyKindOfPaperName: "CMND",
+            IdentifyPaperNumber: null,
+            GenderID: 1,
+            GenderName: "Nam",
+            IdentifyNumber: null,
+            IdentifyNumberIssuedDate: null,
+            IdentifyNumberIssuedPlaceID: null,
+            IdentifyNumberIssuedPlaceName: null,
+            DependentNumber: null,
+            NumberBook: null,
+            BirthCertificationIssueDate: null,
+            CountryID: "VN",
+            CountryName: "Việt Nam",
+            ProvinceID: null,
+            ProvinceName: null,
+            DistrictID: null,
+            DistrictName: null,
+            WardID: null,
+            WardName: null,
+            IsDependent: false,
+            DeductionStartDate: null,
+            DeductionEndDate: null,
+            Description: null,
+            FamilyPermanentAddressProvinceID: null,
+            FamilyPermanentAddressProvinceName: null,
+            FamilyPermanentAddressDistrictID: null,
+            FamilyPermanentAddressDistrictName: null,
+            FamilyPermanentAddressWardName: null,
+            FamilyPermanentAddressWardID: null,
+            FamilyPermanentAddressStreetHouseNumber: null,
+            FamilyCurrentProvinceID: null,
+            FamilyCurrentProvinceName: null,
+            FamilyCurrentDistrictID: null,
+            FamilyCurrentDistrictName: null,
+            FamilyCurrentWardID: null,
+            FamilyCurrentWardName: null,
+            FamilyCurrentStreetHouseNumber: null,
+            OrganizationID: "00000000-0000-0000-0000-000000000000",
+            TenantID: "dcbf4fee-6ffa-426a-9a7c-387907adfbdd",
+            CreatedDate: "2023-08-23T14:40:27.269+07:00",
+            CreatedBy: "NV0000023",
+            ModifiedDate: "2023-08-24T17:01:17.776+07:00",
+            ModifiedBy: null,
+            EditVersion: "2023-08-23T14:40:27.272+07:00",
+            State: 0,
+            OldData: null,
+            PassWarningCode: null,
+          },
+          {
+            RelativeID: 32962,
+            EmployeeID: 328293,
+            UserID: "00000000-0000-0000-0000-000000000000",
+            FullName: "qưe",
+            Birthday: null,
+            NationalityID: "VN",
+            NationalityName: "Việt Nam",
+            TaxCode: null,
+            RelationshipID: 72344,
+            RelationshipName: "Con gái",
+            IdentifyKindOfPaperID: 1,
+            IdentifyKindOfPaperName: "CMND",
+            IdentifyPaperNumber: null,
+            GenderID: 1,
+            GenderName: "Nam",
+            IdentifyNumber: null,
+            IdentifyNumberIssuedDate: null,
+            IdentifyNumberIssuedPlaceID: null,
+            IdentifyNumberIssuedPlaceName: null,
+            DependentNumber: null,
+            NumberBook: null,
+            BirthCertificationIssueDate: null,
+            CountryID: "VN",
+            CountryName: "Việt Nam",
+            ProvinceID: null,
+            ProvinceName: null,
+            DistrictID: null,
+            DistrictName: null,
+            WardID: null,
+            WardName: null,
+            IsDependent: false,
+            DeductionStartDate: null,
+            DeductionEndDate: null,
+            Description: null,
+            FamilyPermanentAddressProvinceID: null,
+            FamilyPermanentAddressProvinceName: null,
+            FamilyPermanentAddressDistrictID: null,
+            FamilyPermanentAddressDistrictName: null,
+            FamilyPermanentAddressWardName: null,
+            FamilyPermanentAddressWardID: null,
+            FamilyPermanentAddressStreetHouseNumber: null,
+            FamilyCurrentProvinceID: null,
+            FamilyCurrentProvinceName: null,
+            FamilyCurrentDistrictID: null,
+            FamilyCurrentDistrictName: null,
+            FamilyCurrentWardID: null,
+            FamilyCurrentWardName: null,
+            FamilyCurrentStreetHouseNumber: null,
+            OrganizationID: "00000000-0000-0000-0000-000000000000",
+            TenantID: "dcbf4fee-6ffa-426a-9a7c-387907adfbdd",
+            CreatedDate: "2023-08-23T14:40:27.269+07:00",
+            CreatedBy: "NV0000023",
+            ModifiedDate: "2023-08-24T17:01:17.776+07:00",
+            ModifiedBy: null,
+            EditVersion: "2023-08-23T14:40:27.272+07:00",
+            State: 0,
+            OldData: null,
+            PassWarningCode: null,
+          },
+        ],
       },
       popupRef: null,
       formRefKey,
@@ -385,6 +582,7 @@ export default {
       workStatusesList,
       positionsList,
       identityTypes,
+      familiMemberTableHeader,
       contractTypes,
       countryList,
       provincesList,
@@ -445,13 +643,18 @@ export default {
   },
   computed: {
     ...mapState("global", ["popupVisible"]),
+    ...mapState("employee", [
+      "newEmployeeCode",
+      "formMode",
+      "currentEmployeeId",
+    ]),
     popupTitle() {
       return "Thêm thành viên gia đình";
     },
     form() {
       return this.$refs[formRefKey].instance;
     },
-    // Địa chỉ autocomplete dựa trên thông tin người dùng chọn
+    // Ô input địa chỉ autocomplete dựa trên thông tin người dùng chọn
     nativeAutoAddress() {
       let provinceName = this.provincesList.find(
         (province) => province.ProvinceID === this.employee.NativeProvinceCode
@@ -500,7 +703,13 @@ export default {
     },
   },
   methods: {
-    ...mapActions("global", ["openFormPopup", "closeFormPopup"]),
+    ...mapActions("global", [
+      "openFormPopup",
+      "closeFormPopup",
+      "showToast",
+      "hideToast",
+    ]),
+    ...mapActions("employee", ["getNewEmployeeCode"]),
     onPopupContentReady() {
       console.log("Popup content is ready");
     },
@@ -511,7 +720,7 @@ export default {
      * Thực hiện validate tất cả các component con
      * Created by: dgbao (19/08/2023)
      */
-    saveForm() {
+    async saveForm() {
       let isValid = true;
 
       // Lặp qua từng component MyTextBox và validate
@@ -521,7 +730,8 @@ export default {
           child.$options.name === "MSelectBox" ||
           child.$options.name === "MDateBox"
         ) {
-          child.validate(); // Call the validate method of MyTextBox component
+          // Gọi đến phương thức validate của component con
+          child.validate();
 
           if (!child.isValid) {
             isValid = false;
@@ -531,7 +741,15 @@ export default {
 
       if (isValid) {
         console.log("Form is valid, saving data...");
-        console.log(this.employee);
+
+        await addNewEmployee(this.employee);
+
+        this.$router.push("/tax");
+
+        this.showToast({
+          type: "success",
+          title: "Thêm mới thành công",
+        });
       } else {
         console.log("Form is invalid");
       }
@@ -559,7 +777,7 @@ export default {
       let regex = /^[0-9]*$/;
       console.log(this);
 
-      if (regex.test(value)) {
+      if (regex.test(value) || value === "" || value === null) {
         return {
           isValid: true,
           message: "",
@@ -579,7 +797,7 @@ export default {
     validateEmail(value) {
       let regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
-      if (regex.test(value)) {
+      if (regex.test(value) || value === "" || value === null) {
         return {
           isValid: true,
           message: "",
@@ -591,6 +809,31 @@ export default {
         };
       }
     },
+  },
+
+  created() {
+    /**
+     * Lấy mã nhân viên mới
+     * Created by: dgbao (19/08/2023)
+     */
+    const getNewEmployeeCode = async () => {
+      let newEmployeeCode = await getNewCode();
+      this.employee.EmployeeCode = newEmployeeCode;
+    };
+    /**
+     * Lấy thông tin chi tiết nhân viên
+     * Created by: dgbao (19/08/2023)
+     */
+    const getEmployeeDetails = async (id) => {
+      let employeeDetails = await getEmployeeById(id);
+      this.employee = employeeDetails;
+    };
+
+    if (this.formMode === "add") {
+      getNewEmployeeCode();
+    } else if (this.formMode === "view") {
+      getEmployeeDetails(this.currentEmployeeId);
+    }
   },
 };
 </script>

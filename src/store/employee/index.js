@@ -3,9 +3,11 @@ import getters from "./getters";
 import mutations from "./mutations";
 
 const state = {
+  newEmployeeCode: "",
   employees: [],
   checkedEmployees: [],
-  formMode: "view",
+  formMode: "add",
+  currentEmployeeId: "",
 };
 
 export default {

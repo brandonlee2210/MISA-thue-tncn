@@ -11,14 +11,17 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   name: "GroupButton",
   methods: {
     handleOpenAddForm() {
+      this.setFormMode("add");
       if (this.$route.path !== "/tax/add") {
         this.$router.push("/tax/add");
       }
     },
+    ...mapActions("employee", ["setFormMode"]),
   },
 };
 </script>

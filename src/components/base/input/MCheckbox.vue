@@ -1,5 +1,8 @@
 <template>
-  <div class="form-group-item-container checkbox-group">
+  <div
+    class="form-group-item-container checkbox-group"
+    v-if="formMode !== 'view'"
+  >
     <div class="item__label">{{ label }}</div>
     <div class="item__input" @click="toggleChecked">
       <dx-check-box
@@ -12,11 +15,15 @@
 
 <script>
 import { DxCheckBox } from "devextreme-vue";
+import { mapState } from "vuex";
 
 export default {
   name: "CustomCheckbox",
   components: {
     DxCheckBox,
+  },
+  computed: {
+    ...mapState("employee", ["formMode"]),
   },
   props: {
     value: {

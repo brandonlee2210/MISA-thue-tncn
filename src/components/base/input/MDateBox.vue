@@ -1,5 +1,5 @@
 <template>
-  <div class="form-group-item-container">
+  <div class="form-group-item-container" :class="{ view: formMode == 'view' }">
     <div class="item__label">
       {{ label }}<span v-if="isRequired" class="text-lg-error">*</span>
     </div>
@@ -19,15 +19,25 @@
         :mask-rules="dateMaskRules"
         @valueChanged="handleInput"
         @focusOut="validate"
+        v-if="formMode == 'add'"
       />
 
-      <div v-if="!isValid" class="error-message">{{ validationError }}</div>
+      <div v-if="formMode == 'view'" class="misa-info-binding">
+        <span class="text-lg-body-1">{{ formatValue || "-" }}</span>
+      </div>
+
+      <div v-if="!isValid && formMode != 'view'" class="error-message">
+        {{ validationError }}
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { DxDateBox } from "devextreme-vue";
+import { mapState } from "vuex";
+import { formatDate } from "@/helpers/utils";
+
 import { locale } from "devextreme/localization";
 export default {
   name: "MDateBox",
@@ -65,6 +75,10 @@ export default {
     },
   },
   computed: {
+    ...mapState("employee", ["formMode"]),
+    formatValue() {
+      return formatDate(this.value);
+    },
     isValid() {
       return this.validationResult.isValid;
     },
@@ -109,7 +123,7 @@ export default {
     isValidDate(value) {
       // kiểm tra có nho hơn ngày hiện tại hay không
       value = new Date(value);
-      if (value < new Date()) {
+      if (value < new Date() || value == "" || value == null) {
         return true;
       }
       return false;

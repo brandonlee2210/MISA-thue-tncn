@@ -143,11 +143,48 @@
 }
 
 .misa-empty-data {
-  height: 65px;
-  border-radius: 5px;
+  position: relative;
+  overflow: hidden;
+  flex: 1;
+  border-radius: 4px;
   border: 1px dashed #e9ebee;
+
+  .dx-row.dx-header-row {
+    background: #eee !important;
+  }
 }
 
 .misa-background-footer-dialog {
   background-color: #f5f6f8 !important;
+}
+
+.mi-check,
+.mi-edit-white {
+  -webkit-mask-image: url(https://amisplatform.misacdn.net/apps/mintax/img/icon.4ca9813a.svg);
+  -moz-mask-image: url(https://amisplatform.misacdn.net/apps/mintax/img/icon.4ca9813a.svg);
+  -ms-mask-image: url(https://amisplatform.misacdn.net/apps/mintax/img/icon.4ca9813a.svg);
+  -o-mask-image: url(https://amisplatform.misacdn.net/apps/mintax/img/icon.4ca9813a.svg);
+  mask-image: url(https://amisplatform.misacdn.net/apps/mintax/img/icon.4ca9813a.svg);
+  -webkit-mask-repeat: no-repeat;
+  -moz-mask-repeat: no-repeat;
+  -ms-mask-repeat: no-repeat;
+  -o-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.mi-check {
+  width: 13px !important;
+  height: 9px !important;
+  -webkit-mask-position: -64px -46px;
+  -moz-mask-position: -64px -46px;
+  -ms-mask-position: -64px -46px;
+  -o-mask-position: -64px -46px;
+  mask-position: -64px -46px;
+  background-color: #007aff !important;
+}
+
+.no-info {
+  height: 65px;
+  display: flex;
+  align-items: center;
 }

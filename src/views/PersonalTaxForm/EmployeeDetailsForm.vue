@@ -9,6 +9,7 @@
 import FormHeader from "./FormHeader.vue";
 import FormDetails from "./FormDetails.vue";
 const formDetailsRef = "formDetailsRef";
+
 export default {
   components: {
     FormHeader,

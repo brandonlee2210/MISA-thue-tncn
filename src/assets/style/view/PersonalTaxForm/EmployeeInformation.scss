@@ -1,4 +1,5 @@
 .misa-container-employee-details {
+  width: 100%;
   height: 100%;
   .employee-tempory-detail-content {
     display: flex;
@@ -27,6 +28,10 @@
         background-color: #eff1fb;
       }
     }
+
+    .misa-content-right {
+      width: calc(100% - 345px);
+    }
   }
 }
 
@@ -39,4 +44,8 @@
 
 .form-group-item-container.view {
   height: 30px !important;
+}
+
+.misa-content-right {
+  flex: 1;
 }

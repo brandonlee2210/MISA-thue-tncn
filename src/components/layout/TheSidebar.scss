@@ -80,10 +80,13 @@
   padding-left: 14px;
 
   justify-content: flex-start;
+
+  &:hover {
+    background: var(--sidebar-hover-color);
+  }
 }
 
 .menu-item:not(.menu-item.router-link-active) {
-  background: var(--sidebar-hover-color);
   color: white;
 
   cursor: pointer;

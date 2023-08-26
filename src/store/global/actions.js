@@ -10,7 +10,7 @@ const closeFormPopup = ({ commit }) => {
   commit("HIDE_FORM_POPUP");
 };
 
-const showToast = ({ commit }, { props }) => {
+const showToast = ({ commit }, props) => {
   commit("SET_TOAST_PROPS", props);
   commit("SET_TOAST_VISIBILITY", true);
 };
@@ -32,7 +32,17 @@ const showLoading = ({ commit }) => {
 };
 
 const hideLoading = ({ commit }) => {
-  commit("HIDE_LOADING");
+  setTimeout(() => {
+    commit("HIDE_LOADING");
+  }, 200);
+};
+
+const showNotification = ({ commit }, props) => {
+  commit("SHOW_NOTIFICATION", props);
+};
+
+const hideNotification = ({ commit }) => {
+  commit("HIDE_NOTIFICATION");
 };
 
 export default {
@@ -45,4 +55,6 @@ export default {
   hideToast,
   showLoading,
   hideLoading,
+  showNotification,
+  hideNotification,
 };

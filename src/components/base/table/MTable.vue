@@ -21,7 +21,15 @@
         :key="index"
         v-bind="item"
         header-cell-template="title-header"
+        cell-template="workStatusCellTemplate"
       />
+
+      <template #workStatusCellTemplate="{ data }">
+        <slot :name="data.column.dataField">
+          {{ data.value }}
+        </slot>
+      </template>
+
       <template #title-header="{ data }">
         <div class="header__cell__container">
           <p style="font-size: 14px" class="">{{ data.column.caption }}</p>
@@ -66,13 +74,11 @@
             >
               <span class="v-btn__content"
                 ><i
-                  data-v-1090f892=""
                   aria-hidden="true"
                   class="v-icon notranslate ico ico-edit-table-row theme--light"
                 ></i
               ></span></button
             ><button
-              data-v-1090f892=""
               type="button"
               class="mr-3 action-button v-btn v-btn--has-bg v-btn--rounded theme--light v-size--small b-info b-info"
               title="Lưu"
@@ -80,51 +86,21 @@
             >
               <span class="v-btn__content"
                 ><i
-                  data-v-1090f892=""
                   aria-hidden="true"
                   class="v-icon notranslate mi mi-save-edit theme--light"
                 ></i
               ></span></button
             ><button
-              data-v-1090f892=""
-              type="button"
-              class="mr-3 action-button v-btn v-btn--has-bg v-btn--rounded theme--light v-size--small b-info b-info"
-              title="Hủy"
-              style="height: 36px; width: 36px; display: none"
-            >
-              <span class="v-btn__content"
-                ><i
-                  data-v-1090f892=""
-                  aria-hidden="true"
-                  class="v-icon notranslate mi mi-close-red theme--light"
-                ></i
-              ></span></button
-            ><button
-              data-v-1090f892=""
               type="button"
               class="mr-3 action-button v-btn v-btn--has-bg v-btn--rounded theme--light v-size--small b-info b-info"
               title="Xóa"
               style="height: 36px; width: 36px"
+              @click="deleteRow(data)"
             >
               <span class="v-btn__content"
                 ><i
-                  data-v-1090f892=""
                   aria-hidden="true"
                   class="v-icon notranslate ico ico-delete-table-row theme--light"
-                ></i
-              ></span></button
-            ><button
-              data-v-1090f892=""
-              type="button"
-              class="mr-3 action-button v-btn v-btn--has-bg v-btn--rounded theme--light v-size--small b-info b-info"
-              title="Xem chi tiết chứng từ"
-              style="height: 36px; width: 36px; display: none"
-            >
-              <span class="v-btn__content"
-                ><i
-                  data-v-1090f892=""
-                  aria-hidden="true"
-                  class="v-icon notranslate ico ico-view theme--light"
                 ></i
               ></span>
             </button>
@@ -133,24 +109,8 @@
       </template>
       <!-- context menu -->
 
-      <!-- <DxColumn
-        data-field="WorkStatus"
-        :customize-text="priceColumn_customizeText"
-      /> -->
-
-      <!-- <template #work-status-cell="{ data }">
-        cell-template="work-status-cell"
-        <div
-          :class="{
-            'my-class': cellInfo.data.Speed > cellInfo.data.SpeedLimit,
-          }"
-        >
-          Hello
-          {{ data.value }}
-        </div>
-      </template> -->
-
       <DxSelection
+        v-if="canSelect"
         :select-all-mode="allMode"
         :show-check-boxes-mode="checkBoxesMode"
         mode="multiple"
@@ -170,6 +130,8 @@ import {
   DxTemplate,
 } from "devextreme-vue/data-grid";
 
+import { mapActions } from "vuex";
+
 const dataGridRef = "dataGrid";
 
 export default {
@@ -181,7 +143,7 @@ export default {
     DxScrolling,
     DxTemplate,
   },
-  props: ["dataSource", "columns"],
+  props: ["dataSource", "columns", "canSelect"],
   data() {
     return {
       dataGridRef,
@@ -213,15 +175,16 @@ export default {
     },
   },
   methods: {
-    priceColumn_customizeText(cellInfo) {
-      return cellInfo.value + "$";
-    },
+    ...mapActions("global", ["showNotification"]),
+    ...mapActions("employee", ["setFormMode", "setCurrentEmployeeId"]),
     /**
      * Hàm lấy dữ liệu các dòng được chọn và emit kèm theo danh sách chứa các ids của các dòng được chọn
      * Created by: dgbao (17/08/2023)
      */
     getSelectedData() {
-      let checkIds = this.dataGrid.getSelectedRowsData().map((item) => item.ID);
+      let checkIds = this.dataGrid
+        .getSelectedRowsData()
+        .map((item) => item.EmployeeID);
       this.$emit("onselected", checkIds);
     },
 
@@ -258,12 +221,29 @@ export default {
       this.$emit("change-pin", localColumns);
     },
     /**
+     * Xử lí sự kiện khi click vào nút xóa
+     * @param id - id của dòng được click
+     * Created by: dgbao (17/08/2023)
+     */
+    deleteRow(data) {
+      this.showNotification({
+        title: "Xoá người nộp thuế",
+        type: "delete",
+        rawHtml: `Bạn có chắc chắn muốn xóa người nộp thuế
+            <strong>${data.data.FullName}</strong> vào thùng rác?`,
+        idToDelete: data.key,
+      });
+    },
+    /**
      * Mở form view chi tiết nhân viên
      * @param {*} event
      * Created by: dgbao (17/08/2023)
      */
     openFormView(event) {
+      this.setFormMode("view");
       let key = event.key;
+      this.setCurrentEmployeeId(key);
+
       this.$router.push(`/tax/view`);
     },
   },
@@ -271,7 +251,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import url(../../../assets/style/base/table/MTable.scss);
 
 #table-container {

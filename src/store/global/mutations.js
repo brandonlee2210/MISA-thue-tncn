@@ -34,6 +34,15 @@ const HIDE_LOADING = (state) => {
   state.isLoading = false;
 };
 
+const SHOW_NOTIFICATION = (state, props) => {
+  state.isNotificationVisible = true;
+  state.notificationProps = props;
+};
+
+const HIDE_NOTIFICATION = (state) => {
+  state.isNotificationVisible = false;
+};
+
 export default {
   HIDE_FILTER,
   SHOW_FILTER,
@@ -44,4 +53,6 @@ export default {
   SET_TOAST_PROPS,
   SHOW_LOADING,
   HIDE_LOADING,
+  SHOW_NOTIFICATION,
+  HIDE_NOTIFICATION,
 };

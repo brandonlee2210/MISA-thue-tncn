@@ -1,6 +1,9 @@
 <template>
   <div class="container">
     <MToastMessage :title="'hello'" :type="'success'" />
+    <MOverlay :show="isNotificationVisible">
+      <MDialog />
+    </MOverlay>
 
     <TheHeader />
     <div class="content-container">
@@ -16,14 +19,21 @@ import TheSidebar from "@/components/layout/TheSidebar.vue";
 import ThePage from "@/components/layout/ThePage.vue";
 import MToastMessage from "@/components/base/toast-message/MToastMessage.vue";
 import MDialog from "./components/base/dialog/MDialog.vue";
+import MOverlay from "./components/MOverlay.vue";
+
+import { mapState } from "vuex";
 
 export default {
   name: "HomeView",
+  computed: {
+    ...mapState("global", ["isNotificationVisible"]),
+  },
   components: {
     TheHeader,
     TheSidebar,
     ThePage,
     MToastMessage,
+    MOverlay,
 
     // eslint-disable-next-line vue/no-unused-components
     MDialog,

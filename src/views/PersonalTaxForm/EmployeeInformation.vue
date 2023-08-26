@@ -46,6 +46,11 @@ export default {
     return {};
   },
   methods: {
+    /**
+     * Xử lí sự kiện scroll
+     * @param {*} id
+     * @param {*} event
+     */
     handleScroll(id, event) {
       const elmnt = document.getElementById(id);
       elmnt.scrollIntoView({ behavior: "smooth" });
