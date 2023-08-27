@@ -34,8 +34,6 @@ export default {
     ThePage,
     MToastMessage,
     MOverlay,
-
-    // eslint-disable-next-line vue/no-unused-components
     MDialog,
   },
 };

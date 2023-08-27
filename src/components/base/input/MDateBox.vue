@@ -73,6 +73,10 @@ export default {
       type: String,
       default: "",
     },
+    customEmptyErrMsg: {
+      type: String,
+      default: "",
+    },
   },
   computed: {
     ...mapState("employee", ["formMode"]),
@@ -110,7 +114,8 @@ export default {
       if (this.isRequired && !this.value) {
         // Kiểm tra trống
         this.validationResult.isValid = false;
-        this.validationResult.message = `${this.label} không được để trống`;
+        this.validationResult.message =
+          this.customEmptyErrMsg || `${this.label} không được để trống`;
       } else if (!this.isValidDate(this.value)) {
         // Kiểm tra đúng định dạng
         this.validationResult.isValid = false;

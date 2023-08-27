@@ -33,9 +33,9 @@ const getListPerson = async (context) => {
     FilterUsageStatus: USAGE_STATUS.ACTIVE,
   });
   const response = await EmployeeService.filter();
-  let employees = response.data.Data;
-  context.commit("SET_TOTAL_PAGE", response.data.TotalPage);
-  context.commit("SET_TOTAL_RECORD", response.data.TotalRecord);
+  let employees = response?.data?.Data;
+  context.commit("SET_TOTAL_PAGE", response?.data.TotalPage);
+  context.commit("SET_TOTAL_RECORD", response?.data.TotalRecord);
   context.commit("SET_EMPLOYEES", employees);
 };
 

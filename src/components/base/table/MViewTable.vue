@@ -4,7 +4,7 @@
     <DxDataGrid
       :data-source="dataSource"
       :allow-column-reordering="false"
-      key-expr="RelativeID"
+      key-expr="RelativeInformationID"
       :column-auto-width="true"
       scrolling="never"
       :show-column-lines="false"
@@ -23,7 +23,7 @@
       />
 
       <template #workStatusCellTemplate="{ data }">
-        <slot :name="data.column.dataField">
+        <slot :name="data.column.dataField" :value="data.value">
           {{ data.value }}
         </slot>
       </template>
@@ -163,7 +163,7 @@ export default {
      * Created by: dgbao (17/08/2023)
      * */
 
-    test(data) {
+    deleteRow(data) {
       console.log(data);
     },
   },

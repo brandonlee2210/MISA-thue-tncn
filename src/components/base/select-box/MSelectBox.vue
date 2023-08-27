@@ -77,6 +77,15 @@ export default {
       type: Boolean,
       default: false,
     },
+    customEmptyErrMsg: {
+      type: String,
+      default: "",
+    },
+  },
+  watch: {
+    value: function (newValue) {
+      this.selectedItem = newValue;
+    },
   },
   data() {
     return {

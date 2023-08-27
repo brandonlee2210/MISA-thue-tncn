@@ -170,13 +170,21 @@
 
     <div class="row mt-4 pl-3 header-dialog">THÔNG TIN GIẢM TRỪ</div>
     <MCheckbox label="Là người phụ thuộc" v-model="relative.IsDependent" />
-    <MDateBox placeholder="__/__/____" label="Giảm trừ từ tháng" />
+    <MDateBox
+      placeholder="__/__/____"
+      label="Giảm trừ từ tháng"
+      v-model="relative.DeductionStartDate"
+    />
     <MTextarea
       v-model="relative.Description"
       placeholder="Nhập ghi chú"
       label="Ghi chú"
     />
-    <MDateBox placeholder="__/__/____" label="Giảm trừ đến tháng" />
+    <MDateBox
+      placeholder="__/__/____"
+      label="Giảm trừ đến tháng"
+      v-model="relative.DeductionEndDate"
+    />
   </form>
 </template>
 
@@ -187,6 +195,8 @@ import MDateBox from "@/components/base/input/MDateBox.vue";
 import MRadioButton from "@/components/base/radio/MRadioButton.vue";
 import MCheckbox from "@/components/base/input/MCheckbox.vue";
 import MTextarea from "@/components/base/input/MTextarea.vue";
+
+import { mapState } from "vuex";
 
 import {
   employeeTypes,
@@ -211,7 +221,21 @@ export default {
     MCheckbox,
     MTextarea,
   },
+  computed: {
+    ...mapState("relative", ["editMode", "relative"]),
+    ...mapState("global", ["popupVisible"]),
+  },
   watch: {
+    /* Thực hiện lưu trữ thêm dữ liệu */
+    "relative.RelationshipID": function (newRelationshipID) {
+      console.log("new", newRelationshipID);
+      if (newRelationshipID !== null) {
+        this.relative.RelationshipName = relationshipsTypes.find(
+          (item) => item.id === newRelationshipID
+        ).text;
+      }
+    },
+
     /* Theo dõi khi tỉnh và huyện thay đổi thì lọc lại theo đúng ID */
     "relative.ProvinceID": function (newProvinceCode) {
       this.districtsList = districtsList.filter(
@@ -246,56 +270,6 @@ export default {
   },
   data() {
     return {
-      relative: {
-        UnofficialStaffRelationshipID: 32942,
-        EmployeeID: 309393,
-        FullName: "",
-        DateOfBirth: null,
-        NationalityID: 1,
-        NationalityName: "Việt Nam",
-        TaxCode: "",
-        RelationshipID: 1,
-        RelationshipName: "Con gái",
-        IdentifyKindOfPaperID: 1,
-        IdentifyKindOfPaperName: "CMND",
-        Gender: 1,
-        GenderName: "Nam",
-        IdentityNumber: null,
-        IdentityDate: null,
-        IdentityPlaceID: null,
-        IdentityPlaceName: null,
-        DependentNumber: "",
-        NumberBook: "",
-        BirthCertificationIssueDate: null,
-        CountryID: "VN",
-        CountryName: "Việt Nam",
-        ProvinceID: null,
-        ProvinceName: null,
-        DistrictID: null,
-        DistrictName: null,
-        WardID: null,
-        WardName: null,
-        StreatHouseNumber: "",
-        IsDependent: false,
-        DeductionStartDate: null,
-        DeductionEndDate: null,
-        Description: null,
-        FamilyPermanentAddressProvinceID: null,
-        FamilyPermanentAddressProvinceName: null,
-        FamilyPermanentAddressDistrictID: null,
-        FamilyPermanentAddressDistrictName: null,
-        FamilyPermanentAddressWardName: null,
-        FamilyPermanentAddressWardID: null,
-        FamilyPermanentAddressStreetHouseNumber: "",
-        FamilyCurrentProvinceID: null,
-        FamilyCurrentProvinceName: null,
-        FamilyCurrentDistrictID: null,
-        FamilyCurrentDistrictName: null,
-        FamilyCurrentWardID: null,
-        FamilyCurrentWardName: null,
-        FamilyCurrentStreetHouseNumber: "",
-        State: 0,
-      },
       employeeTypes,
       relationshipsTypes,
       workStatusesList,
@@ -338,8 +312,9 @@ export default {
 
       if (isValid) {
         console.log("Form is valid, saving data...");
+        return { ...this.relative, EditMode: this.editMode };
       } else {
-        console.log("Form is invalid");
+        return false;
       }
     },
     /**

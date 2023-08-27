@@ -13,3 +13,14 @@ export const GENDER = {
   FEMALE: 1,
   OTHER: 2,
 };
+
+export const DEPENDENT_STATUS = {
+  IS_DEPENDENT: 1,
+  NOT_DEPENDENT: 0,
+};
+
+export const EDIT_MODE = {
+  EDIT: "edit",
+  ADD: "add",
+  DELETE: "delete",
+};

@@ -1,5 +1,5 @@
 <template>
-  <div class="overlay" v-if="show">
+  <div class="overlay" v-show="show">
     <!-- Overlay content goes here -->
     <slot></slot>
   </div>
