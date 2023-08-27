@@ -193,7 +193,7 @@ export default {
   .table__container {
     position: relative;
     overflow: auto;
-    height: 606px;
+    height: 586px;
 
     .dx-datagrid.dx-gridbase-container {
       height: calc(100vh - 342px) !important;
@@ -203,7 +203,7 @@ export default {
 
 .narrow {
   .table__container {
-    height: 476px;
+    height: 456px;
   }
 }
 

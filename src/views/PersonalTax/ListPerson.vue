@@ -27,7 +27,7 @@
         </template>
       </MTable>
     </div>
-    <Pagination :totalEmployee="totalEmployee" />
+    <Pagination listType="person" />
     <div id="draggable-container" v-if="isDraggableMenuVisible">
       <DraggableMenu
         :list="columns"
@@ -76,9 +76,6 @@ export default {
     /* Độ dài mảng chứa các dòng được chọn */
     checkedIdsLength() {
       return this.checkedIds.length;
-    },
-    totalEmployee() {
-      return this.employees.length;
     },
   },
   components: {

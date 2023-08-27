@@ -394,6 +394,7 @@ export default {
         JobPositionName: "",
         WorkStatus: 1,
         ListRelatives: [],
+        UsageStatus: 0,
       },
       popupRef: null,
       formRefKey,
@@ -415,11 +416,6 @@ export default {
       taxCodeRef: null,
 
       items,
-      // positionEditorOptions: {
-      //   items: employee.EmployeeType,
-      //   searchEnabled: true,
-      //  v-model: employee.EmployeeType[0],
-      // },
       formComponents: [],
       IsSameAddress: false,
       popupValues: {},

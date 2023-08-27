@@ -9,11 +9,12 @@
 </template>
 
 <script>
+import { USAGE_STATUS, WORK_STATUS } from "@/helpers/enums";
 export default {
   name: "MChip",
   props: {
     label: {
-      type: String,
+      type: [String, Number],
       default: "",
     },
     column: {
@@ -25,9 +26,13 @@ export default {
     newLabel() {
       switch (this.column) {
         case "WorkStatus":
-          return this.label == 1 ? "Đang làm việc" : "Đã nghỉ việc";
+          return this.label == WORK_STATUS.ACTIVE
+            ? "Đang làm việc"
+            : "Đã nghỉ việc";
         case "UsageStatus":
-          return this.label == 1 ? "Đang sử dụng" : "Không sử dụng";
+          return this.label == USAGE_STATUS.ACTIVE
+            ? "Đang sử dụng"
+            : "Không sử dụng";
         default:
           return this.label;
       }

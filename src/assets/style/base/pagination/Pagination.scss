@@ -50,7 +50,7 @@
 
 .v-btn--disabled {
   pointer-events: none;
-  cursor: not-allowed;
+  cursor: not-allowed !important;
 }
 
 .v-btn {
@@ -110,4 +110,5 @@
 
 .v-btn--disabled {
   opacity: 0.4;
+  cursor: not-allowed !important;
 }

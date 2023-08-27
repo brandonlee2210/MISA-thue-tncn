@@ -18,9 +18,11 @@ const state = {
     ReceiveDateStart: null,
     ReceiveDateEnd: null,
   },
-  pageSize: 10,
+  pageSize: 15,
   pageNumber: 1,
   filterKeyword: "",
+  totalPage: 1,
+  totalRecord: 15,
 };
 
 export default {

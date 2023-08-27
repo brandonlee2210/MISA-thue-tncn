@@ -33,6 +33,35 @@ const SET_CURRENT_EMPLOYEEID = (state, id) => {
   state.currentEmployeeId = id;
 };
 
+const SET_PAGESIZE = (state, pageSize) => {
+  state.pageSize = pageSize;
+};
+
+const SET_PAGENUMBER = (state, pageNumber) => {
+  state.pageNumber = pageNumber;
+};
+
+const SET_FILTERKEYWORD = (state, filterKeyword) => {
+  state.filterKeyword = filterKeyword;
+};
+
+const SET_TOTAL_PAGE = (state, totalPage) => {
+  state.totalPage = totalPage;
+};
+
+const SET_TOTAL_RECORD = (state, totalRecord) => {
+  state.totalRecord = totalRecord;
+};
+
+const SET_FILTER_DATA_PROPERTY = (state, filterData) => {
+  // set lại giá trị cho từng thuộc tính của filterData
+  for (const key in filterData) {
+    if (Object.hasOwnProperty.call(state.filterData, key)) {
+      state.filterData[key] = filterData[key];
+    }
+  }
+};
+
 export default {
   SET_FORM_MODE,
   SET_SELECTED_EMPLOYEES,
@@ -40,4 +69,10 @@ export default {
   SET_NEW_EMPLOYEE_CODE,
   SET_CURRENT_EMPLOYEEID,
   SET_FILTER_DATA,
+  SET_PAGESIZE,
+  SET_PAGENUMBER,
+  SET_FILTERKEYWORD,
+  SET_FILTER_DATA_PROPERTY,
+  SET_TOTAL_PAGE,
+  SET_TOTAL_RECORD,
 };
