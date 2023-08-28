@@ -41,7 +41,7 @@ const SET_PAGENUMBER = (state, pageNumber) => {
   state.pageNumber = pageNumber;
 };
 
-const SET_FILTERKEYWORD = (state, filterKeyword) => {
+const SET_FILTER_KEYWORD = (state, filterKeyword) => {
   state.filterKeyword = filterKeyword;
 };
 
@@ -79,7 +79,7 @@ export default {
   SET_FILTER_DATA,
   SET_PAGESIZE,
   SET_PAGENUMBER,
-  SET_FILTERKEYWORD,
+  SET_FILTER_KEYWORD,
   SET_FILTER_DATA_PROPERTY,
   SET_TOTAL_PAGE,
   SET_TOTAL_RECORD,

@@ -5,8 +5,9 @@
     @click="handleClick"
   >
     <span class="v-btn__content"
-      ><i class="ico" :class="`ico-${type}`"></i
-    ></span>
+      ><i class="ico" :class="`ico-${type}`"></i>
+      <slot></slot>
+    </span>
     <div v-if="title" class="title">{{ title }}</div>
   </button>
 </template>
@@ -26,7 +27,7 @@ export default {
 <style lang="scss" scoped>
 .button {
   height: 36px;
-  padding: 0 12px 0 12px;
+  padding: 0 8px 0 8px;
 
   display: flex;
   align-items: center;
@@ -133,5 +134,40 @@ export default {
       width: 16px;
     }
   }
+}
+
+.v-badge__wrapper {
+  flex: 0 1;
+  height: 100%;
+  left: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  width: 100%;
+
+  .v-badge__badge {
+    border-radius: 4.5px;
+    height: 9px;
+    min-width: 0;
+    padding: 0;
+    width: 9px;
+    display: inline-block;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 12px;
+    letter-spacing: 0;
+    pointer-events: auto;
+    position: absolute;
+    text-align: center;
+    text-indent: 0;
+    top: auto;
+    transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+    white-space: nowrap;
+  }
+}
+
+.blue {
+  background-color: #2196f3 !important;
+  border-color: #2196f3 !important;
 }
 </style>

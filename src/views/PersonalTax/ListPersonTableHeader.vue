@@ -8,6 +8,7 @@
         mode="search"
         :width="380"
         :height="36"
+        @input="handleInputChange"
       ></DxTextBox>
       <DxDropDownBox
         placeholder="Bộ phận/phòng ban"
@@ -18,7 +19,14 @@
     </div>
     <div class="list-person__left">
       <GroupButton />
-      <ButtonWithIcon type="filter" :onClick="showFilter" />
+      <ButtonWithIcon type="filter" :onClick="showFilter">
+        <span class="v-badge__wrapper" v-if="isBadgeVisible"
+          ><span
+            class="v-badge__badge blue"
+            style="inset: auto auto calc(100% - 8px) calc(100% - 8px)"
+          ></span
+        ></span>
+      </ButtonWithIcon>
       <ButtonWithIcon type="setting" :onClick="handleClickSetting" />
     </div>
   </div>
@@ -29,8 +37,9 @@ import { DxTextBox, DxButton } from "devextreme-vue";
 import DxDropDownBox from "devextreme-vue/drop-down-box";
 import ButtonWithIcon from "@/components/base/button/ButtonWithIcon.vue";
 import GroupButton from "@/components/base/button/GroupButton.vue";
+// import { debounce } from "@/helpers/debounce";
 
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
   components: {
@@ -40,14 +49,60 @@ export default {
     ButtonWithIcon,
     GroupButton,
   },
+  watch: {
+    searchText(newValue) {
+      console.log(newValue);
+    },
+  },
+  computed: {
+    ...mapState("employee", ["filterData"]),
+
+    // Nếu không có trường nào đang lọc thì return false
+    isBadgeVisible() {
+      for (const key in this.filterData) {
+        if (this.filterData[key]) {
+          return true;
+        }
+      }
+      return false;
+    },
+  },
+  data() {
+    return {
+      timeoutId: null,
+      inputValue: "",
+    };
+  },
   methods: {
-    ...mapActions("global", ["showFilter", "hideFilter"]),
+    ...mapActions("global", [
+      "showFilter",
+      "hideFilter",
+      "showLoading",
+      "hideLoading",
+    ]),
+    ...mapActions("employee", ["setFilterKeyword", "getListPerson"]),
     /**
      * Hiển thị menu setting bảng
      * CreatedBy: dgbao (23/08/2023)
      */
     handleClickSetting() {
       this.$emit("toggle-draggable-menu");
+    },
+    /**
+     * Xử lý khi người dùng nhập vào ô tìm kiếm
+     * @author dgbao (25/08/2023)
+     * @param {*} event
+     */
+    handleInputChange(event) {
+      this.inputValue = event.event.currentTarget.value;
+      this.setFilterKeyword(this.inputValue);
+
+      clearTimeout(this.timeoutId);
+      this.timeoutId = setTimeout(() => {
+        this.showLoading();
+        this.getListPerson();
+        this.hideLoading();
+      }, 800);
     },
   },
 };
