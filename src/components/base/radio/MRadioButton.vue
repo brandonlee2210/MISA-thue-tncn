@@ -25,6 +25,11 @@ export default {
   components: {
     DxRadioGroup,
   },
+  watch: {
+    value(newValue) {
+      this.selectedValue = newValue;
+    },
+  },
   data() {
     return {
       selectedValue: this.value,

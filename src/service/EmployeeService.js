@@ -24,7 +24,7 @@ class EmployeeServiceClass extends BaseService {
       this.endpoint(
         `/filter?pageSize=${store.state.employee.pageSize}&pageNumber=${store.state.employee.pageNumber}&filterKeyword=${store.state.employee.filterKeyword}`
       ),
-      store.state.employee.filterData
+      store.getters["employee/transformedFilterData"]
     );
 
     return res;

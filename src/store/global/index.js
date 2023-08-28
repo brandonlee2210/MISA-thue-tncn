@@ -5,6 +5,8 @@ import mutations from "./mutations";
 const state = {
   popupVisible: false,
   isToastMessageVisible: false,
+
+  // Đinh nghĩa các props của toast message
   toastMessageProps: {
     title: "",
     type: "",
@@ -12,6 +14,8 @@ const state = {
   isSideBarToggled: false,
   isFilterVisible: false,
   isNotificationVisible: false,
+
+  // Đinh nghĩa các props của notification
   notificationProps: {
     title: "",
     message: "",

@@ -34,33 +34,99 @@
         </div>
       </div>
     </div>
-    <MRadioButton :options="options" :value="1" v-show="checked" />
-    <!-- <MDatePickerVue /> -->
+    <MRadioButton :options="options" v-model="selectedValue" v-show="checked" />
+    <div class="date-filter" v-if="itemKey == 'FilterDate' && checked">
+      <MDateBox
+        label="Từ ngày"
+        placeholder="__/__/____"
+        v-model="startDate"
+        :min="minStartDate"
+        :max="maxStartDate"
+      />
+      <MDateBox
+        label="Đến ngày"
+        placeholder="__/__/____"
+        v-model="endDate"
+        :min="minEndDate"
+        :max="new Date()"
+      />
+    </div>
+    <!-- <template v-if="checked">
+      <slot></slot>
+    </template> -->
   </div>
 </template>
 
 <script>
 import MRadioButton from "../base/radio/MRadioButton.vue";
+import { mapActions, mapState } from "vuex";
 import { workStatuses } from "./data";
-import MDatePickerVue from "../base/input/MDatePicker.vue";
+import MDateBox from "../base/input/MDateBox.vue";
 
 export default {
   components: {
     MRadioButton,
-    // eslint-disable-next-line vue/no-unused-components
-    MDatePickerVue,
+    MDateBox,
   },
-  watch: {
-    checked(newValue) {
-      console.log(newValue);
+  computed: {
+    ...mapState("employee", ["filterData"]),
+    minStartDate() {
+      return this.startFilterDate;
+    },
+    maxStartDate() {
+      return this.endFilterDate;
+    },
+    minEndDate() {
+      return this.startFilterDate;
     },
   },
-  props: ["label", "options"],
+  watch: {
+    // Nếu giá trị check thay đổi thì emit lên key cùng với value của checkbox đang chọn,
+    checked(newValue) {
+      if (newValue) {
+        this.selectedValue = 1;
+
+        if (this.itemKey == "FilterDate") {
+          this.selectedValue = "HireDate";
+          this.$emit("checkedChange", this.itemKey, this.selectedValue);
+        } else {
+          this.$emit("checkedChange", this.itemKey, this.selectedValue);
+        }
+        // Nếu bỏ tick thì gửi lên giá trị null
+      } else {
+        this.$emit("checkedChange", this.itemKey, null);
+      }
+    },
+    selectedValue(newValue) {
+      this.$emit("checkedChange", this.itemKey, newValue);
+    },
+    startDate(newValue) {
+      this.setStartDate(newValue);
+    },
+    endDate(newValue) {
+      this.setEndDate(newValue);
+    },
+  },
+
+  props: [
+    "label",
+    "options",
+    "itemKey",
+    "value",
+    "startFilterDate",
+    "endFilterDate",
+  ],
   data() {
     return {
-      checked: false,
+      checked: this.value !== null && this.value !== undefined,
+      selectedValue: this.value,
       workStatuses,
+      startDate: this.startFilterDate,
+      endDate: this.endFilterDate,
     };
+  },
+  methods: {
+    ...mapActions("employee", ["setStartDate", "setEndDate"]),
   },
 };
 </script>

@@ -1,6 +1,7 @@
 <!-- eslint-disable vue/no-unused-components -->
 <template>
   <div class="form-body-container">
+    <m-loading v-if="isLoading"></m-loading>
     <div
       class="row mt-11 pb-6 d-flex pl-3 align-center pr-3"
       style="justify-content: space-between"
@@ -276,7 +277,7 @@
 import { DxPopup } from "devextreme-vue/popup";
 import ButtonWithIcon from "@/components/base/button/ButtonWithIcon.vue";
 import { mapState, mapActions } from "vuex";
-import { getNewCode, getEmployeeById, addNewEmployee } from "@/helpers/api";
+import { getEmployeeById, addNewEmployee } from "@/helpers/api";
 
 import {
   familiMemberTableHeader,
@@ -299,7 +300,7 @@ import MCheckbox from "@/components/base/input/MCheckbox.vue";
 import PopUp from "./PopUp.vue";
 import MViewTable from "@/components/base/table/MViewTable.vue";
 import { EDIT_MODE } from "@/helpers/enums.js";
-
+import EmployeeService from "@/service/EmployeeService";
 const formRefKey = "formRef";
 
 export default {
@@ -463,7 +464,7 @@ export default {
     };
   },
   computed: {
-    ...mapState("global", ["popupVisible"]),
+    ...mapState("global", ["popupVisible", "isLoading"]),
     ...mapState("employee", [
       "newEmployeeCode",
       "formMode",
@@ -537,6 +538,8 @@ export default {
       "closeFormPopup",
       "showToast",
       "hideToast",
+      "showLoading",
+      "hideLoading",
     ]),
     ...mapActions("employee", ["getNewEmployeeCode"]),
     ...mapActions("relative", ["setEditMode", "setCurrentRelative"]),
@@ -643,9 +646,22 @@ export default {
         if (item?.EditMode == EDIT_MODE.ADD) {
           item.RelativeInformationID = index + 1;
         }
+
+        if (item?.IsDependent) {
+          item.IsDependent = 1;
+        } else {
+          item.IsDependent = 0;
+        }
       });
 
       this.closeFormPopup();
+      this.showToast({
+        type: "success",
+        title: "Thêm mới thông tin gia đình người nộp thuế thành công",
+      });
+      setTimeout(() => {
+        this.hideToast();
+      }, 2200);
     },
     // Danh sách các validation rul
     /**
@@ -706,8 +722,8 @@ export default {
      * Created by: dgbao (19/08/2023)
      */
     const getNewEmployeeCode = async () => {
-      let newEmployeeCode = await getNewCode();
-      this.employee.EmployeeCode = newEmployeeCode;
+      let response = await EmployeeService.getNewCode();
+      this.employee.EmployeeCode = response.data;
     };
     /**
      * Lấy thông tin chi tiết nhân viên
@@ -718,11 +734,15 @@ export default {
       this.employee = employeeDetails;
     };
 
+    this.showLoading();
     if (this.formMode === "add") {
       getNewEmployeeCode();
     } else if (this.formMode === "view") {
       getEmployeeDetails(this.currentEmployeeId);
+    } else if (this.formMode === "edit") {
+      getEmployeeDetails(this.currentEmployeeId);
     }
+    this.hideLoading();
   },
 };
 </script>

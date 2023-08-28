@@ -1,5 +1,5 @@
 import EmployeeService from "@/service/EmployeeService";
-import { USAGE_STATUS } from "@/helpers/enums";
+// import { USAGE_STATUS } from "@/helpers/enums";
 
 /**
  * set form mode là 1 trong ba lựa chọn: add, edit, view
@@ -29,9 +29,9 @@ const setSelectedEmployees = (context, employees) => {
  */
 const getListPerson = async (context) => {
   // Lọc những nhân viên đang sử dụng dịch vụ
-  context.commit("SET_FILTER_DATA_PROPERTY", {
-    FilterUsageStatus: USAGE_STATUS.ACTIVE,
-  });
+  // context.commit("SET_FILTER_DATA_PROPERTY", {
+  //   FilterUsageStatus: USAGE_STATUS.ACTIVE,
+  // });
   const response = await EmployeeService.filter();
   let employees = response?.data?.Data;
   context.commit("SET_TOTAL_PAGE", response?.data.TotalPage);
@@ -80,7 +80,7 @@ const setCurrentEmployeeId = async (context, id) => {
  * @author dgbao (25/08/2023)
  */
 const setFilterData = async (context, filterData) => {
-  context.commit("SET_FILTER_DATA", filterData);
+  context.commit("SET_FILTER_DATA_PROPERTY", filterData);
 };
 
 /**
@@ -123,6 +123,14 @@ const setFilterDataProp = async (context, filterData) => {
   context.commit("SET_FILTER_DATA_PROP", filterData);
 };
 
+const setStartDate = (context, startDate) => {
+  context.commit("SET_START_DATE", startDate);
+};
+
+const setEndDate = (context, endDate) => {
+  context.commit("SET_END_DATE", endDate);
+};
+
 export default {
   setFormMode,
   setSelectedEmployees,
@@ -135,4 +143,6 @@ export default {
   setPageNumber,
   setFilterKeyword,
   setFilterDataProp,
+  setStartDate,
+  setEndDate,
 };

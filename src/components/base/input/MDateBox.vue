@@ -15,11 +15,11 @@
         :validationError="validationError"
         invalidDateMessage=""
         dateOutOfRangeMessage=""
-        :mask="dateMask"
-        :mask-rules="dateMaskRules"
         @valueChanged="handleInput"
         @focusOut="validate"
-        v-if="formMode == 'add'"
+        :max="max"
+        :min="min"
+        v-if="formMode != 'view'"
       />
 
       <div v-if="formMode == 'view'" class="misa-info-binding">
@@ -50,15 +50,14 @@ export default {
         isValid: true,
         message: "",
       },
-      dateMask: "00/00/0000", // Define the desired format here
-      dateMaskRules: {
-        0: /[0-9]/,
-      },
     };
+  },
+  watch: {
+    value() {},
   },
   props: {
     value: {
-      type: String,
+      type: [String, Date],
       default: null,
     },
     isRequired: {
@@ -76,6 +75,14 @@ export default {
     customEmptyErrMsg: {
       type: String,
       default: "",
+    },
+    max: {
+      type: Date,
+      default: null,
+    },
+    min: {
+      type: Date,
+      default: null,
     },
   },
   computed: {
@@ -101,7 +108,6 @@ export default {
      */
     handleInput(event) {
       const newValue = event.value;
-      console.log("newValue", new Date(newValue));
 
       this.validate();
       this.$emit("input", newValue);

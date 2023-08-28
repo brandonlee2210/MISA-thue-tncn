@@ -62,6 +62,14 @@ const SET_FILTER_DATA_PROPERTY = (state, filterData) => {
   }
 };
 
+const SET_START_DATE = (state, startDate) => {
+  state.startFilterDate = startDate;
+};
+
+const SET_END_DATE = (state, endDate) => {
+  state.endFilterDate = endDate;
+};
+
 export default {
   SET_FORM_MODE,
   SET_SELECTED_EMPLOYEES,
@@ -75,4 +83,6 @@ export default {
   SET_FILTER_DATA_PROPERTY,
   SET_TOTAL_PAGE,
   SET_TOTAL_RECORD,
+  SET_START_DATE,
+  SET_END_DATE,
 };

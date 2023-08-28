@@ -78,6 +78,30 @@
         }
       }
 
+      &:last-child {
+        .row-fitler {
+          border-bottom: 1px solid #e4e4e4;
+        }
+
+        .form-group-item-container.radio {
+          margin-top: 10px;
+        }
+
+        .date-filter {
+          padding: 10px;
+          .form-group-item-container {
+            .item__label {
+              display: block;
+              width: 60px;
+            }
+
+            .item__input {
+              height: 34px;
+            }
+          }
+        }
+      }
+
       /* background: url(https://amisplatform.misacdn.net/apps/mintax/img/check-checkbox.1abdccd9.svg) */
     }
   }

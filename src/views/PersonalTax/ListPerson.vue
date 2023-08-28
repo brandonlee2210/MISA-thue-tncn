@@ -13,7 +13,7 @@
     <div class="table__container">
       <m-loading v-if="isLoading" />
       <MTable
-        v-else
+        v-else-if="!isLoading && employees.length > 0"
         v-on:onselected="handleCheckedIds"
         ref="tableRef"
         @change-pin="handleChangePin"
@@ -26,6 +26,7 @@
           <MChip :label="value" :column="'WorkStatus'" />
         </template>
       </MTable>
+      <MEmptyData v-else />
     </div>
     <Pagination listType="person" />
     <div id="draggable-container" v-if="isDraggableMenuVisible">
@@ -35,7 +36,7 @@
         @default="handleDefaultSetting"
       />
     </div>
-    <MFilter />
+    <MFilter> </MFilter>
   </div>
 </template>
 
@@ -48,6 +49,7 @@ import MISAResource from "@/helpers/resource";
 import DraggableMenu from "@/components/base/draggable/DraggableMenu.vue";
 import MFilter from "@/components/filter/MFilter.vue";
 import MChip from "@/components/base/MChip.vue";
+import MEmptyData from "@/components/base/MEmptyData.vue";
 
 import { mapActions, mapState } from "vuex";
 
@@ -62,12 +64,17 @@ export default {
       columns: MISAResource.VN.ColumnsTableHeader,
       isDraggableMenuVisible: false,
       tableRef,
+      startDate: null,
+      endDate: null,
     };
   },
   // watch columns change
   watch: {
     columns: function (newVal) {
       console.log(newVal);
+    },
+    startDate(newValue) {
+      console.log(newValue);
     },
   },
   computed: {
@@ -85,8 +92,8 @@ export default {
     SelectedTableHeader,
     DraggableMenu,
     MFilter,
-    // eslint-disable-next-line vue/no-unused-components
     MChip,
+    MEmptyData,
   },
 
   methods: {

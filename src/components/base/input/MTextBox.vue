@@ -19,7 +19,7 @@
         @focusOut="validate"
         :max-length="maxLength"
         :readOnly="isReadOnly"
-        v-if="formMode == 'add'"
+        v-if="formMode != 'view'"
       />
 
       <div v-if="formMode == 'view'" class="misa-info-binding">

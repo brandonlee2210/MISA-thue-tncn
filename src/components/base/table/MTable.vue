@@ -71,23 +71,12 @@
               class="mr-3 action-button v-btn v-btn--has-bg v-btn--rounded theme--light v-size--small b-info b-info"
               title="Chỉnh sửa"
               style="height: 36px; width: 36px"
+              @click="openEditForm(data)"
             >
               <span class="v-btn__content"
                 ><i
                   aria-hidden="true"
                   class="v-icon notranslate ico ico-edit-table-row theme--light"
-                ></i
-              ></span></button
-            ><button
-              type="button"
-              class="mr-3 action-button v-btn v-btn--has-bg v-btn--rounded theme--light v-size--small b-info b-info"
-              title="Lưu"
-              style="height: 36px; width: 36px; display: none"
-            >
-              <span class="v-btn__content"
-                ><i
-                  aria-hidden="true"
-                  class="v-icon notranslate mi mi-save-edit theme--light"
                 ></i
               ></span></button
             ><button
@@ -222,7 +211,7 @@ export default {
     },
     /**
      * Xử lí sự kiện khi click vào nút xóa
-     * @param id - id của dòng được click
+     * @param data - data của dòng được click
      * Created by: dgbao (17/08/2023)
      */
     deleteRow(data) {
@@ -233,6 +222,18 @@ export default {
             <strong>${data.data.FullName}</strong> vào thùng rác?`,
         idToDelete: data.key,
       });
+    },
+    /**
+     * Xử lí sự kiện khi click vào nút chỉnh sửa
+     * @param data - data của dòng được click
+     * Created by: dgbao (17/08/2023)
+     */
+    openEditForm(data) {
+      this.setFormMode("edit");
+      let key = data.key;
+      this.setCurrentEmployeeId(key);
+
+      this.$router.push(`/tax/add`);
     },
     /**
      * Mở form view chi tiết nhân viên

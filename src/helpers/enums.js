@@ -20,7 +20,7 @@ export const DEPENDENT_STATUS = {
 };
 
 export const EDIT_MODE = {
-  EDIT: "edit",
-  ADD: "add",
-  DELETE: "delete",
+  EDIT: 0,
+  ADD: 1,
+  DELETE: 2,
 };

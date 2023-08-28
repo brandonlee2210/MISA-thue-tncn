@@ -1,5 +1,6 @@
 export const filterOptions = [
   {
+    key: "FilterWorkStatus",
     label: "Trạng thái làm việc",
     options: [
       {
@@ -13,6 +14,7 @@ export const filterOptions = [
     ],
   },
   {
+    key: "FilterEmployeeTypeID",
     label: "Loại đối tượng",
     options: [
       {
@@ -26,6 +28,7 @@ export const filterOptions = [
     ],
   },
   {
+    key: "FilterHasTaxCode",
     label: "Mã số thuế",
     options: [
       {
@@ -33,22 +36,25 @@ export const filterOptions = [
         text: "Đã có MST",
       },
       {
-        value: 2,
+        value: null,
         text: "Chưa có MST",
       },
     ],
   },
   {
+    key: "FilterDate",
     label: "Thời gian",
     options: [
       {
-        value: 1,
+        value: "HireDate",
         text: "Ngày thử việc",
       },
       {
-        value: 2,
+        value: "ReceiveDate",
         text: "Ngày chính thức",
       },
     ],
+    startDate: null,
+    endDate: null,
   },
 ];

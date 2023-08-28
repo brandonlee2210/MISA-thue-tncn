@@ -4,6 +4,8 @@
  * @returns {string} dd/mm/yyyy
  */
 export const formatDate = (originalDateString) => {
+  if (!originalDateString) return "";
+
   const originalDate = new Date(originalDateString);
   const day = addZeroPrefix(originalDate.getDate());
   const month = addZeroPrefix(originalDate.getMonth() + 1);

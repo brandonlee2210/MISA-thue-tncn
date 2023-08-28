@@ -1,6 +1,6 @@
 <template>
   <div class="form-container">
-    <FormHeader @save="handleSave" :title="'Thêm người nộp thuế'" />
+    <FormHeader @save="handleSave" :title="formTitle" />
     <FormDetails ref="formDetailsRef" />
   </div>
 </template>
@@ -8,12 +8,28 @@
 <script>
 import FormHeader from "./FormHeader.vue";
 import FormDetails from "./FormDetails.vue";
+
+import { mapState } from "vuex";
 const formDetailsRef = "formDetailsRef";
 
 export default {
   components: {
     FormHeader,
     FormDetails,
+  },
+  computed: {
+    ...mapState("employee", ["formMode"]),
+    ...mapState("global", ["isLoading"]),
+    formTitle() {
+      switch (this.formMode) {
+        case "add":
+          return "Thêm nguời nộp thuế";
+        case "edit":
+          return "Chỉnh sửa người nộp thuế";
+        default:
+          return "";
+      }
+    },
   },
   data() {
     return {
@@ -39,6 +55,7 @@ export default {
 }
 
 .form-body-container {
+  position: relative;
   overflow: auto;
 }
 </style>
