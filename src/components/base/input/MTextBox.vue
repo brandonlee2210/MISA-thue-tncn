@@ -100,7 +100,7 @@ export default {
     hasErrors() {
       return !this.isValid && this.validationError !== "";
     },
-    ...mapState("employee", ["formMode"]),
+    ...mapState("employee", ["formMode", "popupFormMode"]),
   },
   methods: {
     /**

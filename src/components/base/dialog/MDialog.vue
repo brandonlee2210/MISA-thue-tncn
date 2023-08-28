@@ -86,8 +86,9 @@ export default {
   },
 
   methods: {
-    ...mapActions("global", ["hideNotification", "showToast"]),
+    ...mapActions("global", ["hideNotification", "showToast", "hideToast"]),
     ...mapActions("employee", ["getListPerson"]),
+    ...mapActions("relative", ["deleteRelative"]),
     /**
      * Xử lí sự kiện khi ấn vào nút có
      */
@@ -101,6 +102,10 @@ export default {
             })
             .then(() => {
               this.getListPerson();
+              // hide toast
+              setTimeout(() => {
+                this.hideToast();
+              }, 2000);
             });
           break;
         case "delete-many":
@@ -111,6 +116,26 @@ export default {
             })
             .then(() => {
               this.getListPerson();
+              // hide toast
+              setTimeout(() => {
+                this.hideToast();
+              }, 2000);
+            });
+          break;
+        case "delete-relative":
+          this.deleteRelative(this.idToDelete)
+            .then(() => {
+              this.hideNotification();
+              this.showToast({
+                title: "Xóa thành viên gia đình thành công",
+                type: "success",
+              });
+            })
+            .then(() => {
+              // hide toast
+              setTimeout(() => {
+                this.hideToast();
+              }, 2000);
             });
           break;
         default:

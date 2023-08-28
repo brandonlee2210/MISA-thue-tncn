@@ -105,7 +105,7 @@ export default {
       return this.validationResult.isValid;
     },
     selectedLabel() {
-      const selectedItem = this.items.find(
+      const selectedItem = this.items?.find(
         (item) => item[this.valueExpr] === this.value
       );
       return selectedItem ? selectedItem[this.displayExpr] : "";

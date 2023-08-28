@@ -80,16 +80,16 @@
   padding-left: 14px;
 
   justify-content: flex-start;
-
-  &:hover {
-    background: var(--sidebar-hover-color);
-  }
 }
 
 .menu-item:not(.menu-item.router-link-active) {
   color: white;
 
   cursor: pointer;
+
+  &:hover {
+    background: var(--sidebar-hover-color);
+  }
 }
 
 .menu-item__text {

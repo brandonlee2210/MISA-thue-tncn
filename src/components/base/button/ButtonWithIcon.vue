@@ -1,7 +1,7 @@
 <template>
   <button
     class="button"
-    :class="{ 'b-blue': type == 'add--blue' }"
+    :class="{ 'b-blue': type == 'add--blue', delete: type == 'delete' }"
     @click="handleClick"
   >
     <span class="v-btn__content"
@@ -38,14 +38,26 @@ export default {
   border-radius: 4px;
   cursor: pointer;
 
+  &.delete {
+    color: red;
+    padding-right: 18px;
+
+    &:hover {
+      border-color: red;
+      color: red;
+    }
+  }
+
   &.b-blue {
     border-color: var(--primary-color);
     color: var(--primary-color);
+    padding-right: 14px;
   }
 
   &:hover {
     border-color: var(--primary-color);
     color: var(--primary-color);
+    opacity: 0.8;
   }
 
   .title {
@@ -80,6 +92,12 @@ export default {
       -moz-user-select: none;
       -ms-user-select: none;
       user-select: none;
+    }
+    .ico-delete {
+      background: url(https://amisplatform.misacdn.net/apps/mintax/img/delete-table-row.d1b38148.svg)
+        no-repeat 50%;
+      height: 16px;
+      width: 16px;
     }
 
     .ico-filter {

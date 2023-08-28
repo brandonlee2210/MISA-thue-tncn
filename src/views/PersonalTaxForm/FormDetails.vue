@@ -98,7 +98,7 @@
       />
       <MSelectBox
         :items="contractTypes"
-        v-model="employee.ContractTypeId"
+        v-model="employee.ContractTypeID"
         label="Loại hợp đồng"
       />
       <div class="row ma-0 pa-0">
@@ -239,12 +239,12 @@
     <section
       class="misa-empty-data misa-background-footer-dialog text-lg-body-2 mt-4 d-flex justify-center align-center"
     >
-      <span v-if="employee.ListRelatives.length == 0" class="no-info"
+      <span v-if="listRelativesFilter.length == 0" class="no-info"
         >Chưa có thông tin gia đình</span
       >
       <MViewTable
         :columns="familiMemberTableHeader"
-        :dataSource="employee.ListRelatives"
+        :dataSource="listRelativesFilter"
         v-else
       >
         <template #IsDependent="{ value }">
@@ -325,13 +325,12 @@ export default {
         (employeeType) => employeeType.id === newEmployeeTypeID
       ).text;
     },
-    "employee.ContractTypeId": function (newContractTypeId) {
+    "employee.ContractTypeID": function (newContractTypeId) {
       this.employee.ConstractTypeName = contractTypes.find(
         (contractType) => contractType.id === newContractTypeId
       ).text;
     },
     "employee.JobPositionID": function (newPositionCode) {
-      console.log(this.employee);
       this.employee.JobPositionName = positionsList.find(
         (position) => position.id === newPositionCode
       ).text;
@@ -398,7 +397,7 @@ export default {
         JobPositionID: "",
         JobPositionName: "",
         WorkStatus: 1,
-        ListRelatives: [],
+        ListRelatives: this.listRelatives,
         UsageStatus: 1,
       },
       popupRef: null,
@@ -470,7 +469,12 @@ export default {
       "formMode",
       "currentEmployeeId",
     ]),
-    ...mapState("relative", ["editMode"]),
+    ...mapState("relative", ["editMode", "listRelatives"]),
+    listRelativesFilter() {
+      return this.listRelatives.filter(
+        (relative) => relative.EditMode !== EDIT_MODE.DELETE
+      );
+    },
     popupTitle() {
       switch (this.editMode) {
         case EDIT_MODE.ADD:
@@ -541,8 +545,13 @@ export default {
       "showLoading",
       "hideLoading",
     ]),
-    ...mapActions("employee", ["getNewEmployeeCode"]),
-    ...mapActions("relative", ["setEditMode", "setCurrentRelative"]),
+    ...mapActions("employee", ["getNewEmployeeCode", "setFormMode"]),
+    ...mapActions("relative", [
+      "setEditMode",
+      "setCurrentRelative",
+      "setListRelative",
+      "deleteRelative",
+    ]),
     /**
      * Thực hiện validate tất cả các component con
      * Created by: dgbao (19/08/2023)
@@ -568,15 +577,63 @@ export default {
 
       if (isValid) {
         console.log("Form is valid, saving data...");
+        this.showLoading();
+        // Thực hiện gọi API thêm mới nhân viên
+        if (this.formMode == "add") {
+          const result = await addNewEmployee(this.employee);
 
-        await addNewEmployee(this.employee);
+          if (result.data > 0) {
+            this.$router.push("/tax");
+            this.hideLoading();
+            this.showToast({
+              type: "success",
+              title: "Thêm mới thành công",
+            });
+          } else {
+            this.showToast({
+              type: "error",
+              title: result.UserMsg,
+            });
+          }
+          // Thực hiện gọi API chỉnh sửa nhân viên
+        } else if (this.formMode == "edit") {
+          let editedEmployee = {
+            ...this.employee,
+            ListRelatives: this.listRelatives.filter(
+              (relative) =>
+                relative.EditMode !== null || relative.EditMode !== undefined
+            ),
+          };
 
-        this.$router.push("/tax");
+          editedEmployee.ListRelatives.forEach((item) => {
+            if (item.EditMode == EDIT_MODE.ADD) {
+              delete item.RelativeInformationID;
+            }
+          });
 
-        this.showToast({
-          type: "success",
-          title: "Thêm mới thành công",
-        });
+          const result = await EmployeeService.put(
+            this.currentEmployeeId,
+            editedEmployee
+          );
+
+          if (result.data > 0) {
+            this.$router.push("/tax");
+            this.hideLoading();
+            this.showToast({
+              type: "success",
+              title: "Cập nhật thành công",
+            });
+          } else {
+            this.showToast({
+              type: "error",
+              title: result.UserMsg,
+            });
+          }
+        }
+
+        setTimeout(() => {
+          this.hideToast();
+        }, 2200);
       } else {
         console.log("Form is invalid");
       }
@@ -642,11 +699,7 @@ export default {
       console.log(this.employee.ListRelatives);
 
       // Thêm id dựa vào index
-      this.employee.ListRelatives.forEach((item, index) => {
-        if (item?.EditMode == EDIT_MODE.ADD) {
-          item.RelativeInformationID = index + 1;
-        }
-
+      this.employee.ListRelatives.forEach((item) => {
         if (item?.IsDependent) {
           item.IsDependent = 1;
         } else {
@@ -663,7 +716,7 @@ export default {
         this.hideToast();
       }, 2200);
     },
-    // Danh sách các validation rul
+    // Danh sách các validation rule
     /**
      * Kiểm tra value chỉ được chứa các số
      * @param {String} value
@@ -710,9 +763,15 @@ export default {
      * Created by: dgbao (19/08/2023)
      */
     handleAddNewRelative() {
-      this.setEditMode(EDIT_MODE.ADD);
-      this.openFormPopup();
-      console.log(this.popupVisible);
+      if (this.formMode == "view") {
+        this.setFormMode("edit");
+        this.$router.push("/tax/add");
+        this.setEditMode(EDIT_MODE.ADD);
+        this.openFormPopup();
+      } else {
+        this.setEditMode(EDIT_MODE.ADD);
+        this.openFormPopup();
+      }
     },
   },
 
@@ -731,7 +790,11 @@ export default {
      */
     const getEmployeeDetails = async (id) => {
       let employeeDetails = await getEmployeeById(id);
+
       this.employee = employeeDetails;
+      this.setListRelative(employeeDetails.ListRelatives);
+
+      // set list relative trong store
     };
 
     this.showLoading();

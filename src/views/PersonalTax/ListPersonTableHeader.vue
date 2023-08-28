@@ -80,7 +80,11 @@ export default {
       "showLoading",
       "hideLoading",
     ]),
-    ...mapActions("employee", ["setFilterKeyword", "getListPerson"]),
+    ...mapActions("employee", [
+      "setFilterKeyword",
+      "getListPerson",
+      "setPageNumber",
+    ]),
     /**
      * Hiển thị menu setting bảng
      * CreatedBy: dgbao (23/08/2023)
@@ -95,6 +99,7 @@ export default {
      */
     handleInputChange(event) {
       this.inputValue = event.event.currentTarget.value;
+      this.setPageNumber(1);
       this.setFilterKeyword(this.inputValue);
 
       clearTimeout(this.timeoutId);

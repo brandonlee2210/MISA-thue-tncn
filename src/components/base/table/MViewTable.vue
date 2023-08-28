@@ -2,7 +2,7 @@
 <template>
   <div id="table-container">
     <DxDataGrid
-      :data-source="dataSource"
+      :data-source="dataSourcesFormatted"
       :allow-column-reordering="false"
       key-expr="RelativeInformationID"
       :column-auto-width="true"
@@ -59,34 +59,6 @@
               data-v-1090f892=""
               type="button"
               class="mr-3 action-button v-btn v-btn--has-bg v-btn--rounded theme--light v-size--small b-info b-info"
-              title="Lưu"
-              style="height: 36px; width: 36px; display: none"
-            >
-              <span class="v-btn__content"
-                ><i
-                  data-v-1090f892=""
-                  aria-hidden="true"
-                  class="v-icon notranslate mi mi-save-edit theme--light"
-                ></i
-              ></span></button
-            ><button
-              data-v-1090f892=""
-              type="button"
-              class="mr-3 action-button v-btn v-btn--has-bg v-btn--rounded theme--light v-size--small b-info b-info"
-              title="Hủy"
-              style="height: 36px; width: 36px; display: none"
-            >
-              <span class="v-btn__content"
-                ><i
-                  data-v-1090f892=""
-                  aria-hidden="true"
-                  class="v-icon notranslate mi mi-close-red theme--light"
-                ></i
-              ></span></button
-            ><button
-              data-v-1090f892=""
-              type="button"
-              class="mr-3 action-button v-btn v-btn--has-bg v-btn--rounded theme--light v-size--small b-info b-info"
               title="Xóa"
               style="height: 36px; width: 36px"
               @click="deleteRow(data)"
@@ -117,6 +89,9 @@ import {
   DxScrolling,
 } from "devextreme-vue/data-grid";
 
+import { formatDate } from "@/helpers/utils";
+import { mapActions } from "vuex";
+
 const dataGridRef = "dataGrid";
 
 export default {
@@ -146,8 +121,17 @@ export default {
         return this.columns.filter((item) => item.checked);
       },
     },
+    dataSourcesFormatted() {
+      return this.dataSource.map((item) => {
+        return {
+          ...item,
+          DateOfBirth: formatDate(item.DateOfBirth),
+        };
+      });
+    },
   },
   methods: {
+    ...mapActions("global", ["showNotification"]),
     /**
      * Hàm lấy dữ liệu các dòng được chọn và emit kèm theo danh sách chứa các ids của các dòng được chọn
      * Created by: dgbao (17/08/2023)
@@ -164,7 +148,13 @@ export default {
      * */
 
     deleteRow(data) {
-      console.log(data);
+      this.showNotification({
+        title: "Xoá người nộp thuế",
+        type: "delete-relative",
+        rawHtml: `Bạn có chắc chắn muốn xóa thành viên
+            <strong>${data.data.FullName}</strong> vào thùng rác?`,
+        idToDelete: data.key,
+      });
     },
   },
   // ...

@@ -12,6 +12,15 @@ const setFormMode = (context, mode) => {
 };
 
 /**
+ *  set popup form mode là 1 trong ba lựa chọn: add, edit
+ * @param {*} context
+ * @param {*} mode
+ */
+const setPopupFormMode = (context, mode) => {
+  context.commit("SET_POPUP_FORM_MODE", mode);
+};
+
+/**
  * set những nhân viên được chọn vào danh sách những nhân viên được chọn trong store
  * @param {*} context
  * @param {*} employees
@@ -123,16 +132,29 @@ const setFilterDataProp = async (context, filterData) => {
   context.commit("SET_FILTER_DATA_PROP", filterData);
 };
 
+/**
+ *  Set ngày bắt đầu
+ * @param {*} context
+ * @param {*} startDate
+ * @author dgbao (25/08/2023)
+ */
 const setStartDate = (context, startDate) => {
   context.commit("SET_START_DATE", startDate);
 };
 
+/**
+ *  Set ngày kết thúc
+ * @param {*} context
+ * @param {*} endDate
+ * @author dgbao (25/08/2023)
+ */
 const setEndDate = (context, endDate) => {
   context.commit("SET_END_DATE", endDate);
 };
 
 export default {
   setFormMode,
+  setPopupFormMode,
   setSelectedEmployees,
   getListPerson,
   getNewEmployeeCode,

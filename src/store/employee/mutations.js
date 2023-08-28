@@ -14,6 +14,7 @@ const SET_EMPLOYEES = (state, employees) => {
     employee.ResignationDate = formatDate(employee.ResignationDate);
     employee.IdentityDate = formatDate(employee.IdentityDate);
   });
+
   state.employees = employees;
 };
 
@@ -23,6 +24,10 @@ const SET_FILTER_DATA = (state, filterData) => {
 
 const SET_FORM_MODE = (state, mode) => {
   state.formMode = mode;
+};
+
+const SET_POPUP_FORM_MODE = (state, mode) => {
+  state.popupFormMode = mode;
 };
 
 const SET_NEW_EMPLOYEE_CODE = (state, code) => {
@@ -72,6 +77,7 @@ const SET_END_DATE = (state, endDate) => {
 
 export default {
   SET_FORM_MODE,
+  SET_POPUP_FORM_MODE,
   SET_SELECTED_EMPLOYEES,
   SET_EMPLOYEES,
   SET_NEW_EMPLOYEE_CODE,

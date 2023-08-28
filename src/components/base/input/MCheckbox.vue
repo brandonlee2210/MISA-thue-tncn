@@ -27,7 +27,7 @@ export default {
   },
   props: {
     value: {
-      type: Boolean,
+      type: [Boolean, Number],
     },
     label: {
       type: String,

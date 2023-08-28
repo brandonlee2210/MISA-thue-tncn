@@ -1,10 +1,18 @@
 <template>
   <div class="page__header">
     <div class="left-header">
+      <div class="button" @click="handleBackClick" v-if="formMode == 'view'">
+        <div class="header__left__icon"></div>
+      </div>
       <div class="title">{{ title }}</div>
     </div>
     <div class="right-header">
-      <DxButton class="dx-button" :height="36" :onClick="hanleCancelClick">
+      <DxButton
+        class="dx-button"
+        :height="36"
+        :onClick="hanleCancelClick"
+        v-if="formMode == 'add' || formMode == 'edit'"
+      >
         Huỷ</DxButton
       >
       <DxButton
@@ -19,15 +27,21 @@
         class="dx-button save"
         :height="36"
         :onClick="onSave"
-        v-if="formMode == 'add'"
+        v-if="formMode == 'add' || formMode == 'edit'"
       >
         Lưu
       </DxButton>
+      <ButtonWithIcon
+        type="delete"
+        :onClick="handleClickSetting"
+        :title="'Xoá'"
+        v-if="formMode == 'view'"
+      />
       <DxButton
         class="dx-button save"
         :height="36"
-        :onClick="onSave"
-        v-if="formMode == 'edit'"
+        :onClick="handleOpenEditForm"
+        v-if="formMode == 'view'"
       >
         Chỉnh sửa
       </DxButton>
@@ -37,13 +51,15 @@
 
 <script>
 import MISAResource from "@/helpers/resource";
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 import { DxButton } from "devextreme-vue";
+import ButtonWithIcon from "@/components/base/button/ButtonWithIcon.vue";
 
 export default {
   name: "ListHeader",
   components: {
     DxButton,
+    ButtonWithIcon,
   },
   computed: {
     ...mapState("employee", ["formMode"]),
@@ -61,11 +77,11 @@ export default {
     },
   },
   methods: {
+    ...mapActions("employee", ["setFormMode"]),
     /**
      * Xử lý sự kiện huỷ
      */
     hanleCancelClick() {
-      console.log(this.$router);
       this.$router.push({
         name: "tax",
       });
@@ -75,6 +91,24 @@ export default {
      */
     onSave() {
       this.$emit("save");
+    },
+    /**
+     * Xử lý sự kiện ấn nút quay về
+     */
+    handleBackClick() {
+      this.$router.push({
+        name: "tax",
+      });
+    },
+
+    /**
+     * Xử lý sự kiện click vào nút chỉnh sửa
+     */
+    handleOpenEditForm() {
+      this.setFormMode("edit");
+      if (this.$route.path !== "/tax/add") {
+        this.$router.push("/tax/add");
+      }
     },
   },
 };
@@ -91,6 +125,28 @@ export default {
   color: var(--primary-color);
 }
 
+.left-header {
+  .button {
+    cursor: pointer;
+    width: 56px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .header__left__icon,
+    .icon-back {
+      background: url(https://amisplatform.misacdn.net/apps/mintax/img/arrow-back-v2.b83cbafc.svg)
+        no-repeat 50%;
+      height: 24px;
+      width: 24px;
+    }
+
+    &:hover {
+      background-color: #f2f2f2 !important;
+    }
+  }
+}
 .right-header .dx-button {
   font-weight: 500;
   font-size: 14px !important;
@@ -110,6 +166,10 @@ export default {
     background-color: var(--primary-color);
     border: none;
     color: white;
+
+    &:hover {
+      opacity: 0.8;
+    }
   }
 }
 

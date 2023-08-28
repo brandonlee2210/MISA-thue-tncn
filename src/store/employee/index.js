@@ -7,6 +7,7 @@ const state = {
   employees: [],
   checkedEmployees: [],
   formMode: "add",
+  popupFormMode: "add",
   currentEmployeeId: "",
   filterData: {
     FilterWorkStatus: null,

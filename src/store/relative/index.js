@@ -48,6 +48,7 @@ const state = {
     ModifiedBy: null,
     RelativeInformationID: null,
   },
+  listRelatives: [],
 };
 
 export default {
