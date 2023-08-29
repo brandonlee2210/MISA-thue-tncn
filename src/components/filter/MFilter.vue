@@ -25,7 +25,7 @@
     <div class="footer-filter">
       <div class="d-flex align-center misa-contain-action">
         <div>
-          <DxButton class="dx-button" :height="36" :onClick="onSave">
+          <DxButton class="dx-button" :height="36" :onClick="onDefault">
             Bỏ lọc</DxButton
           >
         </div>
@@ -70,6 +70,23 @@ export default {
     onSave() {
       this.hideFilter();
       this.setFilterData(this.userFilterData);
+      this.showLoading();
+      this.getListPerson();
+      this.hideLoading();
+    },
+    /**
+     * Xử lí khi bỏ lọc
+     * @author dgbao (25/08/2023)
+     */
+    onDefault() {
+      this.hideFilter();
+      this.setFilterData({
+        FilterWorkStatus: null,
+        FilterEmployeeTypeID: null,
+        FilterUsageStatus: null,
+        FilterHasTaxCode: null,
+        FilterDate: null,
+      });
       this.showLoading();
       this.getListPerson();
       this.hideLoading();

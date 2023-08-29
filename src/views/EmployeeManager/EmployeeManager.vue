@@ -23,22 +23,24 @@
       v-if="isBlockContentVisible"
     >
       <BlockContent
-        :number="1071"
+        :number="summary.TotalEmployees"
         :title="resource.VN.BlockContent.Title.TotalEmployee"
         :subtitle="resource.VN.BlockContent.Subtitle.TotalEmployee"
         mainColor="rgb(67, 136, 255)"
-        :onClick="getSummary"
+        @on-click="getEmployeesByUsageStatus(null)"
       />
       <BlockContent
-        :number="1010"
+        :number="summary.ActiveEmployees"
         :title="resource.VN.BlockContent.Title.CurrentUse"
         :subtitle="resource.VN.BlockContent.Subtitle.CurrentUse"
         mainColor="rgb(116, 203, 47)"
+        @on-click="getEmployeesByUsageStatus(USAGE_STATUS.ACTIVE)"
       />
       <BlockContent
-        :number="61"
+        :number="summary.UnactiveEmployees"
         :title="resource.VN.BlockContent.Title.NoCurrentUse"
         :subtitle="resource.VN.BlockContent.Subtitle.NoCurrentUse"
+        @on-click="getEmployeesByUsageStatus(USAGE_STATUS.INACTIVE)"
         mainColor="rgb(255, 110, 110)"
       />
     </div>
@@ -75,12 +77,18 @@ import ListEmployee from "./ListEmployee.vue";
 
 import { getTotalEmployeeSummary } from "@/helpers/api";
 
+import EmployeeService from "@/service/EmployeeService";
+import { USAGE_STATUS } from "@/helpers/enums";
+import { mapActions, mapState } from "vuex";
+
 export default {
   name: "EmployeeManager",
   data() {
     return {
       isBlockContentVisible: true,
       resource: MISAResource,
+      summary: {},
+      USAGE_STATUS,
     };
   },
   components: {
@@ -88,7 +96,16 @@ export default {
     DxButton,
     ListEmployee,
   },
+  computed: {
+    ...mapState("employee", ["usageStatus"]),
+  },
   methods: {
+    ...mapActions("employee", [
+      "setUsageStatus",
+      "setFilterData",
+      "getListEmployees",
+    ]),
+    ...mapActions("global", ["showLoading", "hideLoading"]),
     /**
      * Lùi lại trang
      */
@@ -102,6 +119,30 @@ export default {
       console.log("getSummary");
       getTotalEmployeeSummary();
     },
+    /**
+     * Lấy danh sách nhân viên theo trạng thái sử dụng
+     * @param {*} usageStatus
+     * @author baodg (25/08/2023)
+     */
+    getEmployeesByUsageStatus(status) {
+      this.setUsageStatus(status);
+      this.setFilterData({
+        FilterUsageStatus: status,
+      });
+      this.showLoading();
+      this.getListEmployees();
+      this.hideLoading();
+    },
+  },
+  /**
+   * Khởi tạo lấy số liệu nhân viên
+   * @author dgbao (25/08/2023)
+   */
+  created() {
+    EmployeeService.getSummary().then((res) => {
+      console.log(res.data);
+      this.summary = res.data;
+    });
   },
 };
 </script>

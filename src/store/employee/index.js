@@ -23,6 +23,8 @@ const state = {
   filterKeyword: "",
   totalPage: 1,
   totalRecord: 15,
+  // filter trạng thái sử dụng dịch vụ trong employee manager
+  usageStatus: null,
 };
 
 export default {

@@ -223,7 +223,7 @@ export default {
   },
   computed: {
     ...mapState("relative", ["editMode", "relative"]),
-    ...mapState("global", ["popupVisible"]),
+    ...mapState("global", ["popupVisible", "openFormPopup"]),
   },
   watch: {
     /* Thực hiện lưu trữ thêm dữ liệu */
@@ -290,7 +290,7 @@ export default {
   methods: {
     /**
      * Thực hiện validate tất cả các component con
-     * Created by: dgbao (19/08/2023)
+     * @author dgbao (19/08/2023)
      */
     validate() {
       let isValid = true;
@@ -320,7 +320,7 @@ export default {
     /**
      * Kiểm tra value chỉ được chứa các số
      * @param {String} value
-     * Created by: dgbao (19/08/2023)
+     * @author dgbao (19/08/2023)
      */
     validateNumberInput(value) {
       let regex = /^[0-9]*$/;
@@ -339,7 +339,7 @@ export default {
     },
     /**
      * Lấy ra dữ liệu các thành viên trong gia đình
-     * Created by: dgbao (19/08/2023)
+     * @author dgbao (19/08/2023)
      */
     getMemberData() {
       return this.relative;

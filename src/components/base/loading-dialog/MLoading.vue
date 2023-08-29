@@ -1,8 +1,10 @@
 <template>
   <div class="loading-dialog">
-    <div class="mintax-loading-circle"></div>
+    <div class="mintax-loading-circle misa-white-loading"></div>
   </div>
 </template>
+
+<script></script>
 
 <style lang="scss">
 .loading-dialog {
@@ -17,14 +19,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
   .mintax-loading-circle {
+    border: 6px solid #f3f3f3; /* Light grey */
+    border-top: 6px solid #3498db; /* Blue */
     border-radius: 50%;
     width: 60px;
     height: 60px;
     animation: spin 0.75s linear infinite;
-    border: 6px solid transparent;
-    border-image: conic-gradient(#3498db, #2ecc71, #f1c40f, #e74c3c) 1;
 
     @keyframes spin {
       0% {

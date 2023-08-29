@@ -54,7 +54,7 @@ export default {
   methods: {
     /**
      * Xử lý khi chọn item
-     * Created by: dgbao (22/08/2023)
+     * @author dgbao (22/08/2023)
      */
     handleChange(newValue) {
       this.selectedValue = newValue.value;
@@ -62,7 +62,7 @@ export default {
     },
     /**
      * Xử lý khi click vào label
-     * Created by: dgbao (22/08/2023)
+     * @author dgbao (22/08/2023)
      */
     selectItem() {},
   },

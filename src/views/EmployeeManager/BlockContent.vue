@@ -1,5 +1,9 @@
 <template>
-  <div class="block__parent" :style="{ borderLeft: '6px solid ' + mainColor }">
+  <div
+    class="block__parent"
+    :style="{ borderLeft: '6px solid ' + mainColor }"
+    @click="handleClick"
+  >
     <div class="block__content">
       <div class="block__number" :style="{ color: mainColor }">
         {{ number }}
@@ -16,6 +20,11 @@
 export default {
   name: "BlockContent",
   props: ["number", "title", "subtitle", "mainColor", "onClick"],
+  methods: {
+    handleClick() {
+      this.$emit("on-click");
+    },
+  },
 };
 </script>
 

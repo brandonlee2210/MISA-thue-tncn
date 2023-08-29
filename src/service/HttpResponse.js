@@ -1,6 +1,6 @@
 /**
  * hàm để xử lý khi response là file trả về, và download cho người dùng
- * @author: dgbao (29/08/2023)
+ * @author dgbao (29/08/2023)
  * @param {*} res response
  */
 function downloadFileFromRes(res) {
@@ -44,7 +44,7 @@ function downloadFileFromRes(res) {
  *  - success: trạng thái của response (true)
  *  - statusCode: mã code cho trạng thái (từ 100 -> 399)
  *  - data: dữ liệu trả về từ api
- * @author: dgbao (27/08/2023)
+ * @author dgbao (27/08/2023)
  * @param {*} res response
  * @returns response đã được format
  */
@@ -67,7 +67,7 @@ export function success(res) {
  *  - userMsg: tin nhắn dành cho người dùng về lỗi
  *  - moreInfo: thông tin thêm về lỗi
  *  - data: dữ liệu về lỗi trả về từ api
- * @author: dgbao (27/08/2023)
+ * @author dgbao (27/08/2023)
  * @param {*} res response
  * @returns response đã được format
  */

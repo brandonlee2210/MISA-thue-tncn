@@ -9,16 +9,17 @@
         :width="380"
         :height="36"
       ></DxTextBox>
-      <DxDropDownBox
-        placeholder="Bộ phận/phòng ban"
-        :width="246"
-        class="search-person"
-      ></DxDropDownBox>
-      <DxDropDownBox
+      <dx-select-box x placeholder="Bộ phận/ phòng ban"></dx-select-box>
+      <dx-select-box
+        :items="items"
+        :displayExpr="'text'"
+        :valueExpr="'id'"
+        :value="selectedItem"
         placeholder="Trạng thái sử dụng"
-        :width="246"
-        class="search-person"
-      ></DxDropDownBox>
+        :searchExpr="['text']"
+        :noDataText="'Không có dữ liệu'"
+        @valueChanged="handleValueChanged"
+      ></dx-select-box>
     </div>
     <div class="list-person__left">
       <ButtonWithIcon type="setting" :onClick="handleClickSetting" />
@@ -27,19 +28,66 @@
 </template>
 
 <script>
-import { DxTextBox } from "devextreme-vue";
-import DxDropDownBox from "devextreme-vue/drop-down-box";
+import { DxTextBox, DxSelectBox } from "devextreme-vue";
 import ButtonWithIcon from "@/components/base/button/ButtonWithIcon.vue";
+import { USAGE_STATUS } from "@/helpers/enums";
+import { mapState, mapActions } from "vuex";
 
 export default {
   components: {
     DxTextBox,
-    DxDropDownBox,
+    DxSelectBox,
     ButtonWithIcon,
   },
+  computed: {
+    ...mapState("employee", ["usageStatus", "filterData"]),
+  },
+  watch: {
+    usageStatus() {
+      this.selectedItem = this.usageStatus;
+    },
+  },
+  data() {
+    return {
+      selectedItem: this.usageStatus,
+      items: [
+        {
+          id: USAGE_STATUS.INACTIVE,
+          text: "Không sử dụng",
+        },
+        {
+          id: USAGE_STATUS.ACTIVE,
+          text: "Đang sử dụng",
+        },
+      ],
+    };
+  },
   methods: {
+    ...mapActions("employee", [
+      "setUsageStatus",
+      "setFilterData",
+      "getListEmployees",
+    ]),
+    ...mapActions("global", ["showLoading", "hideLoading"]),
+    /**
+     * Xử lí khi click vào nút setting
+     * @author baodg (25/08/2023)
+     */
     handleClickSetting() {
       this.$emit("toggle-draggable-menu");
+    },
+    /**
+     * Xử lí khi chọn trạng thái sử dụng
+     * @param {*} e
+     */
+    handleValueChanged(e) {
+      this.setUsageStatus(e.value);
+      this.setFilterData({
+        FilterUsageStatus: e.value,
+      });
+      this.showLoading();
+      this.getListEmployees();
+      this.hideLoading();
     },
   },
 };

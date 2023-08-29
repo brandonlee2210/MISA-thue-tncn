@@ -75,6 +75,10 @@ const SET_END_DATE = (state, endDate) => {
   state.endFilterDate = endDate;
 };
 
+const SET_USAGE_STATUS = (state, usageStatus) => {
+  state.usageStatus = usageStatus;
+};
+
 export default {
   SET_FORM_MODE,
   SET_POPUP_FORM_MODE,
@@ -91,4 +95,5 @@ export default {
   SET_TOTAL_RECORD,
   SET_START_DATE,
   SET_END_DATE,
+  SET_USAGE_STATUS,
 };

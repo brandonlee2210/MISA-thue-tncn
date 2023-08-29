@@ -15,7 +15,16 @@
         :width="246"
         class="search-person"
       ></DxDropDownBox>
-      <DxButton icon="export" text="Xuất khẩu"></DxButton>
+      <DxButton>
+        <div class="export">
+          <i
+            aria-hidden="true"
+            class="v-icon notranslate mi mi-export-default theme--light"
+          ></i>
+          <span>Xuất khẩu</span>
+        </div>
+        <!-- <img src="./Rolling-0.7s-81px.svg" alt="" width="32" height="32" /> -->
+      </DxButton>
     </div>
     <div class="list-person__left">
       <GroupButton />
@@ -37,6 +46,7 @@ import { DxTextBox, DxButton } from "devextreme-vue";
 import DxDropDownBox from "devextreme-vue/drop-down-box";
 import ButtonWithIcon from "@/components/base/button/ButtonWithIcon.vue";
 import GroupButton from "@/components/base/button/GroupButton.vue";
+
 // import { debounce } from "@/helpers/debounce";
 
 import { mapActions, mapState } from "vuex";
@@ -60,7 +70,7 @@ export default {
     // Nếu không có trường nào đang lọc thì return false
     isBadgeVisible() {
       for (const key in this.filterData) {
-        if (this.filterData[key]) {
+        if (this.filterData[key] && key !== "FilterUsageStatus") {
           return true;
         }
       }
@@ -186,6 +196,40 @@ export default {
     .dx-button-mode-outlined {
       color: white;
     }
+  }
+
+  .mi-export-default {
+    background: url(https://amisplatform.misacdn.net/apps/mintax/img/icon.4ca9813a.svg) -40px
+      0 no-repeat;
+  }
+
+  .mi-export-default {
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  .v-icon {
+    align-items: center;
+    padding-right: 10px;
+    display: inline-flex;
+    font-feature-settings: "liga";
+    font-size: 20px;
+    justify-content: center;
+    letter-spacing: normal;
+    line-height: 1;
+    position: relative;
+    text-indent: 0;
+    transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1), visibility 0s;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  .export {
+    display: flex;
+    gap: 6px;
   }
 }
 </style>

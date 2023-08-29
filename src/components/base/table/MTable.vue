@@ -168,7 +168,7 @@ export default {
     ...mapActions("employee", ["setFormMode", "setCurrentEmployeeId"]),
     /**
      * Hàm lấy dữ liệu các dòng được chọn và emit kèm theo danh sách chứa các ids của các dòng được chọn
-     * Created by: dgbao (17/08/2023)
+     * @author dgbao (17/08/2023)
      */
     getSelectedData() {
       let checkIds = this.dataGrid
@@ -180,7 +180,7 @@ export default {
     /**
      * Xử lí sự kiện khi click vào nút ghim cột
      * @param data - dữ liệu cột
-     * Created by: dgbao (17/08/2023)
+     * @author dgbao (17/08/2023)
      * */
     handleChangePin(data) {
       let localColumns;
@@ -212,7 +212,7 @@ export default {
     /**
      * Xử lí sự kiện khi click vào nút xóa
      * @param data - data của dòng được click
-     * Created by: dgbao (17/08/2023)
+     * @author dgbao (17/08/2023)
      */
     deleteRow(data) {
       this.showNotification({
@@ -226,7 +226,7 @@ export default {
     /**
      * Xử lí sự kiện khi click vào nút chỉnh sửa
      * @param data - data của dòng được click
-     * Created by: dgbao (17/08/2023)
+     * @author dgbao (17/08/2023)
      */
     openEditForm(data) {
       this.setFormMode("edit");
@@ -238,7 +238,7 @@ export default {
     /**
      * Mở form view chi tiết nhân viên
      * @param {*} event
-     * Created by: dgbao (17/08/2023)
+     * @author dgbao (17/08/2023)
      */
     openFormView(event) {
       this.setFormMode("view");

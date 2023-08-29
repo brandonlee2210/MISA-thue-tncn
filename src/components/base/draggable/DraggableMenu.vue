@@ -154,7 +154,7 @@ export default {
   methods: {
     /**
      * Xử lí khi thay đổi giá trị ô checkbox
-     * Created by: dgbao (17/08/2023)
+     * @author dgbao (17/08/2023)
      * */
     handleChangeInput(element) {
       console.log(element);
@@ -162,7 +162,7 @@ export default {
     },
     /**
      * Khi tìm kiếm thì lọc lại danh sách các cột
-     * Created by: dgbao (17/08/2023)
+     * @author dgbao (17/08/2023)
      * */
     handleValueChange(e) {
       this.searchValue = e.value;
@@ -173,7 +173,7 @@ export default {
 
     /**
      * Xử lí khi click vào nút lưu
-     * Created by: dgbao (17/08/2023)
+     * @author dgbao (17/08/2023)
      * */
     handleSaveButton() {
       this.$emit("save", JSON.parse(JSON.stringify(this.localColumns)));
@@ -181,7 +181,7 @@ export default {
 
     /**
      * Xử lí khi click vào nút mặc định
-     * Created by: dgbao (17/08/2023)
+     * @author dgbao (17/08/2023)
      * */
     handleDefaultSetting() {
       this.$emit("default");

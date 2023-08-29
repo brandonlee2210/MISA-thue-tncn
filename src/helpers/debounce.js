@@ -1,6 +1,6 @@
 /**
  * hàm thực hiện debounce sau 1 khoản thời gian
- * @author: dgbao (25/08/2023)
+ * @author dgbao (25/08/2023)
  * @param {*} fn hàm thực hiện hành động
  * @param {delay} delay thời gian delay
  */

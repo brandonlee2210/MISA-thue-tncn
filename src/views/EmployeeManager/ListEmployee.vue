@@ -10,16 +10,24 @@
       v-on:deselect="handleDeselect"
       v-on:select-all="handleSelectAll"
     />
+
     <div class="table__container">
       <m-loading v-if="isLoading" />
       <MTable
-        v-else
         v-on:onselected="handleCheckedIds"
         ref="tableRef"
         @change-pin="handleChangePin"
+        :canSelect="true"
         :dataSource="employees"
         :columns="columns"
-      />
+      >
+        <template #UsageStatus="{ value }">
+          <MChip :label="value" :column="'UsageStatus'" />
+        </template>
+        <template #WorkStatus="{ value }">
+          <MChip :label="value" :column="'WorkStatus'" />
+        </template>
+      </MTable>
     </div>
     <Pagination :totalEmployee="20" />
     <div id="draggable-container" v-if="isDraggableMenuVisible">
@@ -40,6 +48,7 @@ import ListEmployeeTableHeader from "./ListEmployeeTableHeader.vue";
 import EmployeeSelectedTableHeader from "./EmployeeSelectedTableHeader.vue";
 
 import { mapState, mapActions } from "vuex";
+import MChip from "@/components/base/MChip.vue";
 
 const tableRef = "tableRef";
 
@@ -53,6 +62,7 @@ export default {
     ListEmployeeTableHeader,
     EmployeeSelectedTableHeader,
     DraggableMenu,
+    MChip,
   },
   props: ["isBlockContentVisible"],
   data() {
@@ -75,7 +85,7 @@ export default {
           id: 2,
           caption: "Họ và tên",
           dataField: "FullName",
-          width: "211",
+          width: "191",
         },
         {
           caption: "Bộ phận/Phòng ban",
@@ -87,14 +97,14 @@ export default {
           caption: "Vị trí công việc",
           checked: true,
           dataField: "PositionName",
-          width: "200",
+          width: "160",
         },
 
         {
           checked: true,
           caption: "Loại đối tượng",
           dataField: "EmployeeTypeName",
-          width: "200",
+          width: "150",
         },
 
         {
@@ -106,8 +116,7 @@ export default {
         {
           checked: true,
           caption: "Trạng thái sử dụng dịch vụ",
-          dataField: "ServiceStatus",
-          width: "200px",
+          dataField: "UsageStatus",
         },
       ],
       isDraggableMenuVisible: false,
@@ -131,14 +140,14 @@ export default {
     /**
      * Xử lí khi thêm id vào mảng
      * @param {*} ids - Danh sách id được check
-     * Created by: dgbao (17/08/2023)
+     * @author dgbao (17/08/2023)
      * */
     handleCheckedIds(ids) {
       this.checkedIds = ids;
     },
     /**
      * Xử lí xoá tất cả các selection
-     * Created by: dgbao (17/08/2023)
+     * @author dgbao (17/08/2023)
      * */
     handleDeselect() {
       this.$refs["tableRef"].$refs.dataGrid.$_instance.clearSelection();
@@ -149,7 +158,7 @@ export default {
     /**
      * Xử lí khi thay đổi vị trí cột
      * Render lại dữ liệu các cột
-     * Created by: dgbao (17/08/2023)
+     * @author dgbao (17/08/2023)
      * */
     handleChangePin(data) {
       this.columns = data;
@@ -158,7 +167,7 @@ export default {
 
     /**
      * Xử lí khi click vào nút hiển thị menu draggable
-     * Created by: dgbao (17/08/2023)
+     * @author dgbao (17/08/2023)
      * */
     handleToggleDraggableMenu() {
       this.isDraggableMenuVisible = !this.isDraggableMenuVisible;
@@ -166,7 +175,7 @@ export default {
 
     /**
      * Xử lí khi click vào nút mặc định trong setting
-     * Created by: dgbao (17/08/2023)
+     * @author dgbao (17/08/2023)
      * */
     handleDefaultSetting() {
       this.columns = defaultColumns;
@@ -193,7 +202,6 @@ export default {
   .table__container {
     position: relative;
     overflow: auto;
-    height: 586px;
 
     .dx-datagrid.dx-gridbase-container {
       height: calc(100vh - 342px) !important;
@@ -203,7 +211,6 @@ export default {
 
 .narrow {
   .table__container {
-    height: 456px;
   }
 }
 

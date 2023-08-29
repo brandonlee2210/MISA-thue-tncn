@@ -1,11 +1,11 @@
 <template>
   <div class="form-group-item-container" :class="{ view: formMode == 'view' }">
-    <div class="item__label" :class="{ view: formMode == 'view' }">
+    <label :for="id" class="item__label" :class="{ view: formMode == 'view' }">
       {{ label
       }}<span v-if="isRequired && formMode !== 'view'" class="text-lg-error"
         >*</span
       >
-    </div>
+    </label>
     <div class="item__input">
       <DxTextBox
         :value="value"
@@ -15,6 +15,7 @@
         :show-clear-button="true"
         :onInput="handleInput"
         :ref="textBoxRef"
+        :input-attr="{ id }"
         @change="validate"
         @focusOut="validate"
         :max-length="maxLength"
@@ -88,6 +89,9 @@ export default {
       type: Number,
       default: 255,
     },
+    id: {
+      type: String,
+    },
   },
   computed: {
     // Kết quả validate
@@ -106,7 +110,7 @@ export default {
     /**
      * Xử lý sự kiện nhập vào input
      * @param {Event} event
-     * Created by: dgbao (19/08/2023)
+     * @author dgbao (19/08/2023)
      */
     handleInput(event) {
       const newValue = event.event.target.value;
@@ -114,7 +118,7 @@ export default {
     },
     /**
      * Validate dữ liệu
-     * Created by: dgbao (19/08/2023)
+     * @author dgbao (19/08/2023)
      */
     validate() {
       // Nếu có required và value = "" thì báo lỗi
@@ -153,6 +157,7 @@ export default {
     width: 200px;
     margin-right: 16px;
     margin-top: 10px;
+    cursor: default;
 
     height: 36px;
 

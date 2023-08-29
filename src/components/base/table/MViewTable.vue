@@ -47,6 +47,7 @@
               class="mr-3 action-button v-btn v-btn--has-bg v-btn--rounded theme--light v-size--small b-info b-info"
               title="Chỉnh sửa"
               style="height: 36px; width: 36px"
+              @click="openEditForm(data)"
             >
               <span class="v-btn__content"
                 ><i
@@ -91,6 +92,7 @@ import {
 
 import { formatDate } from "@/helpers/utils";
 import { mapActions } from "vuex";
+import { EDIT_MODE } from "@/helpers/enums";
 
 const dataGridRef = "dataGrid";
 
@@ -131,10 +133,12 @@ export default {
     },
   },
   methods: {
-    ...mapActions("global", ["showNotification"]),
+    ...mapActions("global", ["showNotification", "openFormPopup"]),
+    ...mapActions("relative", ["setCurrentRelative", "setEditMode"]),
+    ...mapActions("employee", ["setFormMode"]),
     /**
      * Hàm lấy dữ liệu các dòng được chọn và emit kèm theo danh sách chứa các ids của các dòng được chọn
-     * Created by: dgbao (17/08/2023)
+     * @author dgbao (17/08/2023)
      */
     getSelectedData() {
       let checkIds = this.dataGrid.getSelectedRowsData().map((item) => item.ID);
@@ -142,9 +146,9 @@ export default {
     },
 
     /**
-     * Xử lí sự kiện khi click vào nút ghim cột
+     * Xử lí sự kiện khi click vào nút xoá thành viên gia đình
      * @param data - dữ liệu cột
-     * Created by: dgbao (17/08/2023)
+     * @author dgbao (17/08/2023)
      * */
 
     deleteRow(data) {
@@ -155,6 +159,18 @@ export default {
             <strong>${data.data.FullName}</strong> vào thùng rác?`,
         idToDelete: data.key,
       });
+    },
+
+    /**
+     * Xử lí sự kiện khi click vào nút chỉnh sửa thành viên gia đình
+     * @param data - dữ liệu cột
+     * @author dgbao (17/08/2023)
+     * */
+    openEditForm(data) {
+      this.setFormMode("edit");
+      this.setEditMode(EDIT_MODE.EDIT);
+      this.setCurrentRelative(data.key);
+      this.openFormPopup();
     },
   },
   // ...

@@ -35,7 +35,7 @@ async function getEmployees(pageSize, pageNumber, filter) {
 /**
  * Lấy thông tin nhân viên theo id
  * @param {*} id
- * Created by: dgbao (24/08/2023)
+ * @author dgbao (24/08/2023)
  */
 async function getEmployeeById(id) {
   try {

@@ -1,11 +1,11 @@
 <template>
   <div class="form-group-item-container" :class="{ view: formMode == 'view' }">
-    <div class="item__label">
+    <label class="item__label" :for="id">
       {{ label
       }}<span v-if="isRequired && formMode != 'view'" class="text-lg-error"
         >*</span
       >
-    </div>
+    </label>
     <div class="item__input">
       <dx-select-box
         @focusOut="validate"
@@ -18,6 +18,7 @@
         :searchExpr="['text']"
         :noDataText="'Không có dữ liệu'"
         :readOnly="isReadOnly"
+        :input-attr="{ id }"
         @valueChanged="handleValueChanged"
         v-if="formMode != 'view'"
       ></dx-select-box>
@@ -81,6 +82,9 @@ export default {
       type: String,
       default: "",
     },
+    id: {
+      type: String,
+    },
   },
   watch: {
     value: function (newValue) {
@@ -124,7 +128,7 @@ export default {
     },
     /**
      * Validate dữ liệu
-     * Created by: dgbao (19/08/2023)
+     * @author dgbao (19/08/2023)
      */
     validate() {
       // Nếu có required và value = "" thì báo lỗi

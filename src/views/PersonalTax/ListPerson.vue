@@ -100,14 +100,14 @@ export default {
     /**
      * Xử lí khi thêm id vào mảng
      * @param {*} ids - Danh sách id được check
-     * Created by: dgbao (17/08/2023)
+     * @author dgbao (17/08/2023)
      * */
     handleCheckedIds(ids) {
       this.checkedIds = ids;
     },
     /**
      * Xử lí xoá tất cả các selection
-     * Created by: dgbao (17/08/2023)
+     * @author dgbao (17/08/2023)
      * */
     handleDeselect() {
       this.$refs["tableRef"].$refs.dataGrid.$_instance.clearSelection();
@@ -115,7 +115,7 @@ export default {
     /**
      * Xử lí khi thay đổi vị trí cột
      * Render lại dữ liệu các cột
-     * Created by: dgbao (17/08/2023)
+     * @author dgbao (17/08/2023)
      * */
     handleChangePin(data) {
       this.columns = data;
@@ -124,7 +124,7 @@ export default {
 
     /**
      * Xử lí khi click vào nút hiển thị menu draggable
-     * Created by: dgbao (17/08/2023)
+     * @author dgbao (17/08/2023)
      * */
     handleToggleDraggableMenu() {
       this.isDraggableMenuVisible = !this.isDraggableMenuVisible;
@@ -132,7 +132,7 @@ export default {
 
     /**
      * Xử lí khi click vào nút mặc định trong setting
-     * Created by: dgbao (17/08/2023)
+     * @author dgbao (17/08/2023)
      * */
     handleDefaultSetting() {
       this.columns = defaultColumns;
@@ -144,7 +144,7 @@ export default {
 
   /**
    * Lấy danh sách người nộp thuế
-   * Created by: dgbao (17/08/2023)
+   * @author dgbao (17/08/2023)
    * */
   created() {
     const getListPerson = async () => {

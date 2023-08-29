@@ -1,8 +1,8 @@
 <template>
   <div class="form-group-item-container" :class="{ view: formMode == 'view' }">
-    <div class="item__label">
+    <label :for="id" class="item__label">
       {{ label }}<span v-if="isRequired" class="text-lg-error">*</span>
-    </div>
+    </label>
     <div class="item__input">
       <DxDateBox
         :value="value"
@@ -13,6 +13,7 @@
         :displayFormat="'dd/MM/yyyy'"
         :show-clear-button="true"
         :validationError="validationError"
+        :input-attr="{ id }"
         invalidDateMessage=""
         dateOutOfRangeMessage=""
         @valueChanged="handleInput"
@@ -84,6 +85,9 @@ export default {
       type: Date,
       default: null,
     },
+    id: {
+      type: String,
+    },
   },
   computed: {
     ...mapState("employee", ["formMode"]),
@@ -104,7 +108,7 @@ export default {
     /**
      * Xử lý sự kiện nhập vào input
      * @param {Event} event
-     * Created by: dgbao (19/08/2023)
+     * @author dgbao (19/08/2023)
      */
     handleInput(event) {
       const newValue = event.value;
@@ -114,7 +118,7 @@ export default {
     },
     /**
      * Validate dữ liệu
-     * Created by: dgbao (19/08/2023)
+     * @author dgbao (19/08/2023)
      */
     validate() {
       if (this.isRequired && !this.value) {

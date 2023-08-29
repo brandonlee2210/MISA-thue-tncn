@@ -37,6 +37,7 @@
             type="button"
             class="ml-2 v-btn v-btn--has-bg theme--light v-size--default b-info b-info"
             style="height: 36px; max-width: 80px; width: 80px"
+            v-if="type !== 'data-changed'"
             @click="hideNotification"
           >
             <span class="v-btn__content">Không</span>
@@ -45,9 +46,20 @@
             type="button"
             class="ml-2 v-btn v-btn--has-bg theme--light v-size--default b-red b-red"
             style="height: 36px; max-width: 80px; width: 80px"
+            v-if="type !== 'data-changed'"
             @click="handleConfirm"
           >
             <span class="v-btn__content">Có</span>
+          </button>
+
+          <button v-if="type == 'data-changed'">
+            <span class="v-btn__content">Huỷ</span>
+          </button>
+          <button v-if="type == 'data-changed'">
+            <span class="v-btn__content">Không lưu</span>
+          </button>
+          <button v-if="type == 'data-changed'">
+            <span class="v-btn__content">Lưu</span>
           </button>
         </div>
       </div>

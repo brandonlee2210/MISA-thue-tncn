@@ -1,5 +1,5 @@
 import EmployeeService from "@/service/EmployeeService";
-// import { USAGE_STATUS } from "@/helpers/enums";
+import { USAGE_STATUS } from "@/helpers/enums";
 
 /**
  * set form mode là 1 trong ba lựa chọn: add, edit, view
@@ -38,9 +38,9 @@ const setSelectedEmployees = (context, employees) => {
  */
 const getListPerson = async (context) => {
   // Lọc những nhân viên đang sử dụng dịch vụ
-  // context.commit("SET_FILTER_DATA_PROPERTY", {
-  //   FilterUsageStatus: USAGE_STATUS.ACTIVE,
-  // });
+  context.commit("SET_FILTER_DATA_PROPERTY", {
+    FilterUsageStatus: USAGE_STATUS.ACTIVE,
+  });
   const response = await EmployeeService.filter();
   let employees = response?.data?.Data;
   context.commit("SET_TOTAL_PAGE", response?.data.TotalPage);
@@ -55,7 +55,7 @@ const getListPerson = async (context) => {
  */
 const getListEmployees = async (context) => {
   // Bỏ lọc những nhân viên đang sử dụng dịch vụ
-  context.commit("SET_FILTER_DATA_PROPERTY", { FilterUsageStatus: null });
+  // context.commit("SET_FILTER_DATA_PROPERTY", { FilterUsageStatus: null });
 
   const employees = await EmployeeService.filter();
   context.commit("SET_EMPLOYEES", employees.data.Data);
@@ -152,6 +152,16 @@ const setEndDate = (context, endDate) => {
   context.commit("SET_END_DATE", endDate);
 };
 
+/**
+ *  Set filter trạng thái sử dụng dịch vụ
+ * @param {*} context
+ * @param {*} usageStatus
+ * @author dgbao (25/08/2023)
+ */
+const setUsageStatus = (context, usageStatus) => {
+  context.commit("SET_USAGE_STATUS", usageStatus);
+};
+
 export default {
   setFormMode,
   setPopupFormMode,
@@ -167,4 +177,5 @@ export default {
   setFilterDataProp,
   setStartDate,
   setEndDate,
+  setUsageStatus,
 };

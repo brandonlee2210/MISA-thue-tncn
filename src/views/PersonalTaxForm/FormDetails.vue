@@ -16,29 +16,34 @@
         :items="employeeTypes"
         v-model="employee.EmployeeTypeID"
         label="Loại đối tượng"
+        id="employeeType"
       />
       <MTextBox
         v-model="employee.TaxCode"
         placeholder="Nhập mã số thuế"
         label="Mã số thuế"
         ref="taxCodeRef"
+        id="taxCode"
       />
       <MTextBox
         v-model="employee.EmployeeCode"
         placeholder="Nhập mã người nộp thuế"
         label="Mã người nộp thuế"
         :isRequired="true"
+        id="employeeCode"
       />
       <MSelectBox
         :items="identityTypes"
         v-model="employee.IdentifyKindOfPaperID"
         label="Loại giấy tờ"
+        id="identityType"
       />
       <MTextBox
         v-model="employee.FullName"
         placeholder="Nhập họ tên"
         label="Họ tên"
         :isRequired="true"
+        id="fullName"
       />
       <MTextBox
         v-model="employee.IdentityNumber"
@@ -49,11 +54,13 @@
         "
         :validationRules="[validateNumberInput]"
         :maxLength="12"
+        id="identityNumber"
       />
       <MDateBox
         v-model="employee.DateOfBirth"
         placeholder="__/__/____"
         label="Ngày sinh"
+        id="dateOfBirth"
       />
       <MDateBox
         v-model="employee.IdentityDate"
@@ -61,6 +68,7 @@
         label="Ngày cấp"
         :isRequired="isTaxCodeEmpty"
         customEmptyErrMsg="Không nhập mã số thuế thì ngày cấp không được bỏ trống"
+        id="identityDate"
       />
       <MRadioButton
         :options="[
@@ -78,16 +86,19 @@
         label="Nơi cấp"
         :isRequired="isTaxCodeEmpty"
         customEmptyErrMsg="Không nhập mã số thuế thì nơi cấp không được bỏ trống"
+        id="identityPlace"
       />
       <MTextBox
         v-model="employee.PhoneNumber"
         placeholder="Nhập số điện thoại"
         label="Số điện thoại"
+        id="phoneNumber"
       />
       <MSelectBox
         :items="countryList"
         v-model="employee.NationalityID"
         label="Quốc tịch"
+        id="nationality"
       />
 
       <MTextBox
@@ -95,11 +106,13 @@
         placeholder="Nhập email"
         label="Email"
         :validationRules="[validateEmail]"
+        id="email"
       />
       <MSelectBox
         :items="contractTypes"
         v-model="employee.ContractTypeID"
         label="Loại hợp đồng"
+        id="contractType"
       />
       <div class="row ma-0 pa-0">
         <span class="text-lg-subheader">Hộ khẩu thường trú</span>
@@ -108,6 +121,7 @@
         :items="countryList"
         v-model="employee.NativeCountryCode"
         label="Quốc gia"
+        id="nativeCountry"
       />
       <MSelectBox
         :items="locationsList"
@@ -115,6 +129,7 @@
         :valueExpr="'LocationID'"
         :displayExpr="'LocationName'"
         label="Xã phường"
+        id="nativeWard"
       />
       <MSelectBox
         :items="provincesList"
@@ -122,11 +137,13 @@
         valueExpr="ProvinceID"
         displayExpr="LocationName"
         label="Tỉnh/thành phố"
+        id="nativeProvince"
       />
       <MTextBox
         v-model="employee.NativeAddress"
         placeholder="Nhập số nhà, đường/phố, thôn/xóm"
         label="Số nhà, đường/phố, thôn/xóm"
+        id="nativeAddress"
       />
       <MSelectBox
         :items="districtsList"
@@ -134,11 +151,13 @@
         valueExpr="DistrictID"
         displayExpr="LocationName"
         label="Quận/huyện"
+        id="nativeDistrict"
       />
       <MTextBox
         v-model="nativeAutoAddress"
         label="Địa chỉ"
         :isReadOnly="true"
+        id="nativeAutoAddress"
       />
       <div class="row ma-0 pa-0">
         <span class="text-lg-subheader">Chỗ ở hiện nay</span>
@@ -149,6 +168,7 @@
         v-model="employee.CurrentCountryCode"
         label="Quốc gia"
         :isReadOnly="IsSameAddress"
+        id="currentCountry"
       />
       <MSelectBox
         :items="currentLocationsList"
@@ -157,6 +177,7 @@
         :valueExpr="'LocationID'"
         :displayExpr="'LocationName'"
         label="Xã phường"
+        id="currentWard"
       />
       <MSelectBox
         :items="provincesList"
@@ -165,12 +186,14 @@
         valueExpr="ProvinceID"
         displayExpr="LocationName"
         label="Tỉnh/thành phố"
+        id="currentProvince"
       />
       <MTextBox
         v-model="employee.CurrentAddress"
         placeholder="Nhập số nhà, đường/phố, thôn/xóm"
         :isReadOnly="IsSameAddress"
         label="Số nhà, đường/phố, thôn/xóm"
+        id="currentAddress"
       />
       <MSelectBox
         :items="currentDistrictsList"
@@ -179,11 +202,13 @@
         valueExpr="DistrictID"
         displayExpr="LocationName"
         label="Quận/huyện"
+        id="currentDistrict"
       />
       <MTextBox
         v-model="currentAutoAddress"
         label="Địa chỉ"
         :isReadOnly="true"
+        id="currentAutoAddress"
       />
       <span class="text-lg-h3" id="job">THÔNG TIN CÔNG VIỆC</span>
       <MTextBox
@@ -191,38 +216,45 @@
         label="Bộ phận/phòng ban"
         :isReadOnly="true"
         :isRequired="true"
+        id="department"
       />
       <MDateBox
         v-model="employee.ProbationDate"
         placeholder="__/__/____"
         label="Ngày học việc"
+        id="probationDate"
       />
       <MSelectBox
         :items="positionsList"
         v-model="employee.JobPositionID"
         label="Vị trí công việc"
         :isRequired="true"
+        id="jobPosition"
       />
       <MDateBox
         v-model="employee.HireDate"
         placeholder="__/__/____"
         label="Ngày thử việc"
+        id="hireDate"
       />
       <MTextBox label="Chức danh" :isReadOnly="true" />
       <MDateBox
         v-model="employee.ReceiveDate"
         placeholder="__/__/____"
         label="Ngày chính thức"
+        id="receiveDate"
       />
       <MSelectBox
         :items="workStatusesList"
         v-model="employee.WorkStatus"
         label="Trạng thái làm việc"
+        id="workStatus"
       />
       <MDateBox
         v-model="employee.ResignationDate"
         placeholder="__/__/____"
         label="Ngày nghỉ việc"
+        id="resignationDate"
       />
       <div
         class="row mt-11 pb-6 d-flex pl-3 align-center pr-3 text-lg-h3"
@@ -554,7 +586,7 @@ export default {
     ]),
     /**
      * Thực hiện validate tất cả các component con
-     * Created by: dgbao (19/08/2023)
+     * @author dgbao (19/08/2023)
      */
     async saveForm() {
       let isValid = true;
@@ -582,7 +614,7 @@ export default {
         if (this.formMode == "add") {
           const result = await addNewEmployee(this.employee);
 
-          if (result.data > 0) {
+          if (result) {
             this.$router.push("/tax");
             this.hideLoading();
             this.showToast({
@@ -616,7 +648,7 @@ export default {
             editedEmployee
           );
 
-          if (result.data > 0) {
+          if (result.data) {
             this.$router.push("/tax");
             this.hideLoading();
             this.showToast({
@@ -640,7 +672,7 @@ export default {
     },
     /**
      * Thêm thành viên gia đình
-     * Created by: dgbao (19/08/2023)
+     * @author dgbao (19/08/2023)
      */
     handleAddFamilyMember() {
       let popup = this.$refs.popupRef;
@@ -652,66 +684,78 @@ export default {
 
       // Lấy dữ liệu từ popup thông qua ref
 
-      // Thêm vào employee data để chuẩn bị push lên server
-      this.employee.ListRelatives.push(memberData);
-      this.setCurrentRelative({
-        RelationshipID: "",
-        RelationshipName: "",
-        FullName: "",
-        DateOfBirth: null,
-        NationalityID: 1,
-        NationalityName: "",
-        Gender: 0,
-        GenderName: null,
-        IdentifyKindOfPaperID: 1,
-        IdentifyKindOfPaperName: "",
-        IdentityNumber: "",
-        IdentityDate: null,
-        IdentityPlaceID: 1,
-        IdentityPlaceName: null,
-        TaxCode: "",
-        DependentNumber: "",
-        BirthCertificationIssueDate: null,
-        CountryID: 2,
-        CountryName: "",
-        NumberBook: "2",
-        ProvinceID: null,
-        DistrictID: null,
-        WardID: null,
-        IsDependent: 0,
-        FamilyPermanentAddressProvinceID: null,
-        FamilyPermanentAddressDistrictID: null,
-        FamilyPermanentAddressWardID: null,
-        FamilyPermanentAddressStreetHouseNumber: "",
-        FamilyCurrentProvinceID: null,
-        FamilyCurrentDistrictID: null,
-        FamilyCurrentWardID: null,
-        FamilyCurrentStreetHouseNumber: "",
-        Description: "",
-        DeductionStartDate: null,
-        DeductionEndDate: null,
-        CreatedDate: null,
-        CreatedBy: null,
-        ModifiedDate: null,
-        ModifiedBy: null,
-        RelativeInformationID: null,
-      });
-      console.log(this.employee.ListRelatives);
+      if (this.editMode === EDIT_MODE.ADD) {
+        // Thêm vào employee data để chuẩn bị push lên server
+        this.employee.ListRelatives.push(memberData);
+        this.setCurrentRelative({
+          RelationshipID: "",
+          RelationshipName: "",
+          FullName: "",
+          DateOfBirth: null,
+          NationalityID: 1,
+          NationalityName: "",
+          Gender: 0,
+          GenderName: null,
+          IdentifyKindOfPaperID: 1,
+          IdentifyKindOfPaperName: "",
+          IdentityNumber: "",
+          IdentityDate: null,
+          IdentityPlaceID: 1,
+          IdentityPlaceName: null,
+          TaxCode: "",
+          DependentNumber: "",
+          BirthCertificationIssueDate: null,
+          CountryID: 2,
+          CountryName: "",
+          NumberBook: "2",
+          ProvinceID: null,
+          DistrictID: null,
+          WardID: null,
+          IsDependent: 0,
+          FamilyPermanentAddressProvinceID: null,
+          FamilyPermanentAddressDistrictID: null,
+          FamilyPermanentAddressWardID: null,
+          FamilyPermanentAddressStreetHouseNumber: "",
+          FamilyCurrentProvinceID: null,
+          FamilyCurrentDistrictID: null,
+          FamilyCurrentWardID: null,
+          FamilyCurrentStreetHouseNumber: "",
+          Description: "",
+          DeductionStartDate: null,
+          DeductionEndDate: null,
+          CreatedDate: null,
+          CreatedBy: null,
+          ModifiedDate: null,
+          ModifiedBy: null,
+          RelativeInformationID: null,
+        });
 
-      // Thêm id dựa vào index
-      this.employee.ListRelatives.forEach((item) => {
-        if (item?.IsDependent) {
-          item.IsDependent = 1;
-        } else {
-          item.IsDependent = 0;
-        }
-      });
+        this.employee.ListRelatives.forEach((item) => {
+          if (item?.IsDependent) {
+            item.IsDependent = 1;
+          } else {
+            item.IsDependent = 0;
+          }
+        });
 
-      this.closeFormPopup();
-      this.showToast({
-        type: "success",
-        title: "Thêm mới thông tin gia đình người nộp thuế thành công",
-      });
+        this.closeFormPopup();
+        this.showToast({
+          type: "success",
+          title: "Thêm mới thông tin gia đình người nộp thuế thành công",
+        });
+      } else if (this.editMode === EDIT_MODE.EDIT) {
+        this.employee.ListRelatives.forEach((item) => {
+          if (item.RelativeInformationID === memberData.RelativeInformationID) {
+            item = memberData;
+          }
+        });
+        this.closeFormPopup();
+        this.showToast({
+          type: "success",
+          title: "Cập nhật thông tin gia đình người nộp thuế thành công",
+        });
+      }
+
       setTimeout(() => {
         this.hideToast();
       }, 2200);
@@ -720,7 +764,7 @@ export default {
     /**
      * Kiểm tra value chỉ được chứa các số
      * @param {String} value
-     * Created by: dgbao (19/08/2023)
+     * @author dgbao (19/08/2023)
      */
     validateNumberInput(value) {
       let regex = /^[0-9]*$/;
@@ -741,7 +785,7 @@ export default {
     /**
      * Kiểm tra định dạng email
      * @param {String} value
-     * Created by: dgbao (19/08/2023)
+     * @author dgbao (19/08/2023)
      */
     validateEmail(value) {
       let regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -760,7 +804,7 @@ export default {
     },
     /**
      * Mở popup
-     * Created by: dgbao (19/08/2023)
+     * @author dgbao (19/08/2023)
      */
     handleAddNewRelative() {
       if (this.formMode == "view") {
@@ -778,7 +822,7 @@ export default {
   created() {
     /**
      * Lấy mã nhân viên mới
-     * Created by: dgbao (19/08/2023)
+     * @author dgbao (19/08/2023)
      */
     const getNewEmployeeCode = async () => {
       let response = await EmployeeService.getNewCode();
@@ -786,7 +830,7 @@ export default {
     };
     /**
      * Lấy thông tin chi tiết nhân viên
-     * Created by: dgbao (19/08/2023)
+     * @author dgbao (19/08/2023)
      */
     const getEmployeeDetails = async (id) => {
       let employeeDetails = await getEmployeeById(id);

@@ -4,8 +4,10 @@ const SET_EDIT_MODE = (state, mode) => {
   state.editMode = mode;
 };
 
-const SET_CURRENT_RELATIVE = (state, relative) => {
-  state.relative = relative;
+const SET_CURRENT_RELATIVE = (state, relativeId) => {
+  state.relative = state.listRelatives.find(
+    (relative) => relative.RelativeInformationID === relativeId
+  );
 };
 
 const SET_LIST_RELATIVE = (state, relatives) => {
