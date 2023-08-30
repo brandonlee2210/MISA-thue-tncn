@@ -22,6 +22,7 @@ const state = {
     type: "",
     rawHtml: "",
     idToDelete: "",
+    onConfirm: null,
   },
   isLoading: false,
 };

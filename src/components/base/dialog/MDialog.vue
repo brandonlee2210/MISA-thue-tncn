@@ -46,7 +46,29 @@
             type="button"
             class="ml-2 v-btn v-btn--has-bg theme--light v-size--default b-red b-red"
             style="height: 36px; max-width: 80px; width: 80px"
-            v-if="type !== 'data-changed'"
+            v-if="
+              type !== 'data-changed' && type !== 'manage' && type !== 'error'
+            "
+            @click="handleConfirm"
+          >
+            <span class="v-btn__content">Có</span>
+          </button>
+
+          <button
+            type="button"
+            class="ml-2 v-btn v-btn--has-bg theme--light v-size--default b-red b-red"
+            style="height: 36px; max-width: 80px; width: 80px"
+            v-if="type == 'error'"
+            @click="handleConfirm"
+          >
+            <span class="v-btn__content">Đóng</span>
+          </button>
+
+          <button
+            type="button"
+            class="ml-2 v-btn v-btn--has-bg theme--light v-size--default b-primary b-primary"
+            style="height: 36px; max-width: 80px; width: 80px"
+            v-if="type == 'manage'"
             @click="handleConfirm"
           >
             <span class="v-btn__content">Có</span>
@@ -70,6 +92,7 @@
 <script>
 import { mapState, mapActions } from "vuex";
 import { deleteEmployee, deleteManyEmployees } from "@/helpers/api";
+// import EmployeeService from "@/service/EmployeeService";
 
 export default {
   data() {
@@ -99,7 +122,11 @@ export default {
 
   methods: {
     ...mapActions("global", ["hideNotification", "showToast", "hideToast"]),
-    ...mapActions("employee", ["getListPerson"]),
+    ...mapActions("employee", [
+      "getListPerson",
+      "setSelectedRows",
+      "getListEmployees",
+    ]),
     ...mapActions("relative", ["deleteRelative"]),
     /**
      * Xử lí sự kiện khi ấn vào nút có
@@ -150,9 +177,14 @@ export default {
               }, 2000);
             });
           break;
+        case "error":
+          this.hideNotification();
+          break;
+
         default:
           break;
       }
+      this.notificationProps.onConfirm();
     },
   },
 };
@@ -224,6 +256,13 @@ export default {
   }
 }
 
+.text-lg-confirm {
+  font-size: 14px !important;
+  line-height: 20px !important;
+  cursor: default;
+  letter-spacing: unset !important;
+}
+
 .v-card__title {
   z-index: 50;
   padding: 24px !important;
@@ -236,6 +275,11 @@ export default {
 
 .b-transparent:hover {
   background-color: rgba(194, 191, 191, 0.204) !important;
+}
+
+.b-primary {
+  color: #fff !important;
+  background-color: #007aff !important;
 }
 
 .ico-g-close {

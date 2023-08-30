@@ -15,16 +15,22 @@
         :width="246"
         class="search-person"
       ></DxDropDownBox>
-      <DxButton>
-        <div class="export">
+      <button class="export-container" @click="handleExport">
+        <div class="export" v-show="!isButtonLoading">
           <i
             aria-hidden="true"
             class="v-icon notranslate mi mi-export-default theme--light"
           ></i>
           <span>Xuất khẩu</span>
         </div>
-        <!-- <img src="./Rolling-0.7s-81px.svg" alt="" width="32" height="32" /> -->
-      </DxButton>
+        <img
+          v-show="isButtonLoading == true"
+          src="./Rolling-0.7s-81px.svg"
+          alt=""
+          width="32"
+          height="32"
+        />
+      </button>
     </div>
     <div class="list-person__left">
       <GroupButton />
@@ -42,10 +48,12 @@
 </template>
 
 <script>
-import { DxTextBox, DxButton } from "devextreme-vue";
+import { DxTextBox } from "devextreme-vue";
 import DxDropDownBox from "devextreme-vue/drop-down-box";
 import ButtonWithIcon from "@/components/base/button/ButtonWithIcon.vue";
 import GroupButton from "@/components/base/button/GroupButton.vue";
+import axios from "axios";
+import { exportData } from "@/helpers/api";
 
 // import { debounce } from "@/helpers/debounce";
 
@@ -55,7 +63,7 @@ export default {
   components: {
     DxTextBox,
     DxDropDownBox,
-    DxButton,
+    // DxButton,
     ButtonWithIcon,
     GroupButton,
   },
@@ -81,6 +89,7 @@ export default {
     return {
       timeoutId: null,
       inputValue: "",
+      isButtonLoading: false,
     };
   },
   methods: {
@@ -118,6 +127,37 @@ export default {
         this.getListPerson();
         this.hideLoading();
       }, 800);
+    },
+    /**
+     * Xuất khẩu dữ liệu
+     * @author DGBao (29/07/2023)
+     */
+    handleExport() {
+      this.isButtonLoading = true;
+      axios({
+        method: "post",
+        url: "https://localhost:7037/api/v1/Employees/export-all",
+        responseType: "blob",
+        data: exportData,
+      })
+        .then((response) => {
+          const file = new Blob([response.data], {
+            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          });
+          const fileURL = URL.createObjectURL(file);
+          const link = document.createElement("a");
+          link.href = fileURL;
+          link.download = `Danh sách thông tin nhân viên.xlsx`;
+          link.click();
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          setTimeout(() => {
+            this.isButtonLoading = false;
+          }, 1000);
+        });
     },
   },
 };
@@ -230,6 +270,28 @@ export default {
   .export {
     display: flex;
     gap: 6px;
+  }
+
+  .export-container {
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border: 1px solid #cecbcb;
+    border-radius: 3px;
+    width: 120px;
+
+    &:hover {
+      cursor: pointer;
+      color: #007aff;
+      border-color: #007aff;
+    }
+
+    span {
+      display: flex;
+      align-items: center;
+    }
   }
 }
 </style>

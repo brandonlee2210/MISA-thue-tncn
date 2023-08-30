@@ -396,12 +396,14 @@ export default {
         EmployeeTypeID: 1,
         EmployeeTypeName: "",
         IdentifyKindOfPaperID: 1,
+        IdentifyKindOfPaperName: "",
         DateOfBirth: null,
         TaxCode: "",
         EmployeeCode: "",
         FullName: "",
         IdentityDate: null,
         IdentityNumber: "",
+        IdentityPlace: "",
         IdentityPlaceID: 1,
         PhoneNumber: "",
         Gender: 0,
@@ -413,12 +415,20 @@ export default {
         NativeProvinceCode: null,
         NativeDistrictCode: null,
         NativeWardCode: null,
+        NationalityName: "",
+        NativeCountryName: "",
+        NativeProvinceName: "",
+        NativeDistrictName: "",
+        NativeWardName: "",
         NativeAddress: null,
         CurrentCountryCode: 1,
         CurrentCountryName: "Việt Nam",
         CurrentProvinceCode: null,
         CurrentDistrictCode: null,
         CurrentWardCode: null,
+        CurrentProvinceName: null,
+        CurrentDistrictName: null,
+        CurrentWardName: null,
         CurrentAddress: null,
         Email: null,
         DepartmentName: "CÔNG TY CỔ PHẦN TEST QTT",
@@ -429,6 +439,7 @@ export default {
         JobPositionID: "",
         JobPositionName: "",
         WorkStatus: 1,
+        WorkStatusName: "",
         ListRelatives: this.listRelatives,
         UsageStatus: 1,
       },
@@ -573,6 +584,7 @@ export default {
       "openFormPopup",
       "closeFormPopup",
       "showToast",
+      "showNotification",
       "hideToast",
       "showLoading",
       "hideLoading",
@@ -617,14 +629,17 @@ export default {
           if (result) {
             this.$router.push("/tax");
             this.hideLoading();
+            this.setFormMode("");
             this.showToast({
               type: "success",
               title: "Thêm mới thành công",
             });
           } else {
-            this.showToast({
+            this.hideLoading();
+            this.showNotification({
               type: "error",
-              title: result.UserMsg,
+              title: "Cảnh báo",
+              rawHtml: "<span>Mã nhân viên đã tồn tại trong hệ thống</span>",
             });
           }
           // Thực hiện gọi API chỉnh sửa nhân viên
@@ -656,6 +671,7 @@ export default {
               title: "Cập nhật thành công",
             });
           } else {
+            this.hideLoading();
             this.showToast({
               type: "error",
               title: result.UserMsg,
@@ -836,7 +852,7 @@ export default {
       let employeeDetails = await getEmployeeById(id);
 
       this.employee = employeeDetails;
-      this.setListRelative(employeeDetails.ListRelatives);
+      this.setListRelative(employeeDetails?.ListRelatives);
 
       // set list relative trong store
     };

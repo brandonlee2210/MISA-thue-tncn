@@ -77,7 +77,7 @@ import ListEmployee from "./ListEmployee.vue";
 
 import { getTotalEmployeeSummary } from "@/helpers/api";
 
-import EmployeeService from "@/service/EmployeeService";
+// import EmployeeService from "@/service/EmployeeService";
 import { USAGE_STATUS } from "@/helpers/enums";
 import { mapActions, mapState } from "vuex";
 
@@ -87,7 +87,6 @@ export default {
     return {
       isBlockContentVisible: true,
       resource: MISAResource,
-      summary: {},
       USAGE_STATUS,
     };
   },
@@ -97,13 +96,15 @@ export default {
     ListEmployee,
   },
   computed: {
-    ...mapState("employee", ["usageStatus"]),
+    ...mapState("employee", ["usageStatus", "summary"]),
   },
   methods: {
     ...mapActions("employee", [
       "setUsageStatus",
       "setFilterData",
       "getListEmployees",
+      "setSummary",
+      "setTotalRecord",
     ]),
     ...mapActions("global", ["showLoading", "hideLoading"]),
     /**
@@ -116,7 +117,6 @@ export default {
      * Lấy tổng số nhân viên
      */
     getSummary() {
-      console.log("getSummary");
       getTotalEmployeeSummary();
     },
     /**
@@ -139,10 +139,7 @@ export default {
    * @author dgbao (25/08/2023)
    */
   created() {
-    EmployeeService.getSummary().then((res) => {
-      console.log(res.data);
-      this.summary = res.data;
-    });
+    this.setSummary();
   },
 };
 </script>

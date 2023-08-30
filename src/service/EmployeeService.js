@@ -40,6 +40,16 @@ class EmployeeServiceClass extends BaseService {
   }
 
   /**
+   *  Cập nhật nhiều nhân viên cùng lúc
+   * @param {*} data Danh sách các nhân viên cần update
+   */
+  async updateMany(data) {
+    const res = await this.baseAxios.put(this.endpoint("/update-many"), data);
+
+    return res;
+  }
+
+  /**
    * xuất file excel
    * @author dgbao (25/08/2023)
    */

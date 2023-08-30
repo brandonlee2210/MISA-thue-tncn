@@ -21,6 +21,7 @@
         :columns="columns"
         :canSelect="true"
         :isContextMenuVisible="true"
+        :canDbClick="true"
       >
         <template #WorkStatus="{ value }">
           <MChip :label="value" :column="'WorkStatus'" />

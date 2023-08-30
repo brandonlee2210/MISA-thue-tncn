@@ -162,7 +162,39 @@ const setUsageStatus = (context, usageStatus) => {
   context.commit("SET_USAGE_STATUS", usageStatus);
 };
 
+/**
+ *  Set danh sách các dòng được chọn
+ * @param {*} context
+ * @param {*} selectedRows
+ * @author dgbao (25/08/2023)
+ */
+const setSelectedRows = (context, selectedRows) => {
+  context.commit("SET_SELECTED_ROWS", selectedRows);
+};
+
+/**
+ *  set thông tin tổng số lao động đang và không sử dụng dịch vụ
+ * @param {*} context
+ * @param {*} summary
+ * @author dgbao (25/08/2023)
+ */
+const setSummary = async (context) => {
+  const response = await EmployeeService.getSummary();
+  context.commit("SET_SUMMARY", response.data);
+};
+
+/**
+ *  Set lại tổng số bàn ghi trên grid
+ * @param {*} context
+ * @param {*} totalRecord
+ * @author dgbao (25/08/2023)
+ */
+const setTotalRecord = (context, totalRecord) => {
+  context.commit("SET_TOTAL_RECORD", totalRecord);
+};
+
 export default {
+  setTotalRecord,
   setFormMode,
   setPopupFormMode,
   setSelectedEmployees,
@@ -178,4 +210,6 @@ export default {
   setStartDate,
   setEndDate,
   setUsageStatus,
+  setSelectedRows,
+  setSummary,
 };

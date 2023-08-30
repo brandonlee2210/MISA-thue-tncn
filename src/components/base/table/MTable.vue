@@ -132,7 +132,13 @@ export default {
     DxScrolling,
     DxTemplate,
   },
-  props: ["dataSource", "columns", "canSelect", "isContextMenuVisible"],
+  props: [
+    "dataSource",
+    "columns",
+    "canSelect",
+    "isContextMenuVisible",
+    "canDbClick",
+  ],
   data() {
     return {
       dataGridRef,
@@ -165,16 +171,20 @@ export default {
   },
   methods: {
     ...mapActions("global", ["showNotification"]),
-    ...mapActions("employee", ["setFormMode", "setCurrentEmployeeId"]),
+    ...mapActions("employee", [
+      "setFormMode",
+      "setCurrentEmployeeId",
+      "setSelectedRows",
+    ]),
     /**
      * Hàm lấy dữ liệu các dòng được chọn và emit kèm theo danh sách chứa các ids của các dòng được chọn
      * @author dgbao (17/08/2023)
      */
     getSelectedData() {
-      let checkIds = this.dataGrid
-        .getSelectedRowsData()
-        .map((item) => item.EmployeeID);
-      this.$emit("onselected", checkIds);
+      let checkedList = this.dataGrid.getSelectedRowsData();
+
+      this.setSelectedRows(checkedList);
+      this.$emit("onselected", checkedList);
     },
 
     /**
@@ -241,11 +251,13 @@ export default {
      * @author dgbao (17/08/2023)
      */
     openFormView(event) {
-      this.setFormMode("view");
-      let key = event.key;
-      this.setCurrentEmployeeId(key);
+      if (this.canDbClick) {
+        this.setFormMode("view");
+        let key = event.key;
+        this.setCurrentEmployeeId(key);
 
-      this.$router.push(`/tax/view`);
+        this.$router.push(`/tax/view`);
+      }
     },
   },
   // ...

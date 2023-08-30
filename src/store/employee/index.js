@@ -4,6 +4,7 @@ import mutations from "./mutations";
 
 const state = {
   newEmployeeCode: "",
+  selectedRows: [],
   employees: [],
   checkedEmployees: [],
   formMode: "add",
@@ -23,6 +24,7 @@ const state = {
   filterKeyword: "",
   totalPage: 1,
   totalRecord: 15,
+  summary: {},
   // filter trạng thái sử dụng dịch vụ trong employee manager
   usageStatus: null,
 };

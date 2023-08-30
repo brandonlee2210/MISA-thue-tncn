@@ -61,6 +61,7 @@ export default {
       }
       event.target.classList.add("misa-tab-active");
     },
+    handleSave() {},
   },
 };
 </script>

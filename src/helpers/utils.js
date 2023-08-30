@@ -22,3 +22,17 @@ export const formatDate = (originalDateString) => {
 function addZeroPrefix(value) {
   return value < 10 ? `0${value}` : value;
 }
+
+/**
+ * Chuyển đổi ngày tháng năm từ string sang Date
+ * @param {*} dateString
+ */
+export const convertToDateTime = (dateString) => {
+  if (typeof dateString === "string") {
+    var dateParts = dateString.split("/");
+
+    var jsDate = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]);
+
+    return jsDate;
+  }
+};

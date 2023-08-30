@@ -79,6 +79,14 @@ const SET_USAGE_STATUS = (state, usageStatus) => {
   state.usageStatus = usageStatus;
 };
 
+const SET_SELECTED_ROWS = (state, selectedRows) => {
+  state.selectedRows = selectedRows;
+};
+
+const SET_SUMMARY = (state, summary) => {
+  state.summary = summary;
+};
+
 export default {
   SET_FORM_MODE,
   SET_POPUP_FORM_MODE,
@@ -96,4 +104,6 @@ export default {
   SET_START_DATE,
   SET_END_DATE,
   SET_USAGE_STATUS,
+  SET_SELECTED_ROWS,
+  SET_SUMMARY,
 };

@@ -29,6 +29,8 @@ export default {
   height: 36px;
   padding: 0 8px 0 8px;
 
+  margin-right: 10px;
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -150,6 +152,13 @@ export default {
         no-repeat 50%;
       height: 16px;
       width: 16px;
+    }
+
+    .ico-disable {
+      background: url(https://amisplatform.misacdn.net/apps/mintax/img/Icon_New.0875ae6a.svg) -220px -20px
+        no-repeat;
+      width: 20px !important;
+      height: 20px !important;
     }
   }
 }
