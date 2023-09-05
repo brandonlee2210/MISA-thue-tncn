@@ -258,6 +258,10 @@ export default {
     color: var(--primary-color);
   }
 
+  .button {
+    margin-right: 10px;
+  }
+
   .misa-separator {
     margin-left: 10px;
     margin-right: 10px;

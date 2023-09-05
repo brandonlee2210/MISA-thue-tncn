@@ -46,7 +46,7 @@ export default {
         rawHtml: `Bạn có chắc chắn muốn xóa <strong>(${this.length})</strong>  người nộp thuế
             vào thùng rác?`,
         type: "delete-many",
-        listIds: this.checkedIds,
+        listIds: this.checkedIds.map((item) => item.EmployeeID),
       });
     },
   },

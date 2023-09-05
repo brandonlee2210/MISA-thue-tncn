@@ -316,4 +316,9 @@ tr.dx-row.dx-data-row {
 
 .dx-datagrid-headers.dx-datagrid-nowrap {
   border-top: 1px solid #e4e4e4;
+  border-bottom: 1px solid #e4e4e4;
+}
+
+.dx-datagrid-content.dx-datagrid-scroll-container.dx-datagrid-content-fixed {
+  border-bottom: 1px solid #e4e4e4 !important;
 }

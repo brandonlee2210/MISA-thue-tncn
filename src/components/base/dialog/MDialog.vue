@@ -74,6 +74,7 @@
             <span class="v-btn__content">Có</span>
           </button>
 
+          <!-- Dialog khi dữ liệu thay đổi -->
           <button v-if="type == 'data-changed'">
             <span class="v-btn__content">Huỷ</span>
           </button>
@@ -83,6 +84,7 @@
           <button v-if="type == 'data-changed'">
             <span class="v-btn__content">Lưu</span>
           </button>
+          <!-- Dialog khi dữ liệu thay đổi -->
         </div>
       </div>
     </div>
@@ -93,6 +95,7 @@
 import { mapState, mapActions } from "vuex";
 import { deleteEmployee, deleteManyEmployees } from "@/helpers/api";
 // import EmployeeService from "@/service/EmployeeService";
+import RelativeService from "@/service/RelativeService";
 
 export default {
   data() {
@@ -103,6 +106,8 @@ export default {
   },
   computed: {
     ...mapState("global", ["notificationProps"]),
+    ...mapState("relative", ["popupFormMode"]),
+    ...mapState("employee", ["tableRef"]),
     title() {
       return this.notificationProps.title;
     },
@@ -121,7 +126,13 @@ export default {
   },
 
   methods: {
-    ...mapActions("global", ["hideNotification", "showToast", "hideToast"]),
+    ...mapActions("global", [
+      "hideNotification",
+      "showToast",
+      "hideToast",
+      "showLoading",
+      "hideLoading",
+    ]),
     ...mapActions("employee", [
       "getListPerson",
       "setSelectedRows",
@@ -138,9 +149,12 @@ export default {
             .then(() => {
               this.hideNotification();
               this.showToast({ title: "Xóa thành công", type: "success" });
+              this.tableRef.clearSelection();
             })
             .then(() => {
+              this.showLoading();
               this.getListPerson();
+              this.hideLoading();
               // hide toast
               setTimeout(() => {
                 this.hideToast();
@@ -152,18 +166,23 @@ export default {
             .then(() => {
               this.hideNotification();
               this.showToast({ title: "Xóa thành công", type: "success" });
+              this.tableRef.clearSelection();
             })
             .then(() => {
+              this.showLoading();
               this.getListPerson();
+              this.hideLoading();
               // hide toast
               setTimeout(() => {
                 this.hideToast();
               }, 2000);
             });
           break;
+        // Xoá trực tiếp thành viên gia đình
         case "delete-relative":
-          this.deleteRelative(this.idToDelete)
+          RelativeService.delete(this.idToDelete)
             .then(() => {
+              this.deleteRelative(this.idToDelete);
               this.hideNotification();
               this.showToast({
                 title: "Xóa thành viên gia đình thành công",
@@ -176,6 +195,17 @@ export default {
                 this.hideToast();
               }, 2000);
             });
+          break;
+        case "delete-relative-indirect":
+          this.deleteRelative(this.idToDelete);
+          this.hideNotification();
+          this.showToast({
+            title: "Xóa thành viên gia đình thành công",
+            type: "success",
+          });
+          setTimeout(() => {
+            this.hideToast();
+          }, 2000);
           break;
         case "error":
           this.hideNotification();

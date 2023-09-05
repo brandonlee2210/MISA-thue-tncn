@@ -109,7 +109,7 @@ const MISAResource = {
       {
         checked: true,
         caption: "Loại hợp đồng",
-        dataField: "ContractType",
+        dataField: "ContractTypeName",
         width: "200",
       },
       {

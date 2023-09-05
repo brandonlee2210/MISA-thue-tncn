@@ -44,7 +44,7 @@ export const familiMemberTableHeader = [
   {
     id: 6,
     caption: "Giảm trừ từ",
-    dataField: "TaxCode",
+    dataField: "DeductionStartDate",
     checked: true,
     fixed: false,
     width: 192,
@@ -53,7 +53,7 @@ export const familiMemberTableHeader = [
   {
     id: 7,
     caption: "Giảm trừ đến",
-    dataField: "TaxCode",
+    dataField: "DeductionEndDate",
     checked: true,
     fixed: false,
     width: 192,

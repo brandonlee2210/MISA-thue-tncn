@@ -99,6 +99,7 @@ export default {
      */
     handleCheckedChange(key, value) {
       this.userFilterData[key] = value;
+      console.log(this.userFilterData);
     },
   },
   data() {

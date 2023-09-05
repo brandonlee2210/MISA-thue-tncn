@@ -2,7 +2,7 @@
   <div class="form-group-item-container" :class="{ view: formMode == 'view' }">
     <label class="item__label" :for="id">
       {{ label
-      }}<span v-if="isRequired && formMode != 'view'" class="text-lg-error"
+      }}<span v-if="isRequired && canSelectBoxEdit" class="text-lg-error"
         >*</span
       >
     </label>
@@ -20,12 +20,12 @@
         :readOnly="isReadOnly"
         :input-attr="{ id }"
         @valueChanged="handleValueChanged"
-        v-if="formMode != 'view'"
+        v-if="canSelectBoxEdit"
       ></dx-select-box>
-      <div v-if="!isValid && formMode != 'view'" class="error-message">
+      <div v-if="!isValid && canSelectBoxEdit" class="error-message">
         {{ validationError }}
       </div>
-      <div v-if="formMode == 'view'" class="misa-info-binding">
+      <div v-if="!canSelectBoxEdit" class="misa-info-binding">
         <span class="text-lg-body-1">{{ selectedLabel || "-" }}</span>
       </div>
     </div>
@@ -34,6 +34,8 @@
 
 <script>
 import { DxSelectBox } from "devextreme-vue";
+
+import { POPUP_FORM_MODE } from "@/helpers/enums";
 
 import { mapState } from "vuex";
 
@@ -102,6 +104,7 @@ export default {
   },
   computed: {
     ...mapState("employee", ["formMode"]),
+    ...mapState("relative", ["popupFormMode"]),
     validationError() {
       return this.validationResult.message;
     },
@@ -113,6 +116,11 @@ export default {
         (item) => item[this.valueExpr] === this.value
       );
       return selectedItem ? selectedItem[this.displayExpr] : "";
+    },
+    canSelectBoxEdit() {
+      return (
+        this.formMode !== "view" || this.popupFormMode == POPUP_FORM_MODE.DIRECT
+      );
     },
   },
   methods: {

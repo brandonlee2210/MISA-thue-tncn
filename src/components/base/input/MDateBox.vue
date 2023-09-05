@@ -20,10 +20,10 @@
         @focusOut="validate"
         :max="max"
         :min="min"
-        v-if="formMode != 'view'"
+        v-if="canDateBoxEdit"
       />
 
-      <div v-if="formMode == 'view'" class="misa-info-binding">
+      <div v-if="!canDateBoxEdit" class="misa-info-binding">
         <span class="text-lg-body-1">{{ formatValue || "-" }}</span>
       </div>
 
@@ -38,8 +38,8 @@
 import { DxDateBox } from "devextreme-vue";
 import { mapState } from "vuex";
 import { formatDate } from "@/helpers/utils";
-
 import { locale } from "devextreme/localization";
+import { POPUP_FORM_MODE } from "@/helpers/enums";
 export default {
   name: "MDateBox",
   components: {
@@ -50,6 +50,7 @@ export default {
       validationResult: {
         isValid: true,
         message: "",
+        POPUP_FORM_MODE,
       },
     };
   },
@@ -91,6 +92,7 @@ export default {
   },
   computed: {
     ...mapState("employee", ["formMode"]),
+    ...mapState("relative", ["popupFormMode"]),
     formatValue() {
       return formatDate(this.value);
     },
@@ -102,6 +104,11 @@ export default {
     },
     hasErrors() {
       return !this.isValid && this.validationError !== "";
+    },
+    canDateBoxEdit() {
+      return (
+        this.formMode !== "view" || this.popupFormMode == POPUP_FORM_MODE.DIRECT
+      );
     },
   },
   methods: {

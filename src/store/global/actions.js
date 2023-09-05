@@ -34,7 +34,7 @@ const showLoading = ({ commit }) => {
 const hideLoading = ({ commit }) => {
   setTimeout(() => {
     commit("HIDE_LOADING");
-  }, 500);
+  }, 200);
 };
 
 const showNotification = ({ commit }, props) => {

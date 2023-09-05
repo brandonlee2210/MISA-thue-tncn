@@ -1,10 +1,8 @@
 <template>
-  <div class="form-group-item-container" :class="{ view: formMode == 'view' }">
-    <label :for="id" class="item__label" :class="{ view: formMode == 'view' }">
+  <div class="form-group-item-container" :class="{ view: !canTextBoxEdit }">
+    <label :for="id" class="item__label" :class="{ view: !canTextBoxEdit }">
       {{ label
-      }}<span v-if="isRequired && formMode !== 'view'" class="text-lg-error"
-        >*</span
-      >
+      }}<span v-if="isRequired && canTextBoxEdit" class="text-lg-error">*</span>
     </label>
     <div class="item__input">
       <DxTextBox
@@ -20,14 +18,14 @@
         @focusOut="validate"
         :max-length="maxLength"
         :readOnly="isReadOnly"
-        v-if="formMode != 'view'"
+        v-if="canTextBoxEdit"
       />
 
-      <div v-if="formMode == 'view'" class="misa-info-binding">
+      <div v-if="!canTextBoxEdit" class="misa-info-binding">
         <span class="text-lg-body-1">{{ value || "-" }}</span>
       </div>
 
-      <div v-if="!isValid && formMode != 'view'" class="error-message">
+      <div v-if="!isValid && canTextBoxEdit" class="error-message">
         {{ validationError }}
       </div>
     </div>
@@ -37,6 +35,7 @@
 <script>
 import { DxTextBox } from "devextreme-vue";
 import { mapState } from "vuex";
+import { POPUP_FORM_MODE } from "@/helpers/enums";
 
 const textBoxRef = "texBoxRef";
 
@@ -52,6 +51,7 @@ export default {
         message: "",
       },
       textBoxRef,
+      POPUP_FORM_MODE,
     };
   },
   props: {
@@ -104,7 +104,13 @@ export default {
     hasErrors() {
       return !this.isValid && this.validationError !== "";
     },
-    ...mapState("employee", ["formMode", "popupFormMode"]),
+    canTextBoxEdit() {
+      return (
+        this.formMode !== "view" || this.popupFormMode == POPUP_FORM_MODE.DIRECT
+      );
+    },
+    ...mapState("employee", ["formMode"]),
+    ...mapState("relative", ["popupFormMode"]),
   },
   methods: {
     /**

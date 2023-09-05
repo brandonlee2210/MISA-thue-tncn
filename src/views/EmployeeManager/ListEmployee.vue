@@ -96,7 +96,7 @@ export default {
         {
           caption: "Vị trí công việc",
           checked: true,
-          dataField: "PositionName",
+          dataField: "JobPositionName",
           width: "160",
         },
 

@@ -29,8 +29,6 @@ export default {
   height: 36px;
   padding: 0 8px 0 8px;
 
-  margin-right: 10px;
-
   display: flex;
   align-items: center;
   justify-content: center;

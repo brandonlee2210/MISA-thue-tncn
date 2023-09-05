@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/no-unused-vars -->
 <template>
   <div id="table-container">
     <DxDataGrid
@@ -32,7 +31,17 @@
 
       <template #title-header="{ data }">
         <div class="header__cell__container">
-          <p style="font-size: 14px" class="">{{ data.column.caption }}</p>
+          <p style="font-size: 14px" class="" :id="data.column.dataField">
+            {{ data.column.caption }}
+          </p>
+          <DxTooltip
+            :hide-on-outside-click="false"
+            target="#IdentityNumber"
+            show-event="mouseenter"
+            hide-event="mouseleave"
+          >
+            Số chứng minh nhân dân/ Căn cước công dân/ Hộ chiếu
+          </DxTooltip>
           <div
             :class="[
               'misa-hidden-pin ico-un-pin misa-display-pin pin-location-right',
@@ -111,6 +120,7 @@
 
 <script>
 // ...
+import { POPUP_FORM_MODE } from "@/helpers/enums";
 import {
   DxDataGrid,
   DxColumn,
@@ -120,6 +130,8 @@ import {
 } from "devextreme-vue/data-grid";
 
 import { mapActions } from "vuex";
+
+import { DxTooltip } from "devextreme-vue/tooltip";
 
 const dataGridRef = "dataGrid";
 
@@ -131,6 +143,7 @@ export default {
     DxSelection,
     DxScrolling,
     DxTemplate,
+    DxTooltip,
   },
   props: [
     "dataSource",
@@ -169,13 +182,19 @@ export default {
       },
     },
   },
+  mounted() {
+    // this.dataGrid.option("columns", this.columns);
+    this.setTableRef(this.dataGrid);
+  },
   methods: {
     ...mapActions("global", ["showNotification"]),
     ...mapActions("employee", [
       "setFormMode",
       "setCurrentEmployeeId",
       "setSelectedRows",
+      "setTableRef",
     ]),
+    ...mapActions("relative", ["setPopupFormMode"]),
     /**
      * Hàm lấy dữ liệu các dòng được chọn và emit kèm theo danh sách chứa các ids của các dòng được chọn
      * @author dgbao (17/08/2023)
@@ -240,6 +259,7 @@ export default {
      */
     openEditForm(data) {
       this.setFormMode("edit");
+      this.setPopupFormMode(POPUP_FORM_MODE.INDIRECT);
       let key = data.key;
       this.setCurrentEmployeeId(key);
 
@@ -253,6 +273,7 @@ export default {
     openFormView(event) {
       if (this.canDbClick) {
         this.setFormMode("view");
+        // this.setPopupFormMode(POPUP_FORM_MODE.DIRECT);
         let key = event.key;
         this.setCurrentEmployeeId(key);
 

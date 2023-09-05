@@ -24,3 +24,8 @@ export const EDIT_MODE = {
   ADD: 1,
   DELETE: 2,
 };
+
+export const POPUP_FORM_MODE = {
+  DIRECT: 1,
+  INDIRECT: 2,
+};

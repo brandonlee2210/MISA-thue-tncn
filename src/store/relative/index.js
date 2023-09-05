@@ -5,6 +5,7 @@ import mutations from "./mutations";
 import { EDIT_MODE } from "@/helpers/enums";
 
 const state = {
+  popupFormMode: "",
   editMode: EDIT_MODE.ADD,
   relative: {
     RelationshipID: null,
@@ -26,7 +27,7 @@ const state = {
     BirthCertificationIssueDate: null,
     CountryID: 2,
     CountryName: "",
-    NumberBook: "2",
+    NumberBook: "",
     ProvinceID: null,
     DistrictID: null,
     WardID: null,
@@ -48,7 +49,7 @@ const state = {
     ModifiedBy: null,
     RelativeInformationID: null,
   },
-  listRelatives: [],
+  listRelatives: ["hello"],
 };
 
 export default {

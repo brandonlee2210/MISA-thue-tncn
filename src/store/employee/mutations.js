@@ -87,6 +87,10 @@ const SET_SUMMARY = (state, summary) => {
   state.summary = summary;
 };
 
+const SET_TABLE_REF = (state, tableRef) => {
+  state.tableRef = tableRef;
+};
+
 export default {
   SET_FORM_MODE,
   SET_POPUP_FORM_MODE,
@@ -106,4 +110,5 @@ export default {
   SET_USAGE_STATUS,
   SET_SELECTED_ROWS,
   SET_SUMMARY,
+  SET_TABLE_REF,
 };

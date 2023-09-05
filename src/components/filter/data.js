@@ -36,7 +36,7 @@ export const filterOptions = [
         text: "Đã có MST",
       },
       {
-        value: null,
+        value: 0,
         text: "Chưa có MST",
       },
     ],

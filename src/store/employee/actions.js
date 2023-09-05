@@ -27,7 +27,6 @@ const setPopupFormMode = (context, mode) => {
  * @author dgbao (25/08/2023)
  */
 const setSelectedEmployees = (context, employees) => {
-  console.log("addCheckedEmployees", employees);
   context.commit("SET_SELECTED_EMPLOYEES", employees);
 };
 
@@ -59,6 +58,7 @@ const getListEmployees = async (context) => {
 
   const employees = await EmployeeService.filter();
   context.commit("SET_EMPLOYEES", employees.data.Data);
+  context.commit("SET_TOTAL_RECORD", employees.data.TotalRecord);
   context.commit("SET_TOTAL_PAGE", employees.data.TotalPage);
 };
 
@@ -193,6 +193,10 @@ const setTotalRecord = (context, totalRecord) => {
   context.commit("SET_TOTAL_RECORD", totalRecord);
 };
 
+const setTableRef = (context, tableRef) => {
+  context.commit("SET_TABLE_REF", tableRef);
+};
+
 export default {
   setTotalRecord,
   setFormMode,
@@ -212,4 +216,5 @@ export default {
   setUsageStatus,
   setSelectedRows,
   setSummary,
+  setTableRef,
 };

@@ -11,17 +11,20 @@
 </template>
 
 <script>
+import { POPUP_FORM_MODE } from "@/helpers/enums";
 import { mapActions } from "vuex";
 export default {
   name: "GroupButton",
   methods: {
     handleOpenAddForm() {
       this.setFormMode("add");
+      this.setPopupFormMode(POPUP_FORM_MODE.INDIRECT);
       if (this.$route.path !== "/tax/add") {
         this.$router.push("/tax/add");
       }
     },
     ...mapActions("employee", ["setFormMode"]),
+    ...mapActions("relative", ["setPopupFormMode"]),
   },
 };
 </script>

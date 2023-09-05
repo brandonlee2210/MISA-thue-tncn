@@ -211,13 +211,19 @@
         id="currentAutoAddress"
       />
       <span class="text-lg-h3" id="job">THÔNG TIN CÔNG VIỆC</span>
-      <MTextBox
+      <MTreeList
+        label="Bộ phận/phòng ban"
+        id="department"
+        v-model="employee.DepartmentID"
+        :width="420"
+      />
+      <!-- <MTextBox
         v-model="employee.DepartmentName"
         label="Bộ phận/phòng ban"
         :isReadOnly="true"
         :isRequired="true"
         id="department"
-      />
+      /> -->
       <MDateBox
         v-model="employee.ProbationDate"
         placeholder="__/__/____"
@@ -292,11 +298,11 @@
     <DxPopup
       :show-title="true"
       :title="popupTitle"
-      :width="1146"
+      :width="1246"
       :drag-enabled="false"
       position="center"
       :visible="popupVisible"
-      @hidden="closeFormPopup"
+      @hidden="this.handleCloseFormPopup"
       :toolbar-items="toolbarItems"
     >
       <PopUp ref="popupRef" />
@@ -308,6 +314,7 @@
 <script>
 import { DxPopup } from "devextreme-vue/popup";
 import ButtonWithIcon from "@/components/base/button/ButtonWithIcon.vue";
+import MTreeList from "@/components/base/tree-list/MTreeList.vue";
 import { mapState, mapActions } from "vuex";
 import { getEmployeeById, addNewEmployee } from "@/helpers/api";
 
@@ -331,8 +338,10 @@ import MRadioButton from "@/components/base/radio/MRadioButton.vue";
 import MCheckbox from "@/components/base/input/MCheckbox.vue";
 import PopUp from "./PopUp.vue";
 import MViewTable from "@/components/base/table/MViewTable.vue";
-import { EDIT_MODE } from "@/helpers/enums.js";
+import { EDIT_MODE, POPUP_FORM_MODE } from "@/helpers/enums.js";
+import { treeProducts } from "@/components/base/tree-list/data";
 import EmployeeService from "@/service/EmployeeService";
+import RelativeService from "@/service/RelativeService";
 const formRefKey = "formRef";
 
 export default {
@@ -346,6 +355,7 @@ export default {
     MCheckbox,
     PopUp,
     MViewTable,
+    MTreeList,
   },
   watch: {
     // Thực hiện lưu trữ thêm dữ liệu với những trường trong table
@@ -389,122 +399,6 @@ export default {
       );
     },
   },
-  data() {
-    return {
-      // Thông tin nhân viên
-      employee: {
-        EmployeeTypeID: 1,
-        EmployeeTypeName: "",
-        IdentifyKindOfPaperID: 1,
-        IdentifyKindOfPaperName: "",
-        DateOfBirth: null,
-        TaxCode: "",
-        EmployeeCode: "",
-        FullName: "",
-        IdentityDate: null,
-        IdentityNumber: "",
-        IdentityPlace: "",
-        IdentityPlaceID: 1,
-        PhoneNumber: "",
-        Gender: 0,
-        GenderName: "Nam",
-        ContractTypeId: 1,
-        ConstractTypeName: "",
-        NationalityID: 1,
-        NativeCountryCode: 1,
-        NativeProvinceCode: null,
-        NativeDistrictCode: null,
-        NativeWardCode: null,
-        NationalityName: "",
-        NativeCountryName: "",
-        NativeProvinceName: "",
-        NativeDistrictName: "",
-        NativeWardName: "",
-        NativeAddress: null,
-        CurrentCountryCode: 1,
-        CurrentCountryName: "Việt Nam",
-        CurrentProvinceCode: null,
-        CurrentDistrictCode: null,
-        CurrentWardCode: null,
-        CurrentProvinceName: null,
-        CurrentDistrictName: null,
-        CurrentWardName: null,
-        CurrentAddress: null,
-        Email: null,
-        DepartmentName: "CÔNG TY CỔ PHẦN TEST QTT",
-        ProbationDate: null,
-        HireDate: null,
-        ReceiveDate: null,
-        ResignationDate: null,
-        JobPositionID: "",
-        JobPositionName: "",
-        WorkStatus: 1,
-        WorkStatusName: "",
-        ListRelatives: this.listRelatives,
-        UsageStatus: 1,
-      },
-      popupRef: null,
-      formRefKey,
-      // Data source cho các select box
-      employeeTypes,
-      workStatusesList,
-      positionsList,
-      identityTypes,
-      familiMemberTableHeader,
-      contractTypes,
-      countryList,
-      provincesList,
-      districtsList: null,
-      locationsList: null,
-      currentDistrictsList: null,
-      currentLocationsList: null,
-      // Data source cho các select box
-
-      taxCodeRef: null,
-
-      items,
-
-      // Nếu địa chỉ thường trú và hiện tại giống nhau
-      IsSameAddress: false,
-      popupValues: {},
-      toolbarItems: [
-        {
-          widget: "dxToolbar",
-          location: "after",
-          toolbar: "bottom",
-          options: {
-            items: [
-              {
-                widget: "dxButton",
-                options: {
-                  text: "Huỷ",
-                  onClick: this.closeFormPopup,
-                },
-                stylingMode: "contained",
-                elementAttr: {
-                  style: "font-weight: 600",
-                },
-              },
-              {
-                widget: "dxButton",
-
-                options: {
-                  cssClass: "save",
-                  text: "Đồng ý",
-                  onClick: this.handleAddFamilyMember,
-                  stylingMode: "contained",
-                  elementAttr: {
-                    style:
-                      "background-color: #007aff; color: white; font-weight: 500",
-                  },
-                },
-              },
-            ],
-          },
-        },
-      ],
-    };
-  },
   computed: {
     ...mapState("global", ["popupVisible", "isLoading"]),
     ...mapState("employee", [
@@ -512,7 +406,7 @@ export default {
       "formMode",
       "currentEmployeeId",
     ]),
-    ...mapState("relative", ["editMode", "listRelatives"]),
+    ...mapState("relative", ["editMode", "listRelatives", "popupFormMode"]),
     listRelativesFilter() {
       return this.listRelatives.filter(
         (relative) => relative.EditMode !== EDIT_MODE.DELETE
@@ -579,6 +473,125 @@ export default {
       return this.employee.TaxCode === "";
     },
   },
+  data() {
+    return {
+      // Thông tin nhân viên
+      employee: {
+        EmployeeTypeID: 1,
+        EmployeeTypeName: "",
+        IdentifyKindOfPaperID: 1,
+        IdentifyKindOfPaperName: "",
+        DateOfBirth: null,
+        TaxCode: "",
+        EmployeeCode: "",
+        FullName: "",
+        IdentityDate: null,
+        IdentityNumber: "",
+        IdentityPlace: "",
+        IdentityPlaceID: 1,
+        PhoneNumber: "",
+        Gender: 0,
+        GenderName: "Nam",
+        ContractTypeId: 1,
+        ConstractTypeName: "",
+        NationalityID: 1,
+        NativeCountryCode: 1,
+        NativeProvinceCode: null,
+        NativeDistrictCode: null,
+        NativeWardCode: null,
+        NationalityName: "",
+        NativeCountryName: "",
+        NativeProvinceName: "",
+        NativeDistrictName: "",
+        NativeWardName: "",
+        NativeAddress: null,
+        CurrentCountryCode: 1,
+        CurrentCountryName: "Việt Nam",
+        CurrentProvinceCode: null,
+        CurrentDistrictCode: null,
+        CurrentWardCode: null,
+        CurrentProvinceName: null,
+        CurrentDistrictName: null,
+        CurrentWardName: null,
+        CurrentAddress: null,
+        Email: null,
+        DepartmentID: null,
+        DepartmentName: "",
+        ProbationDate: null,
+        HireDate: null,
+        ReceiveDate: null,
+        ResignationDate: null,
+        JobPositionID: "",
+        JobPositionName: "",
+        WorkStatus: 1,
+        WorkStatusName: "",
+        ListRelatives: this.listRelatives,
+        UsageStatus: 0,
+      },
+      popupRef: null,
+      formRefKey,
+      // Data source cho các select box
+      employeeTypes,
+      workStatusesList,
+      positionsList,
+      identityTypes,
+      familiMemberTableHeader,
+      contractTypes,
+      countryList,
+      provincesList,
+      districtsList: null,
+      locationsList: null,
+      currentDistrictsList: null,
+      currentLocationsList: null,
+      treeProducts,
+      // Data source cho các select box
+
+      taxCodeRef: null,
+
+      items,
+
+      // Nếu địa chỉ thường trú và hiện tại giống nhau
+      IsSameAddress: false,
+      popupValues: {},
+      toolbarItems: [
+        {
+          widget: "dxToolbar",
+          location: "after",
+          toolbar: "bottom",
+          options: {
+            items: [
+              {
+                widget: "dxButton",
+                options: {
+                  text: "Huỷ",
+                  onClick: this.handleCloseFormPopup,
+                },
+                stylingMode: "contained",
+                elementAttr: {
+                  style: "font-weight: 600",
+                },
+              },
+              {
+                widget: "dxButton",
+
+                options: {
+                  cssClass: "save",
+                  text: "Đồng ý",
+                  onClick: this.handleAddFamilyMember,
+                  stylingMode: "contained",
+                  elementAttr: {
+                    style:
+                      "background-color: #007aff; color: white; font-weight: 500",
+                  },
+                },
+              },
+            ],
+          },
+        },
+      ],
+    };
+  },
+
   methods: {
     ...mapActions("global", [
       "openFormPopup",
@@ -593,8 +606,10 @@ export default {
     ...mapActions("relative", [
       "setEditMode",
       "setCurrentRelative",
+      "setRelative",
       "setListRelative",
       "deleteRelative",
+      "setPopupFormMode",
     ]),
     /**
      * Thực hiện validate tất cả các component con
@@ -621,8 +636,12 @@ export default {
 
       if (isValid) {
         console.log("Form is valid, saving data...");
+        this.employee.DepartmentName = treeProducts.find(
+          (item) => item.ID === this.employee.DepartmentID
+        )?.name;
         this.showLoading();
         // Thực hiện gọi API thêm mới nhân viên
+
         if (this.formMode == "add") {
           const result = await addNewEmployee(this.employee);
 
@@ -690,7 +709,7 @@ export default {
      * Thêm thành viên gia đình
      * @author dgbao (19/08/2023)
      */
-    handleAddFamilyMember() {
+    async handleAddFamilyMember() {
       let popup = this.$refs.popupRef;
       let memberData = popup.validate();
 
@@ -702,8 +721,10 @@ export default {
 
       if (this.editMode === EDIT_MODE.ADD) {
         // Thêm vào employee data để chuẩn bị push lên server
+        memberData.EmployeeID = this.employee.EmployeeID;
+        console.log(this.employee);
         this.employee.ListRelatives.push(memberData);
-        this.setCurrentRelative({
+        this.setRelative({
           RelationshipID: "",
           RelationshipName: "",
           FullName: "",
@@ -723,7 +744,7 @@ export default {
           BirthCertificationIssueDate: null,
           CountryID: 2,
           CountryName: "",
-          NumberBook: "2",
+          NumberBook: "",
           ProvinceID: null,
           DistrictID: null,
           WardID: null,
@@ -754,22 +775,40 @@ export default {
           }
         });
 
+        if (this.popupFormMode === POPUP_FORM_MODE.DIRECT) {
+          await RelativeService.post(memberData);
+        }
+
         this.closeFormPopup();
         this.showToast({
           type: "success",
           title: "Thêm mới thông tin gia đình người nộp thuế thành công",
         });
       } else if (this.editMode === EDIT_MODE.EDIT) {
-        this.employee.ListRelatives.forEach((item) => {
-          if (item.RelativeInformationID === memberData.RelativeInformationID) {
-            item = memberData;
-          }
-        });
-        this.closeFormPopup();
-        this.showToast({
-          type: "success",
-          title: "Cập nhật thông tin gia đình người nộp thuế thành công",
-        });
+        if (this.popupFormMode === POPUP_FORM_MODE.DIRECT) {
+          await RelativeService.put(
+            memberData.RelativeInformationID,
+            memberData
+          );
+          this.closeFormPopup();
+          this.showToast({
+            type: "success",
+            title: "Cập nhật thông tin gia đình người nộp thuế thành công",
+          });
+        } else {
+          this.employee.ListRelatives.forEach((item) => {
+            if (
+              item.RelativeInformationID === memberData.RelativeInformationID
+            ) {
+              item = memberData;
+            }
+          });
+          this.closeFormPopup();
+          this.showToast({
+            type: "success",
+            title: "Cập nhật thông tin gia đình người nộp thuế thành công",
+          });
+        }
       }
 
       setTimeout(() => {
@@ -819,19 +858,74 @@ export default {
       }
     },
     /**
-     * Mở popup
+     * Mở popup thêm thành viên gia đình
      * @author dgbao (19/08/2023)
      */
     handleAddNewRelative() {
       if (this.formMode == "view") {
-        this.setFormMode("edit");
-        this.$router.push("/tax/add");
+        this.setPopupFormMode(POPUP_FORM_MODE.DIRECT);
         this.setEditMode(EDIT_MODE.ADD);
         this.openFormPopup();
       } else {
         this.setEditMode(EDIT_MODE.ADD);
         this.openFormPopup();
       }
+    },
+    /**
+     * Đóng popup
+     * @authỏ dgbao (28/08/2023)
+     */
+    handleCloseFormPopup() {
+      this.setPopupFormMode(POPUP_FORM_MODE.INDIRECT);
+      this.setRelative({
+        RelationshipID: "",
+        RelationshipName: "",
+        FullName: "",
+        DateOfBirth: null,
+        NationalityID: 1,
+        NationalityName: "",
+        Gender: 0,
+        GenderName: null,
+        IdentifyKindOfPaperID: 1,
+        IdentifyKindOfPaperName: "",
+        IdentityNumber: "",
+        IdentityDate: null,
+        IdentityPlaceID: 1,
+        IdentityPlaceName: null,
+        TaxCode: "",
+        DependentNumber: "",
+        BirthCertificationIssueDate: null,
+        CountryID: 2,
+        CountryName: "",
+        NumberBook: "2",
+        ProvinceID: null,
+        DistrictID: null,
+        WardID: null,
+        IsDependent: 0,
+        FamilyPermanentAddressProvinceID: null,
+        FamilyPermanentAddressDistrictID: null,
+        FamilyPermanentAddressWardID: null,
+        FamilyPermanentAddressStreetHouseNumber: "",
+        FamilyCurrentProvinceID: null,
+        FamilyCurrentDistrictID: null,
+        FamilyCurrentWardID: null,
+        FamilyCurrentStreetHouseNumber: "",
+        Description: "",
+        DeductionStartDate: null,
+        DeductionEndDate: null,
+        CreatedDate: null,
+        CreatedBy: null,
+        ModifiedDate: null,
+        ModifiedBy: null,
+        RelativeInformationID: null,
+      });
+      this.closeFormPopup();
+      // if (this.formMode == "view") {
+      //   this.setPopupFormMode(POPUP_FORM_MODE.DIRECT);
+      //   this.setEditMode(EDIT_MODE.VIEW);
+      // } else {
+      //   this.setEditMode(EDIT_MODE.VIEW);
+      // }
     },
   },
 

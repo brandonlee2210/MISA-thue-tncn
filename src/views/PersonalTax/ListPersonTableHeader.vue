@@ -10,11 +10,7 @@
         :height="36"
         @input="handleInputChange"
       ></DxTextBox>
-      <DxDropDownBox
-        placeholder="Bộ phận/phòng ban"
-        :width="246"
-        class="search-person"
-      ></DxDropDownBox>
+      <MTreeList />
       <button class="export-container" @click="handleExport">
         <div class="export" v-show="!isButtonLoading">
           <i
@@ -49,9 +45,10 @@
 
 <script>
 import { DxTextBox } from "devextreme-vue";
-import DxDropDownBox from "devextreme-vue/drop-down-box";
+
 import ButtonWithIcon from "@/components/base/button/ButtonWithIcon.vue";
 import GroupButton from "@/components/base/button/GroupButton.vue";
+import MTreeList from "@/components/base/tree-list/MTreeList.vue";
 import axios from "axios";
 import { exportData } from "@/helpers/api";
 
@@ -62,10 +59,11 @@ import { mapActions, mapState } from "vuex";
 export default {
   components: {
     DxTextBox,
-    DxDropDownBox,
+    // DxDropDownBox,
     // DxButton,
     ButtonWithIcon,
     GroupButton,
+    MTreeList,
   },
   watch: {
     searchText(newValue) {
@@ -79,6 +77,10 @@ export default {
     isBadgeVisible() {
       for (const key in this.filterData) {
         if (this.filterData[key] && key !== "FilterUsageStatus") {
+          return true;
+        }
+
+        if (this.filterData.FilterHasTaxCode == 0) {
           return true;
         }
       }

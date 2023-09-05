@@ -9,7 +9,7 @@
         :width="380"
         :height="36"
       ></DxTextBox>
-      <dx-select-box x placeholder="Bộ phận/ phòng ban"></dx-select-box>
+      <MTreeList />
       <dx-select-box
         :items="items"
         :displayExpr="'text'"
@@ -28,7 +28,8 @@
 </template>
 
 <script>
-import { DxTextBox, DxSelectBox } from "devextreme-vue";
+import { DxTextBox } from "devextreme-vue";
+import MTreeList from "@/components/base/tree-list/MTreeList.vue";
 import ButtonWithIcon from "@/components/base/button/ButtonWithIcon.vue";
 import { USAGE_STATUS } from "@/helpers/enums";
 import { mapState, mapActions } from "vuex";
@@ -36,8 +37,8 @@ import { mapState, mapActions } from "vuex";
 export default {
   components: {
     DxTextBox,
-    DxSelectBox,
     ButtonWithIcon,
+    MTreeList,
   },
   computed: {
     ...mapState("employee", ["usageStatus", "filterData"]),

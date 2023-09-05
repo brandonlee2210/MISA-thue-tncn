@@ -3,6 +3,7 @@ import getters from "./getters";
 import mutations from "./mutations";
 
 const state = {
+  tableRef: null,
   newEmployeeCode: "",
   selectedRows: [],
   employees: [],
@@ -12,6 +13,7 @@ const state = {
   currentEmployeeId: "",
   filterData: {
     FilterWorkStatus: null,
+    FilterDepartment: null,
     FilterEmployeeTypeID: null,
     FilterUsageStatus: null,
     FilterHasTaxCode: null,

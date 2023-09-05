@@ -18,7 +18,7 @@
       <DxButton
         class="dx-button"
         :height="36"
-        :onClick="() => {}"
+        :onClick="handleSaveAndAddNew"
         v-if="formMode == 'add'"
       >
         Lưu & Thêm mới</DxButton
@@ -31,12 +31,7 @@
       >
         Lưu
       </DxButton>
-      <ButtonWithIcon
-        type="delete"
-        :onClick="handleClickSetting"
-        :title="'Xoá'"
-        v-if="formMode == 'view'"
-      />
+      <ButtonWithIcon type="delete" :title="'Xoá'" v-if="formMode == 'view'" />
       <DxButton
         class="dx-button save"
         :height="36"
@@ -77,11 +72,13 @@ export default {
     },
   },
   methods: {
-    ...mapActions("employee", ["setFormMode"]),
+    ...mapActions("employee", ["setFormMode", "setPopupFormMode"]),
     /**
      * Xử lý sự kiện huỷ
      */
     hanleCancelClick() {
+      this.setFormMode("");
+      this.setPopupFormMode("");
       this.$router.push({
         name: "tax",
       });
@@ -93,9 +90,17 @@ export default {
       this.$emit("save");
     },
     /**
+     * Xử lý sự kiện lưu và thêm mới
+     * */
+    handleSaveAndAddNew() {
+      this.$emit("save-and-add-new");
+    },
+    /**
      * Xử lý sự kiện ấn nút quay về
      */
     handleBackClick() {
+      this.setFormMode("");
+      this.setPopupFormMode("");
       this.$router.push({
         name: "tax",
       });
@@ -126,6 +131,9 @@ export default {
 }
 
 .left-header {
+  button.button.delete {
+    margin: 0 !important;
+  }
   .button {
     cursor: pointer;
     width: 56px;

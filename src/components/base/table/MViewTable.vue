@@ -91,8 +91,8 @@ import {
 } from "devextreme-vue/data-grid";
 
 import { formatDate } from "@/helpers/utils";
-import { mapActions } from "vuex";
-import { EDIT_MODE } from "@/helpers/enums";
+import { mapState, mapActions } from "vuex";
+import { EDIT_MODE, POPUP_FORM_MODE } from "@/helpers/enums";
 
 const dataGridRef = "dataGrid";
 
@@ -113,6 +113,8 @@ export default {
     };
   },
   computed: {
+    ...mapState("relative", ["popupForMode"]),
+    ...mapState("employee", ["formMode"]),
     // Lấy ra instance của dxDataGrid
     dataGrid: function () {
       return this.$refs[dataGridRef].instance;
@@ -128,13 +130,19 @@ export default {
         return {
           ...item,
           DateOfBirth: formatDate(item.DateOfBirth),
+          DeductionStartDate: formatDate(item.DeductionStartDate),
+          DeductionEndDate: formatDate(item.DeductionEndDate),
         };
       });
     },
   },
   methods: {
     ...mapActions("global", ["showNotification", "openFormPopup"]),
-    ...mapActions("relative", ["setCurrentRelative", "setEditMode"]),
+    ...mapActions("relative", [
+      "setCurrentRelative",
+      "setEditMode",
+      "setPopupFormMode",
+    ]),
     ...mapActions("employee", ["setFormMode"]),
     /**
      * Hàm lấy dữ liệu các dòng được chọn và emit kèm theo danh sách chứa các ids của các dòng được chọn
@@ -152,9 +160,17 @@ export default {
      * */
 
     deleteRow(data) {
+      let type;
+
+      if (this.formMode === "view") {
+        type = "delete-relative";
+      } else {
+        type = "delete-relative-indirect";
+      }
+
       this.showNotification({
         title: "Xoá người nộp thuế",
-        type: "delete-relative",
+        type,
         rawHtml: `Bạn có chắc chắn muốn xóa thành viên
             <strong>${data.data.FullName}</strong> vào thùng rác?`,
         idToDelete: data.key,
@@ -167,10 +183,18 @@ export default {
      * @author dgbao (17/08/2023)
      * */
     openEditForm(data) {
-      this.setFormMode("edit");
-      this.setEditMode(EDIT_MODE.EDIT);
-      this.setCurrentRelative(data.key);
-      this.openFormPopup();
+      if (this.formMode === "view") {
+        this.setEditMode(EDIT_MODE.EDIT);
+        this.setPopupFormMode(POPUP_FORM_MODE.DIRECT);
+        this.setCurrentRelative(data.key);
+        this.openFormPopup();
+        return;
+      } else {
+        this.setFormMode("edit");
+        this.setEditMode(EDIT_MODE.EDIT);
+        this.setCurrentRelative(data.key);
+        this.openFormPopup();
+      }
     },
   },
   // ...

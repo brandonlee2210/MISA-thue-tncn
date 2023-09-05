@@ -1,6 +1,10 @@
 <template>
   <div class="form-container">
-    <FormHeader @save="handleSave" :title="formTitle" />
+    <FormHeader
+      @save="handleSave"
+      @save-and-add-new="handleSaveAndAddNew"
+      :title="formTitle"
+    />
     <FormDetails ref="formDetailsRef" />
   </div>
 </template>
@@ -42,6 +46,12 @@ export default {
      */
     handleSave() {
       this.$refs[formDetailsRef].saveForm();
+    },
+    /**
+     * Xử lý sự kiện lưu và thêm mới
+     * */
+    handleSaveAndAddNew() {
+      this.$refs[formDetailsRef].saveFormAndAddNew();
     },
   },
 };

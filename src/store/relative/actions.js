@@ -32,9 +32,25 @@ const deleteRelative = (context, relativeId) => {
   context.commit("DELETE_RELATIVE", relativeId);
 };
 
+/**
+ *  Set lại popup form mode
+ * @param {*} context
+ * @param {*} mode
+ * @author dgbao (25/08/2023)
+ */
+const setPopupFormMode = (context, mode) => {
+  context.commit("SET_POPUP_FORM_MODE", mode);
+};
+
+const setRelative = (context, relative) => {
+  context.commit("SET_RELATIVE", relative);
+};
+
 export default {
   setEditMode,
   setCurrentRelative,
   setListRelative,
   deleteRelative,
+  setPopupFormMode,
+  setRelative,
 };

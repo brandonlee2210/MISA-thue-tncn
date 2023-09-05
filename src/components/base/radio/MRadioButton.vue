@@ -9,7 +9,7 @@
         valueExpr="value"
         displayExpr="text"
         layout="horizontal"
-        :disabled="formMode == 'view'"
+        :disabled="isRadioDisabled"
       >
       </dx-radio-group>
     </div>
@@ -19,6 +19,8 @@
 <script>
 import { DxRadioGroup } from "devextreme-vue";
 import { mapState } from "vuex";
+
+import { POPUP_FORM_MODE } from "@/helpers/enums";
 
 export default {
   name: "CustomRadioButton",
@@ -37,6 +39,12 @@ export default {
   },
   computed: {
     ...mapState("employee", ["formMode"]),
+    ...mapState("relative", ["popupFormMode"]),
+    isRadioDisabled() {
+      return (
+        this.formMode == "view" && this.popupFormMode != POPUP_FORM_MODE.DIRECT
+      );
+    },
   },
   props: {
     options: {
